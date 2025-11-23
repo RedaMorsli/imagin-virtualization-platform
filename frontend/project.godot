@@ -19,6 +19,15 @@ config/icon="res://icon.svg"
 
 Config="*res://autoloads/config.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://res/translations/language.en.translation", "res://res/translations/language.fr.translation")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

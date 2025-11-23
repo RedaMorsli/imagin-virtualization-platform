@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://mxkh85ivueaw"]
+[gd_scene load_steps=17 format=3 uid="uid://mxkh85ivueaw"]
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_cneet"]
 [ext_resource type="Texture2D" uid="uid://bdi04jf8miax6" path="res://res/textures/backgournd.png" id="2_7nvp7"]
@@ -7,6 +7,7 @@
 [ext_resource type="LabelSettings" uid="uid://bu1nqqjltnbl0" path="res://res/fonts/text_title.tres" id="5_0yw1h"]
 [ext_resource type="Texture2D" uid="uid://brgbcjbpucoe4" path="res://res/icons/user.png" id="6_48xq2"]
 [ext_resource type="Texture2D" uid="uid://bl2tuu4t2k2ys" path="res://res/icons/password.png" id="7_8hty6"]
+[ext_resource type="Script" uid="uid://dy7sl1570mlyf" path="res://components/language/language_option_button.gd" id="7_eyhwf"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="8_7nvp7"]
 [ext_resource type="Texture2D" uid="uid://dnaqy5q8nlnki" path="res://res/textures/ets.png" id="8_xt4ks"]
 [ext_resource type="Texture2D" uid="uid://bb1u6f04c2nm2" path="res://res/textures/imagin.png" id="9_ygeuu"]
@@ -48,9 +49,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Background"]
-layout_mode = 0
-offset_right = 828.0
-offset_bottom = 648.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -77,7 +79,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Vitualization Platform"
+text = "APP_NAME"
 label_settings = SubResource("LabelSettings_51wku")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -129,19 +131,23 @@ theme_override_constants/separation = 8
 alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer"]
-modulate = Color(0, 0, 0, 0.4)
+modulate = Color(0, 0, 0, 0.6)
 layout_mode = 2
 texture = ExtResource("4_eyhwf")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="OptionButton" type="OptionButton" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LanguageButton" type="OptionButton" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 focus_mode = 0
+mouse_default_cursor_shape = 2
 selected = 0
-item_count = 1
+item_count = 2
 popup/item_0/text = "EN"
 popup/item_0/id = 0
+popup/item_1/text = "FR"
+popup/item_1/id = 1
+script = ExtResource("7_eyhwf")
 
 [node name="Fill" type="Control" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -149,7 +155,7 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Log In"
+text = "LOG_IN_TITLE"
 label_settings = ExtResource("5_0yw1h")
 horizontal_alignment = 1
 
@@ -162,7 +168,7 @@ unique_name_in_owner = true
 modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-placeholder_text = "Username"
+placeholder_text = "USERNAME"
 right_icon = ExtResource("6_48xq2")
 caret_blink = true
 
@@ -171,7 +177,7 @@ unique_name_in_owner = true
 modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-placeholder_text = "Password"
+placeholder_text = "PASSWORD"
 right_icon = ExtResource("7_8hty6")
 caret_blink = true
 secret = true
@@ -183,7 +189,7 @@ layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_type_variation = &"PrimaryButton"
-text = "Log In"
+text = "LOG_IN_ACTION"
 
 [node name="Button" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -211,6 +217,7 @@ horizontal_alignment = 1
 timeout = 10.0
 script = ExtResource("10_ep1xc")
 
+[connection signal="item_selected" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer/LanguageButton" to="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer/LanguageButton" method="_on_lang_selected"]
 [connection signal="pressed" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoginButton" to="LoginHTTPRequest" method="login"]
 [connection signal="pressed" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/Button" to="LoginHTTPRequest" method="check_active_session"]
 [connection signal="ready" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoadingSpinner" to="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoadingSpinner" method="hide"]

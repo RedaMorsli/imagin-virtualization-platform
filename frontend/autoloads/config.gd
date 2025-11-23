@@ -6,7 +6,7 @@ const _SAVE_PASS = "?1x.y30e%2i8B#E-ptuK4ZNi*h)h+t3B"
 const _DEFAULT_SECTION = "config"
 
 var _config: ConfigFile = ConfigFile.new()
-var _saved_params: Array = ["auth_token"]
+var _saved_params: Array = ["auth_token", "language"]
 
 
 var auth_token: String:
@@ -16,6 +16,14 @@ var auth_token: String:
 		auth_token = value
 		_save()
 
+var language: String:
+	set(value):
+		if not value or not value is String:
+			language = OS.get_locale_language()
+		else:
+			language = value
+		TranslationServer.set_locale(language)
+		_save()
 
 func _ready() -> void:
 	_load()
