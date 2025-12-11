@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcdyc3esl7los"]
+
+[ext_resource type="Script" uid="uid://cve7j0ak148nl" path="res://pages/projects/new_project_dialog.gd" id="1_77njv"]
+[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="2_xjtpy"]
+
+[node name="NewProjectDialog" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 16
+script = ExtResource("1_77njv")
+
+[node name="ProjectNameEdit" type="LineEdit" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+placeholder_text = "PROJECT_NAME"
+
+[node name="CreateButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "CREATE"
+
+[node name="LoadingSpinner" parent="." instance=ExtResource("2_xjtpy")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="CreateButton" to="." method="_on_create_button_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

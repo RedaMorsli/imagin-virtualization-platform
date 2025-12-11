@@ -1,0 +1,13 @@
+keys,en,fr
+APP_NAME,Virtualization Platform,Plateforme de Virtualisation
+LOGIN_TITLE,Login,Connexion
+LOGIN_ACTION,Log in,Se connecter
+LOGOUT_ACTION,Logout,Se déconnecter
+USERNAME,Username,Nom d'utilisateur
+PASSWORD,Password,Mot de passe
+PROJECTS,Projects,Projets
+NEW_PROJECT,New project,Nouveau projet
+SEARCH_PROJECTS,Search for projects,Trouver des projets
+PROJECT_NAME,Project Name,Nom du Projet
+CREATE,Create,Créer
+NO_PROJECT_MSG,No project found,Aucun projet trouvé
