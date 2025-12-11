@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://mxkh85ivueaw"]
+[gd_scene load_steps=18 format=3 uid="uid://mxkh85ivueaw"]
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_cneet"]
+[ext_resource type="Script" uid="uid://d1h4k7ppv2elx" path="res://pages/auth/login_page.gd" id="2_0yw1h"]
 [ext_resource type="Texture2D" uid="uid://bdi04jf8miax6" path="res://res/textures/backgournd.png" id="2_7nvp7"]
 [ext_resource type="FontFile" uid="uid://c6auyw4w8r7hk" path="res://res/fonts/Delta Jaeger Bold.ttf" id="3_l1k4r"]
 [ext_resource type="Texture2D" uid="uid://c24q0fe8gs41" path="res://res/icons/globe.png" id="4_eyhwf"]
@@ -11,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="8_7nvp7"]
 [ext_resource type="Texture2D" uid="uid://dnaqy5q8nlnki" path="res://res/textures/ets.png" id="8_xt4ks"]
 [ext_resource type="Texture2D" uid="uid://bb1u6f04c2nm2" path="res://res/textures/imagin.png" id="9_ygeuu"]
-[ext_resource type="Script" uid="uid://1b32md5fvse1" path="res://auth/login_http_request.gd" id="10_ep1xc"]
+[ext_resource type="Script" uid="uid://1b32md5fvse1" path="res://pages/auth/login_http_request.gd" id="10_ep1xc"]
 [ext_resource type="FontFile" uid="uid://565giitnrh3m" path="res://res/fonts/Delta Jaeger Light.ttf" id="11_l1k4r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_51wku"]
@@ -33,6 +34,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_cneet")
+script = ExtResource("2_0yw1h")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -155,7 +157,7 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "LOG_IN_TITLE"
+text = "LOGIN_TITLE"
 label_settings = ExtResource("5_0yw1h")
 horizontal_alignment = 1
 
@@ -189,9 +191,10 @@ layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_type_variation = &"PrimaryButton"
-text = "LOG_IN_ACTION"
+text = "LOGIN_ACTION"
 
-[node name="Button" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="VerifyButton" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -219,6 +222,6 @@ script = ExtResource("10_ep1xc")
 
 [connection signal="item_selected" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer/LanguageButton" to="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer/LanguageButton" method="_on_lang_selected"]
 [connection signal="pressed" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoginButton" to="LoginHTTPRequest" method="login"]
-[connection signal="pressed" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/Button" to="LoginHTTPRequest" method="check_active_session"]
+[connection signal="pressed" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/VerifyButton" to="LoginHTTPRequest" method="check_active_session"]
 [connection signal="ready" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoadingSpinner" to="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoadingSpinner" method="hide"]
 [connection signal="request_completed" from="LoginHTTPRequest" to="LoginHTTPRequest" method="_on_request_completed"]

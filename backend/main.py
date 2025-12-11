@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-from api import auth
+from api import auth, project
 from db import init_db
 
 
@@ -17,5 +17,6 @@ def start_auth_server(host: str = "0.0.0.0", port: int = 8000):
 
 if __name__ == "__main__":
     app.include_router(auth.router)
+    app.include_router(project.router)
     init_db()
     start_auth_server()

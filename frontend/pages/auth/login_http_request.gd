@@ -6,6 +6,12 @@ extends HTTPRequest
 @onready var login_button: Button = %LoginButton
 @onready var loading_spinner: TextureRect = %LoadingSpinner
 
+var _show_error: bool = true
+
+
+func _ready() -> void:
+	check_active_session()
+
 
 func login():
 	print("Trying to login...")
@@ -18,6 +24,7 @@ func login():
 		"password": password_edit.text.sha256_text()
 	}
 	var json = JSON.stringify(credentials)
+	_show_error = true
 	request(
 		API.login_url,
 		API.HEADERS_JSON,
@@ -33,10 +40,11 @@ func check_active_session():
 		print("No saved token")
 		return
 	
-	print("Sending log in request to " + API.verify_url)
+	print("Sending login request to " + API.verify_url)
 	login_button.hide()
 	loading_spinner.show()
 	
+	_show_error = false
 	request(
 		API.verify_url,
 		["Authorization: Bearer " + token],
@@ -49,17 +57,22 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 	loading_spinner.hide()
 
 	if result != RESULT_SUCCESS or response_code != HTTPClient.RESPONSE_OK:
-		Error.handle_http_error("Failed to login", result, response_code)
+		if _show_error:
+			Error.handle_http_error("Failed to login", result, response_code)
 		return
 
-	print("Login successful")
 	login_button.disabled = true
 	
-	var json = JSON.parse_string(body.get_string_from_utf8())
-	if not json:
-		return
+	var auth_data = JSON.parse_string(body.get_string_from_utf8())
+	if not auth_data:
+		print("Failed to get login data")
 	
-	print("User: " + json['username'] + " (" + json['role'] + ")")
-	if json.has("token"):
-		print("Received token: " + json['token'])
-		Config.auth_token = json['token']
+	Auth.user = User.new(
+		auth_data['user_id'],
+		auth_data['username'],
+		auth_data['role']
+	)
+	
+	if auth_data.has("token"):
+		print("Received token: " + auth_data['token'])
+		Config.auth_token = auth_data['token']

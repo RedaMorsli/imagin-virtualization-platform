@@ -1,0 +1,52 @@
+extends VBoxContainer
+
+
+const NEW_PROJECT_DIALOG_SCENE = preload("uid://dcdyc3esl7los")
+const ProjectItemScene = preload("uid://becyat4dcn7ka")
+
+@onready var fetch_http_request: HTTPRequest = %FetchHTTPRequest
+@onready var project_container: GridContainer = %ProjectContainer
+@onready var loading_spinner: TextureRect = %LoadingSpinner
+@onready var empty_label: Label = %EmptyLabel
+
+var projects: = []
+
+
+func _ready() -> void:
+	_fetch_projects()
+
+
+func _on_new_project_button_pressed() -> void:
+	var dialog = Dialog.popup("NEW_PROJECT", NEW_PROJECT_DIALOG_SCENE)
+	dialog.completed.connect(_fetch_projects)
+
+
+func _fetch_projects():
+	fetch_http_request.request(
+		API.fetch_projects_url,
+		["Authorization: Bearer " + Config.auth_token],
+		HTTPClient.METHOD_GET
+	)
+	await fetch_http_request.request_completed
+	for child in project_container.get_children():
+		child.queue_free()
+	if not projects:
+		loading_spinner.hide()
+		empty_label.show()
+		return
+	for project in projects:
+		var item: ProjectItem = ProjectItemScene.instantiate()
+		item.project = Project.new(project.project_id, project.project_name, "Empty Project")
+		project_container.add_child(item)
+	loading_spinner.hide()
+	project_container.visible = not projects.is_empty()
+	empty_label.visible = projects.is_empty()
+
+
+func _on_fetch_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if result != HTTPRequest.RESULT_SUCCESS or response_code != HTTPClient.RESPONSE_OK:
+		Error.handle_http_error("Failed to fetch projects", result, response_code)
+		return
+	var data = JSON.parse_string(body.get_string_from_utf8())
+	print(data)
+	projects = data.projects

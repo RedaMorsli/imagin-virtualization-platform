@@ -34,3 +34,7 @@ def get_seq_current_val(seq_name: str) -> int:
     result =  con.execute(f"SELECT currval('{seq_name}');").fetchone()[0]
     con.close()
     return result
+
+
+def get_seq_last_val(seq_name: str) -> int:
+    return get_seq_current_val(seq_name) - 1

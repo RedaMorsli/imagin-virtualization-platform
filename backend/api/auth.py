@@ -49,11 +49,7 @@ async def login_endpoint(request: LoginRequest):
 
 @router.get("/verify", response_model=VerifyResponse)
 async def verify_endpoint(authorization: str = Header(None)):
-    if not authorization or not authorization.lower().startswith("bearer "):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing or invalid Authorization header")
-    token = authorization.split(" ", 1)[1].strip()
-    if not token:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing token")
+    token = get_token(authorization)
     try:
         result = _verify_token(token)
         return VerifyResponse(**result)
@@ -66,6 +62,38 @@ async def verify_endpoint(authorization: str = Header(None)):
 
 # ============ LOGIC ============
 
+
+def get_token(authorization):
+    print(authorization)
+    if not authorization or not authorization.lower().startswith("bearer "):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing or invalid Authorization header")
+    token = authorization.split(" ", 1)[1].strip()
+    if not token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing token")
+    return token
+
+
+def get_user_by_token(token: str):
+    result = db.fetch_all(
+        """
+        SELECT u.user_id, u.username, u.email, r.name as role, u.is_active, s.expires_at
+        FROM Sessions s
+        JOIN Users u ON s.user_id = u.user_id
+        LEFT JOIN Roles r ON u.role_id = r.role_id
+        WHERE s.session_token = ?
+        """,
+        params=[token]
+    )
+    if not result:
+        return None
+    user_id, username, email, role, is_active, expires_at = result[0]
+    if not is_active:
+        return None
+    if expires_at and datetime.fromisoformat(str(expires_at)) < datetime.utcnow():
+        return None
+    return {"user_id": user_id, "username": username, "email": email, "role": role or "user"}
+
+
 def _generate_token() -> str:
     return secrets.token_urlsafe(64)
 
@@ -74,9 +102,9 @@ def _login(username: str, password: str) -> Dict[str, Any]:
     # Query user by username
     result = db.fetch_all(
         """
-        SELECT u.id, u.password_hash, u.is_active, r.name as role
+        SELECT u.user_id, u.password_hash, u.is_active, r.name as role
         FROM Users u
-        LEFT JOIN Roles r ON u.role_id = r.id
+        LEFT JOIN Roles r ON u.role_id = r.role_id
         WHERE u.username = ?
         """,
         params=[username]
@@ -101,7 +129,7 @@ def _login(username: str, password: str) -> Dict[str, Any]:
     # Store session in database
     db.execute(
         """
-        INSERT INTO Sessions (id, user_id, session_token, expires_at)
+        INSERT INTO Sessions (session_id, user_id, session_token, expires_at)
         VALUES (nextval('seq_session_id'), ?, ?, ?)
         """,
         params=[user_id, token, expires_at]
@@ -109,7 +137,7 @@ def _login(username: str, password: str) -> Dict[str, Any]:
     
     # Update last_login timestamp
     db.execute(
-        "UPDATE Users SET last_login = now() WHERE id = ?",
+        "UPDATE Users SET last_login = now() WHERE user_id = ?",
         params=[user_id]
     )
     
@@ -126,8 +154,8 @@ def _verify_token(token: str) -> Dict[str, Any]:
         """
         SELECT s.user_id, u.username, r.name as role, s.expires_at
         FROM Sessions s
-        JOIN Users u ON s.user_id = u.id
-        LEFT JOIN Roles r ON u.role_id = r.id
+        JOIN Users u ON s.user_id = u.user_id
+        LEFT JOIN Roles r ON u.role_id = r.role_id
         WHERE s.session_token = ?
         """,
         params=[token]

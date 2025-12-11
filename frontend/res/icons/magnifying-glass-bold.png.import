@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dllkq8tki48mp"
-path="res://.godot/imported/circle_white.png-e8a02b14b2083e00fd872474cccf16fe.ctex"
+uid="uid://dujpwevouq8ab"
+path="res://.godot/imported/magnifying-glass-bold.png-8fb55d445011c3f9588941de225fc08f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://res/icons/circle_white.png"
-dest_files=["res://.godot/imported/circle_white.png-e8a02b14b2083e00fd872474cccf16fe.ctex"]
+source_file="res://res/icons/magnifying-glass-bold.png"
+dest_files=["res://.godot/imported/magnifying-glass-bold.png-8fb55d445011c3f9588941de225fc08f.ctex"]
 
 [params]
 
