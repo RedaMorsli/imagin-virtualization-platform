@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://3cahu4s87qlj" path="res://res/icons/squares-four.png" id="2_pjrb6"]
 [ext_resource type="Texture2D" uid="uid://brgbcjbpucoe4" path="res://res/icons/user.png" id="3_kfbq2"]
 [ext_resource type="Texture2D" uid="uid://cgd2ca7vik6q2" path="res://res/icons/sign-out.png" id="5_xkqaj"]
-[ext_resource type="PackedScene" uid="uid://e0fu8lh8ewl4" path="res://pages/projects/project_page.tscn" id="6_2rgqa"]
+[ext_resource type="PackedScene" uid="uid://e0fu8lh8ewl4" path="res://pages/project_list/project_page.tscn" id="6_2rgqa"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -76,7 +76,7 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="ProjectPage" parent="VBoxContainer/MainContainer" instance=ExtResource("6_2rgqa")]
+[node name="ProjectsList" parent="VBoxContainer/MainContainer" instance=ExtResource("6_2rgqa")]
 layout_mode = 2
 
 [connection signal="pressed" from="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer/LogoutButton" to="." method="_on_button_pressed"]

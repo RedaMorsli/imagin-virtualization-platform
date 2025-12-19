@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dcdyc3esl7los"]
 
-[ext_resource type="Script" uid="uid://cve7j0ak148nl" path="res://pages/projects/new_project_dialog.gd" id="1_77njv"]
+[ext_resource type="Script" uid="uid://cve7j0ak148nl" path="res://pages/project_list/new_project_dialog.gd" id="1_77njv"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="2_xjtpy"]
 
 [node name="NewProjectDialog" type="VBoxContainer"]

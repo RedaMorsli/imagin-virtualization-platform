@@ -23,10 +23,6 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pr80k"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 1
 border_width_top = 1
@@ -210,7 +206,9 @@ FlatButton/colors/icon_disabled_color = Color(0, 0, 0, 1)
 FlatButton/colors/icon_normal_color = Color(0, 0, 0, 0.8)
 FlatButton/fonts/font = ExtResource("2_g26t5")
 FlatButton/styles/hover = SubResource("StyleBoxFlat_drxg4")
+FlatButton/styles/hover_pressed = SubResource("StyleBoxFlat_drxg4")
 FlatButton/styles/normal = SubResource("StyleBoxFlat_drxg4")
+FlatButton/styles/pressed = SubResource("StyleBoxFlat_drxg4")
 HeaderLarge/colors/font_color = Color(0, 0, 0, 1)
 HeaderMedium/colors/font_color = Color(0, 0, 0, 1)
 IconButton/base_type = &"Button"

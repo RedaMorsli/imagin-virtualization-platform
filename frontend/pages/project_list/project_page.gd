@@ -1,7 +1,7 @@
-extends VBoxContainer
+extends Page
 
 
-const NEW_PROJECT_DIALOG_SCENE = preload("uid://dcdyc3esl7los")
+const NewProjectDialogScene = preload("uid://dcdyc3esl7los")
 const ProjectItemScene = preload("uid://becyat4dcn7ka")
 
 @onready var fetch_http_request: HTTPRequest = %FetchHTTPRequest
@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 func _on_new_project_button_pressed() -> void:
-	var dialog = Dialog.popup("NEW_PROJECT", NEW_PROJECT_DIALOG_SCENE)
+	var dialog = Dialog.popup("NEW_PROJECT", NewProjectDialogScene)
 	dialog.completed.connect(_fetch_projects)
 
 
@@ -37,6 +37,7 @@ func _fetch_projects():
 	for project in projects:
 		var item: ProjectItem = ProjectItemScene.instantiate()
 		item.project = Project.new(project.project_id, project.project_name, "Empty Project")
+		item.project_pressed.connect(_on_project_pressed)
 		project_container.add_child(item)
 	loading_spinner.hide()
 	project_container.visible = not projects.is_empty()
@@ -50,3 +51,7 @@ func _on_fetch_http_request_request_completed(result: int, response_code: int, h
 	var data = JSON.parse_string(body.get_string_from_utf8())
 	print(data)
 	projects = data.projects
+
+
+func _on_project_pressed(project: Project):
+	push_page(PageCatalog.project_detail)

@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0iw70k1af2lj"]
+
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_5rb0n"]
+[ext_resource type="Texture2D" uid="uid://da3kbys86mh15" path="res://res/icons/caret-left.png" id="2_020y5"]
+[ext_resource type="Script" uid="uid://c4ehf5klhxd6w" path="res://pages/project_detail/project_detail.gd" id="2_c7bj0"]
+
+[node name="ProjectDetail" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_5rb0n")
+script = ExtResource("2_c7bj0")
+metadata/_custom_type_script = "uid://7hfidwmjf3x7"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("2_020y5")
+flat = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "PROJECT_DASHBOARD"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Config="*res://autoloads/config.gd"
 Auth="*res://autoloads/auth.gd"
 Dialog="*res://autoloads/dialog/dialog.tscn"
+Events="*res://autoloads/events.gd"
 
 [display]
 
