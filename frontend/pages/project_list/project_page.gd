@@ -54,4 +54,4 @@ func _on_fetch_http_request_request_completed(result: int, response_code: int, h
 
 
 func _on_project_pressed(project: Project):
-	push_page(PageCatalog.project_detail)
+	push_page(PageCatalog.project_detail, [project])

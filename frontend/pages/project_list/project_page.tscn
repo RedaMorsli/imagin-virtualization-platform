@@ -68,6 +68,8 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
 columns = 3
 
 [node name="EmptyLabel" type="Label" parent="VBox"]

@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://v8pl058l81vh"]
+[gd_scene load_steps=9 format=3 uid="uid://v8pl058l81vh"]
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_pjrb6"]
 [ext_resource type="Script" uid="uid://bh1v7v81w0172" path="res://pages/main/main.gd" id="2_4dugh"]
 [ext_resource type="Texture2D" uid="uid://3cahu4s87qlj" path="res://res/icons/squares-four.png" id="2_pjrb6"]
 [ext_resource type="Texture2D" uid="uid://brgbcjbpucoe4" path="res://res/icons/user.png" id="3_kfbq2"]
+[ext_resource type="Script" uid="uid://ch6xbre0ltmn3" path="res://components/breadcomb/breadcomb.gd" id="3_rth0c"]
+[ext_resource type="Texture2D" uid="uid://74vhcor17i4l" path="res://res/icons/caret-right.png" id="4_rth0c"]
 [ext_resource type="Texture2D" uid="uid://cgd2ca7vik6q2" path="res://res/icons/sign-out.png" id="5_xkqaj"]
 [ext_resource type="PackedScene" uid="uid://e0fu8lh8ewl4" path="res://pages/project_list/project_page.tscn" id="6_2rgqa"]
 
@@ -39,15 +41,15 @@ theme_override_constants/margin_bottom = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainBreadcomb/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
-[node name="HomeButton" type="Button" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer"]
+[node name="Breadcomb" type="HBoxContainer" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer" node_paths=PackedStringArray("root")]
 layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_type_variation = &"FlatButton"
-text = "PROJECTS"
-icon = ExtResource("2_pjrb6")
-flat = true
+theme_override_constants/separation = 8
+script = ExtResource("3_rth0c")
+root = NodePath("../../../../MainContainer")
+separator_texture = ExtResource("4_rth0c")
+metadata/_custom_type_script = "uid://ch6xbre0ltmn3"
 
 [node name="Fill" type="Control" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -78,5 +80,7 @@ theme_override_constants/margin_bottom = 32
 
 [node name="ProjectsList" parent="VBoxContainer/MainContainer" instance=ExtResource("6_2rgqa")]
 layout_mode = 2
+title = "PROJECTS"
+icon = ExtResource("2_pjrb6")
 
 [connection signal="pressed" from="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer/LogoutButton" to="." method="_on_button_pressed"]
