@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=22 format=3 uid="uid://blo6rjqneyoaq"]
+[gd_resource type="Theme" load_steps=25 format=3 uid="uid://blo6rjqneyoaq"]
 
 [ext_resource type="FontFile" uid="uid://bwcailw5m6y3d" path="res://res/fonts/Delta Jaeger Book.ttf" id="1_kr2q4"]
 [ext_resource type="FontFile" uid="uid://dec31kpuve5rg" path="res://res/fonts/Delta Jaeger Medium.ttf" id="1_nkrwj"]
@@ -8,9 +8,9 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nkrwj"]
 content_margin_left = 8.0
-content_margin_top = 9.0
+content_margin_top = 4.0
 content_margin_right = 8.0
-content_margin_bottom = 9.0
+content_margin_bottom = 4.0
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 1
 border_width_top = 1
@@ -107,6 +107,8 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g26t5"]
+content_margin_left = 8.0
+content_margin_right = 8.0
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 1
 border_width_top = 1
@@ -142,9 +144,9 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pnvcd"]
 content_margin_left = 8.0
-content_margin_top = 9.0
+content_margin_top = 4.0
 content_margin_right = 8.0
-content_margin_bottom = 9.0
+content_margin_bottom = 4.0
 bg_color = Color(0.89411765, 0, 0.19607843, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
@@ -155,6 +157,7 @@ corner_radius_bottom_left = 4
 content_margin_left = 8.0
 content_margin_right = 8.0
 bg_color = Color(0, 0, 0, 0.050980393)
+draw_center = false
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -169,6 +172,7 @@ corner_radius_bottom_left = 4
 content_margin_left = 8.0
 content_margin_right = 8.0
 bg_color = Color(0, 0, 0, 0.019607844)
+draw_center = false
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -179,6 +183,29 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wumxc"]
+draw_center = false
+border_width_right = 1
+border_color = Color(0, 0, 0, 0.2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fko38"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0.050980393)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2h57"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+draw_center = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6rxkh"]
 draw_center = false
 border_width_bottom = 1
@@ -187,6 +214,8 @@ border_width_bottom = 1
 Button/colors/font_color = Color(0, 0, 0, 1)
 Button/colors/font_disabled_color = Color(0, 0, 0, 0.4)
 Button/colors/font_hover_color = Color(0, 0, 0, 0.8)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 0.8)
+Button/colors/font_pressed_color = Color(0, 0, 0, 0.8)
 Button/colors/icon_hover_color = Color(0, 0, 0, 1)
 Button/colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
 Button/colors/icon_normal_color = Color(0, 0, 0, 1)
@@ -195,7 +224,10 @@ Button/font_sizes/font_size = 18
 Button/fonts/font = ExtResource("1_kr2q4")
 Button/styles/disabled = SubResource("StyleBoxFlat_nkrwj")
 Button/styles/hover = SubResource("StyleBoxFlat_nkrwj")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_nkrwj")
+Button/styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_nkrwj")
 Button/styles/normal = SubResource("StyleBoxFlat_nkrwj")
+Button/styles/pressed = SubResource("StyleBoxFlat_nkrwj")
 Card/base_type = &"PanelContainer"
 Card/styles/panel = SubResource("StyleBoxFlat_pr80k")
 DialogPanel/base_type = &"PanelContainer"
@@ -217,6 +249,7 @@ FlatButton/styles/normal = SubResource("StyleBoxFlat_drxg4")
 FlatButton/styles/pressed = SubResource("StyleBoxFlat_drxg4")
 HeaderLarge/colors/font_color = Color(0, 0, 0, 1)
 HeaderMedium/colors/font_color = Color(0, 0, 0, 1)
+HeaderSmall/colors/font_color = Color(0, 0, 0, 1)
 IconButton/base_type = &"Button"
 IconButton/colors/icon_hover_color = Color(0, 0, 0, 0.6)
 IconButton/colors/icon_hover_pressed_color = Color(0, 0, 0, 0.6)
@@ -243,6 +276,7 @@ OptionButton/styles/normal = SubResource("StyleBoxFlat_kinop")
 OptionButton/styles/pressed = SubResource("StyleBoxFlat_0fv4m")
 PopupMenu/colors/font_color = Color(0, 0, 0, 0.6)
 PopupMenu/colors/font_hover_color = Color(0, 0, 0, 0.8)
+PopupMenu/colors/icon_color = Color(0, 0, 0, 0.6)
 PopupMenu/icons/radio_checked = ExtResource("3_pnvcd")
 PopupMenu/icons/radio_unchecked = ExtResource("3_kinop")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_g26t5")
@@ -251,6 +285,7 @@ PrimaryButton/base_type = &"Button"
 PrimaryButton/colors/font_color = Color(1, 1, 1, 1)
 PrimaryButton/colors/font_disabled_color = Color(1, 1, 1, 0.4)
 PrimaryButton/colors/font_hover_color = Color(1, 1, 1, 1)
+PrimaryButton/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 PrimaryButton/colors/icon_hover_color = Color(1, 1, 1, 1)
 PrimaryButton/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
 PrimaryButton/colors/icon_normal_color = Color(1, 1, 1, 1)
@@ -265,6 +300,7 @@ PrimaryButton/styles/normal = SubResource("StyleBoxFlat_pnvcd")
 PrimaryButton/styles/pressed = SubResource("StyleBoxFlat_pnvcd")
 PrimaryText/base_type = &"Label"
 PrimaryText/colors/font_color = Color(0, 0, 0, 1)
+PrimaryText/colors/font_outline_color = Color(0, 0, 0, 1)
 PrimaryText/fonts/font = ExtResource("1_kr2q4")
 RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
 SearchBar/base_type = &"LineEdit"
@@ -274,5 +310,21 @@ SearchBar/styles/normal = SubResource("StyleBoxFlat_ptaif")
 SecondaryText/base_type = &"Label"
 SecondaryText/colors/font_color = Color(0, 0, 0, 0.6)
 SecondaryText/fonts/font = ExtResource("2_g26t5")
+SidePanel/base_type = &"PanelContainer"
+SidePanel/styles/panel = SubResource("StyleBoxFlat_wumxc")
+ToggledMenuButton/base_type = &"Button"
+ToggledMenuButton/colors/font_color = Color(0, 0, 0, 0.6)
+ToggledMenuButton/colors/font_hover_color = Color(0, 0, 0, 0.8)
+ToggledMenuButton/colors/font_hover_pressed_color = Color(0, 0, 0, 0.8)
+ToggledMenuButton/colors/font_pressed_color = Color(0, 0, 0, 0.8)
+ToggledMenuButton/colors/icon_hover_color = Color(0, 0, 0, 0.8)
+ToggledMenuButton/colors/icon_hover_pressed_color = Color(0, 0, 0, 0.8)
+ToggledMenuButton/colors/icon_normal_color = Color(0, 0, 0, 0.6)
+ToggledMenuButton/colors/icon_pressed_color = Color(0, 0, 0, 0.8)
+ToggledMenuButton/constants/h_separation = 8
+ToggledMenuButton/fonts/font = ExtResource("1_kr2q4")
+ToggledMenuButton/styles/hover = SubResource("StyleBoxFlat_fko38")
+ToggledMenuButton/styles/normal = SubResource("StyleBoxFlat_l2h57")
+ToggledMenuButton/styles/pressed = SubResource("StyleBoxFlat_fko38")
 TopPanel/base_type = &"PanelContainer"
 TopPanel/styles/panel = SubResource("StyleBoxFlat_6rxkh")

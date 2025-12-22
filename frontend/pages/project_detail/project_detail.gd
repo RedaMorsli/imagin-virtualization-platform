@@ -12,7 +12,3 @@ func _ready() -> void:
 		return
 	
 	title = project.project_name
-
-
-func _on_back_button_pressed() -> void:
-	pop_back()

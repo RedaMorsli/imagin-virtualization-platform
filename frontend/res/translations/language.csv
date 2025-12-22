@@ -11,3 +11,7 @@ SEARCH_PROJECTS,Search for projects,Trouver des projets
 PROJECT_NAME,Project Name,Nom du Projet
 CREATE,Create,Créer
 NO_PROJECT_MSG,No project found,Aucun projet trouvé
+INFRASTRUCTURES,Infrastructures,Infrastructures
+NEW_INFRASTRUCTURE,New infrastructure,Nouvelle infrastructure
+SEARCH_INFRASTRUCTURES,Search for infrastructures,Trouver des infrastructures
+NO_PROJECT_MSG,No infrastructure found,Aucune infrastructure trouvée
