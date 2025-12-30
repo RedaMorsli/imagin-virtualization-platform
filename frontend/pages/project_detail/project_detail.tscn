@@ -130,7 +130,7 @@ caret_blink = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NewProjectButton" type="Button" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage/HBoxContainer"]
+[node name="NewInfraButton" type="Button" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage/HBoxContainer"]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -161,3 +161,5 @@ theme_type_variation = &"SecondaryText"
 text = "NO_PROJECT_MSG"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="HBox/PageContainer/Page/MarginContainer/InfrastructurePage/HBoxContainer/NewInfraButton" to="." method="_on_new_infra_button_pressed"]

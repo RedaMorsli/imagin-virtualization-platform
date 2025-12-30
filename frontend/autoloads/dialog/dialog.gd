@@ -1,8 +1,7 @@
 extends CanvasLayer
 
 
-@onready var title: Label = %Title
-@onready var dialog_container: MarginContainer = %DialogContainer
+@onready var dialog_container: Container = %DialogContainer
 
 
 var _dialog_scene: DialogScene
@@ -12,8 +11,7 @@ func _ready() -> void:
 	hide()
 
 
-func popup(p_title: String, p_scene: PackedScene) -> DialogScene:
-	title.text = p_title
+func popup(p_scene: PackedScene) -> DialogScene:
 	_dialog_scene = p_scene.instantiate()
 	_dialog_scene.tree_exiting.connect(
 		func ():

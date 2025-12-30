@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 func _on_new_project_button_pressed() -> void:
-	var dialog = Dialog.popup("NEW_PROJECT", NewProjectDialogScene)
+	var dialog = Dialog.popup(NewProjectDialogScene)
 	dialog.completed.connect(_fetch_projects)
 
 

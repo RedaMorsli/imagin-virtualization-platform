@@ -1,6 +1,5 @@
-@abstract
 class_name DialogScene
-extends Container
+extends Control
 
 
 signal completed()

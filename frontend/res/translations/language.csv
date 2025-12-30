@@ -15,3 +15,7 @@ INFRASTRUCTURES,Infrastructures,Infrastructures
 NEW_INFRASTRUCTURE,New infrastructure,Nouvelle infrastructure
 SEARCH_INFRASTRUCTURES,Search for infrastructures,Trouver des infrastructures
 NO_PROJECT_MSG,No infrastructure found,Aucune infrastructure trouvée
+EMPTY_INFRASTRUCTURE,Empty infrastructure,Infrastructure vide
+CANCEL,Cancel,Annuler
+INFRA_NAME,Infrastructure name,Nom de l'infrastructure
+INFRA_TYPE,Infrastructure type,Type d'infrastructure
