@@ -21,6 +21,7 @@ Config="*res://autoloads/config.gd"
 Auth="*res://autoloads/auth.gd"
 Dialog="*res://autoloads/dialog/dialog.tscn"
 Events="*res://autoloads/events.gd"
+Http="*res://autoloads/http/http.gd"
 
 [display]
 

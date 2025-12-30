@@ -25,9 +25,6 @@ size_flags_vertical = 0
 theme = ExtResource("1_3v2q0")
 theme_override_constants/separation = 32
 
-[node name="FetchHTTPRequest" type="HTTPRequest" parent="VBox"]
-unique_name_in_owner = true
-
 [node name="Label" type="Label" parent="VBox"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
@@ -81,5 +78,4 @@ text = "NO_PROJECT_MSG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="request_completed" from="VBox/FetchHTTPRequest" to="." method="_on_fetch_http_request_request_completed"]
 [connection signal="pressed" from="VBox/HBoxContainer/NewProjectButton" to="." method="_on_new_project_button_pressed"]

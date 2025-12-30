@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://mxkh85ivueaw"]
+[gd_scene load_steps=18 format=3 uid="uid://mxkh85ivueaw"]
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_cneet"]
 [ext_resource type="Script" uid="uid://d1h4k7ppv2elx" path="res://pages/auth/login_page.gd" id="2_0yw1h"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="8_7nvp7"]
 [ext_resource type="Texture2D" uid="uid://dnaqy5q8nlnki" path="res://res/textures/ets.png" id="8_xt4ks"]
 [ext_resource type="Texture2D" uid="uid://bb1u6f04c2nm2" path="res://res/textures/imagin.png" id="9_ygeuu"]
+[ext_resource type="Script" uid="uid://1b32md5fvse1" path="res://pages/auth/login_http_request.gd" id="10_ep1xc"]
 [ext_resource type="FontFile" uid="uid://565giitnrh3m" path="res://res/fonts/Delta Jaeger Light.ttf" id="11_l1k4r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_51wku"]
@@ -184,13 +185,6 @@ caret_blink = true
 secret = true
 secret_character = "●"
 
-[node name="ErrorLabel" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_type_variation = &"ErrorLabel"
-text = "Error message"
-
 [node name="LoginButton" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -209,6 +203,7 @@ text = "Verify Session"
 [node name="LoadingSpinner" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("8_7nvp7")]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
 [node name="Fill2" type="Control" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
@@ -221,6 +216,12 @@ text = "v0.0.0"
 label_settings = SubResource("LabelSettings_eyhwf")
 horizontal_alignment = 1
 
+[node name="LoginHTTPRequest" type="HTTPRequest" parent="."]
+timeout = 10.0
+script = ExtResource("10_ep1xc")
+
 [connection signal="item_selected" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer/LanguageButton" to="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer/LanguageButton" method="_on_lang_selected"]
 [connection signal="pressed" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoginButton" to="." method="login"]
+[connection signal="pressed" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/VerifyButton" to="LoginHTTPRequest" method="check_active_session"]
 [connection signal="ready" from="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoadingSpinner" to="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer/LoadingSpinner" method="hide"]
+[connection signal="request_completed" from="LoginHTTPRequest" to="LoginHTTPRequest" method="_on_request_completed"]

@@ -3,6 +3,7 @@ APP_NAME,Virtualization Platform,Plateforme de Virtualisation
 LOGIN_TITLE,Login,Connexion
 LOGIN_ACTION,Log in,Se connecter
 LOGOUT_ACTION,Logout,Se déconnecter
+LOGIN_FAILED,Failed to login,Connexion échouée
 USERNAME,Username,Nom d'utilisateur
 PASSWORD,Password,Mot de passe
 PROJECTS,Projects,Projets

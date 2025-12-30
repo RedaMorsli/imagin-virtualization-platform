@@ -22,12 +22,13 @@ func _on_new_project_button_pressed() -> void:
 
 
 func _fetch_projects():
-	fetch_http_request.request(
+	var response = await Http.send_request(
 		API.fetch_projects_url,
 		["Authorization: Bearer " + Config.auth_token],
-		HTTPClient.METHOD_GET
+		HTTPClient.METHOD_GET,
+		"Failed to fetch projects"
 	)
-	await fetch_http_request.request_completed
+	projects = response.get_data()['projects']
 	for child in project_container.get_children():
 		child.queue_free()
 	if not projects:
@@ -42,15 +43,6 @@ func _fetch_projects():
 	loading_spinner.hide()
 	project_container.visible = not projects.is_empty()
 	empty_label.visible = projects.is_empty()
-
-
-func _on_fetch_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
-	if result != HTTPRequest.RESULT_SUCCESS or response_code != HTTPClient.RESPONSE_OK:
-		Error.handle_http_error("Failed to fetch projects", result, response_code)
-		return
-	var data = JSON.parse_string(body.get_string_from_utf8())
-	print(data)
-	projects = data.projects
 
 
 func _on_project_pressed(project: Project):
