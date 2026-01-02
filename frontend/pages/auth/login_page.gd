@@ -19,8 +19,6 @@ func _ready() -> void:
 
 
 func login():
-	print("Trying to login...")
-	print("Sending log in request to " + API.login_url)
 	login_button.hide()
 	loading_spinner.show()
 	
@@ -28,12 +26,11 @@ func login():
 		"username": username_edit.text,
 		"password": password_edit.text.sha256_text()
 	}
-	var json = JSON.stringify(credentials)
 	var response: HttpResponse = await Http.send_request(
 		API.login_url,
 		API.HEADERS_JSON,
 		HTTPClient.METHOD_POST,
-		json,
+		credentials,
 		"LOGIN_FAILED"
 	)
 	
@@ -47,7 +44,6 @@ func check_active_session():
 		print("No saved token")
 		return
 	
-	print("Sending login request to " + API.verify_url)
 	login_button.hide()
 	loading_spinner.show()
 	

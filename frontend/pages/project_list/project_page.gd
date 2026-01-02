@@ -24,8 +24,9 @@ func _on_new_project_button_pressed() -> void:
 func _fetch_projects():
 	var response = await Http.send_request(
 		API.fetch_projects_url,
-		["Authorization: Bearer " + Config.auth_token],
+		Auth.HTTP_HEADER,
 		HTTPClient.METHOD_GET,
+		{},
 		"Failed to fetch projects"
 	)
 	projects = response.get_data()['projects']
@@ -46,4 +47,5 @@ func _fetch_projects():
 
 
 func _on_project_pressed(project: Project):
+	Context.project = project
 	push_page(PageCatalog.project_detail, [project])

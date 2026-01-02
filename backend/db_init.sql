@@ -58,6 +58,16 @@ added_at TIMESTAMP DEFAULT (now()),
 PRIMARY KEY (project_id, user_id)
 );
 
+CREATE SEQUENCE IF NOT EXISTS seq_infra_id START 1;
+
+CREATE TABLE IF NOT EXISTS Infra (
+	infra_id INTEGER PRIMARY KEY DEFAULT nextval('seq_infra_id'),
+	project_id INTEGER NOT NULL REFERENCES Projects(project_id),
+	infra_name VARCHAR(150) NOT NULL UNIQUE,
+	infra_type VARCHAR(100) NOT NULL,
+	infra_config TEXT NOT NULL,
+	created_at TIMESTAMP DEFAULT (now()),
+);
 
 -- Populate
 
