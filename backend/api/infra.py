@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, status, Header, Response
 from pydantic import BaseModel
 import db
 import api.auth as auth
+import json
 
 router = APIRouter(
     prefix="/infra",
@@ -18,8 +19,13 @@ class CreateInfraRequest(BaseModel):
     infra_config: dict
 
 
-class NewResponse(BaseModel):
-    response_var: int
+class FetchInfraRequest(BaseModel):
+    project_id: int
+
+
+
+class FetchInfraResponse(BaseModel):
+    infras: list[dict]
 
 
 # ============ ENDPOINTS ============
@@ -38,12 +44,12 @@ async def create_infra_endpoint(request: CreateInfraRequest, authorization: str 
         )
 
 
-@router.get("/routeGet", response_model=NewResponse)
-async def create_project_endpoint(authorization: str = Header(None)):
+@router.get("/fetch", response_model=FetchInfraResponse)
+async def fetch_infras_endpoint(request: FetchInfraRequest, authorization: str = Header(None)):
     user = auth.get_user_by_token(auth.get_token(authorization))
     try:
-        result = _get_function(user['user_id'])
-        return NewResponse(**result)
+        result = _fetch_infras(user['user_id'], request.project_id)
+        return FetchInfraResponse(**result)
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -55,6 +61,10 @@ async def create_project_endpoint(authorization: str = Header(None)):
 
 
 def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: dict):
+    has_access = _user_has_project_access(user_id, project_id)
+    if not has_access:
+        raise ValueError("User does not have access to this project")
+
     existing = db.fetch_all(
         "SELECT infra_name FROM Infra WHERE infra_name = ?",
         params=[infra_config.get("name")],
@@ -64,24 +74,38 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
     
     db.execute(
         "INSERT INTO Infra (project_id, infra_name, infra_type, infra_config) VALUES (?, ?, ?, ?)",
-        params=[project_id, infra_config.get("name"), infra_type, infra_config]
+        params=[project_id, infra_config.get("name"), infra_type, json.dumps(infra_config)]
     )
 
     if infra_type == "cluster":
         from infra.k3d import create_k3d_cluster
         cluster_output = create_k3d_cluster(infra_config)
     
+
+def _fetch_infras(user_id: int, project_id: int):
+    has_access = _user_has_project_access(user_id, project_id)
+    if not has_access:
+        raise ValueError("User does not have access to this project")
     
-
-
-def _get_function(user_id: int):
     rows = db.fetch_all(
         """
-        SELECT id, name
-        FROM Table t
-        WHERE t.id = ?
+        SELECT infra_id, infra_type, infra_config
+        FROM Infra i
+        WHERE i.project_id = ?
         """,
-        user_id
+        [project_id]
     )
-    things = [{"id": id, "name": name} for id, name in rows]
-    return {"things": things}
+    infras = [{"infra_id": id, "infra_type": type, "infra_config": config} for id, type, config in rows]
+    return {"infras": infras}
+
+
+def _user_has_project_access(user_id: int, project_id: int) -> bool:
+    access = db.fetch_all(
+        """
+        SELECT 1
+        FROM ProjectUsers
+        WHERE project_id = ? AND user_id = ?
+        """,
+        params=[project_id, user_id]
+    )
+    return bool(access)

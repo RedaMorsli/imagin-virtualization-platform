@@ -4,9 +4,13 @@ extends VBoxContainer
 @onready var infra_name: LineEdit = %EmptyInfraName
 @onready var infra_type: OptionButton = %EmptyInfraType
 @onready var node_count: SpinBox = %EmptyNodeCount
+@onready var loading_spinner: TextureRect = %LoadingSpinner
+@onready var buttons: HBoxContainer = %Buttons
 
 
 func _on_create_button_pressed() -> void:
+	buttons.hide()
+	loading_spinner.show()
 	var data = {
 		'project_id': Context.project.project_id,
 		'infra_type': infra_type.text.to_lower(),
@@ -22,3 +26,9 @@ func _on_create_button_pressed() -> void:
 		data,
 		'Failed to create cluster'
 	)
+	if response.is_successful():
+		Events.infra_created.emit()
+		queue_free()
+	else:
+		buttons.show()
+		loading_spinner.hide()

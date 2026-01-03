@@ -18,7 +18,7 @@ func _init(p_result: int, p_response, p_headers: PackedStringArray, p_body: Pack
 	body = p_body
 
 
-func get_data() -> Dictionary:
+func get_data():
 	return JSON.parse_string(body.get_string_from_utf8())
 
 

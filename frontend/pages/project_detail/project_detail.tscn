@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c24q0fe8gs41" path="res://res/icons/globe.png" id="3_c7bj0"]
 [ext_resource type="Texture2D" uid="uid://brgbcjbpucoe4" path="res://res/icons/user.png" id="4_pp7d2"]
 [ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="4_u7wto"]
-[ext_resource type="Script" uid="uid://7hfidwmjf3x7" path="res://pages/page.gd" id="6_qcnkj"]
+[ext_resource type="Script" uid="uid://by6qd688rspu3" path="res://pages/project_detail/infra/infrastructure_page.gd" id="6_qcnkj"]
 [ext_resource type="Texture2D" uid="uid://dujpwevouq8ab" path="res://res/icons/magnifying-glass-bold.png" id="6_xj1s1"]
 [ext_resource type="Texture2D" uid="uid://brwgvk21r4atj" path="res://res/icons/plus-bold.png" id="7_qcnkj"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="8_jo66n"]
@@ -79,7 +79,7 @@ metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Page" type="Control" parent="HBox/PageContainer"]
+[node name="InfrastructurePage" type="Control" parent="HBox/PageContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,7 +89,7 @@ grow_vertical = 2
 script = ExtResource("6_qcnkj")
 metadata/_custom_type_script = "uid://7hfidwmjf3x7"
 
-[node name="MarginContainer" type="MarginContainer" parent="HBox/PageContainer/Page"]
+[node name="MarginContainer" type="MarginContainer" parent="HBox/PageContainer/InfrastructurePage"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,23 +101,23 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="InfrastructurePage" type="VBoxContainer" parent="HBox/PageContainer/Page/MarginContainer"]
+[node name="VBox" type="VBoxContainer" parent="HBox/PageContainer/InfrastructurePage/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("1_5rb0n")
 theme_override_constants/separation = 32
 
-[node name="FetchHTTPRequest" type="HTTPRequest" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage"]
+[node name="FetchHTTPRequest" type="HTTPRequest" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox"]
 unique_name_in_owner = true
 
-[node name="Label" type="Label" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage"]
+[node name="Label" type="Label" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 text = "INFRASTRUCTURES"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox"]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer"]
 modulate = Color(0, 0, 0, 0.8)
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
@@ -126,11 +126,11 @@ placeholder_text = "SEARCH_INFRASTRUCTURES"
 right_icon = ExtResource("6_xj1s1")
 caret_blink = true
 
-[node name="Control" type="Control" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage/HBoxContainer"]
+[node name="Control" type="Control" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NewInfraButton" type="Button" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage/HBoxContainer"]
+[node name="NewInfraButton" type="Button" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer"]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -138,12 +138,13 @@ theme_type_variation = &"PrimaryButton"
 text = "NEW_INFRASTRUCTURE"
 icon = ExtResource("7_qcnkj")
 
-[node name="LoadingSpinner" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage" instance=ExtResource("8_jo66n")]
+[node name="LoadingSpinner" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" instance=ExtResource("8_jo66n")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="ProjectContainer" type="GridContainer" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage"]
+[node name="InfraContainer" type="GridContainer" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -152,7 +153,7 @@ theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 3
 
-[node name="EmptyLabel" type="Label" parent="HBox/PageContainer/Page/MarginContainer/InfrastructurePage"]
+[node name="EmptyLabel" type="Label" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -162,4 +163,14 @@ text = "NO_PROJECT_MSG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="HBox/PageContainer/Page/MarginContainer/InfrastructurePage/HBoxContainer/NewInfraButton" to="." method="_on_new_infra_button_pressed"]
+[node name="ErrorLabel" type="Label" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"ErrorLabel"
+text = "NO_PROJECT_MSG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer/NewInfraButton" to="." method="_on_new_infra_button_pressed"]

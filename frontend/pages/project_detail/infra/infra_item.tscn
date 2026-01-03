@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5bygne2f7jso"]
+
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_hj0sb"]
+[ext_resource type="Texture2D" uid="uid://bxop6mn08qurk" path="res://res/icons/graph.png" id="2_37i5c"]
+[ext_resource type="Script" uid="uid://bs0ofvfn80wsn" path="res://pages/project_detail/infra/infra_item.gd" id="2_aajtc"]
+
+[node name="InfraItem" type="PanelContainer"]
+offset_right = 198.0
+offset_bottom = 89.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("1_hj0sb")
+theme_type_variation = &"Card"
+script = ExtResource("2_aajtc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"FlatButton"
+disabled = true
+icon = ExtResource("2_37i5c")
+flat = true
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryText"
+text = "Infra name"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"SecondaryText"
+text = "2/2"
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_type_variation = &"SecondaryText"
+text = "Nodes"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Running"

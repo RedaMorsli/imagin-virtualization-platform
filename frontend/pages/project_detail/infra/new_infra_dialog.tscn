@@ -1,0 +1,177 @@
+[gd_scene load_steps=5 format=3 uid="uid://3sn0q3cri4f"]
+
+[ext_resource type="Script" uid="uid://cke6sex4ae047" path="res://pages/project_detail/infra/new_infra_dialog.gd" id="1_vwuki"]
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="2_b63ds"]
+[ext_resource type="Script" uid="uid://ckmllcjdw4kal" path="res://pages/project_detail/infra/empty_infra_menu.gd" id="3_oc3s3"]
+[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="4_b63ds"]
+
+[node name="NewInfraDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -401.0
+offset_top = -144.0
+offset_right = 401.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_vwuki")
+metadata/_custom_type_script = "uid://bn3fl685jjig7"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -401.0
+offset_top = -144.0
+offset_right = 401.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+theme = ExtResource("2_b63ds")
+theme_type_variation = &"DialogPanel"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 350)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Templates"
+
+[node name="Button" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"ToggledMenuButton"
+toggle_mode = true
+button_pressed = true
+text = "EMPTY_INFRASTRUCTURE"
+alignment = 0
+
+[node name="Button2" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"ToggledMenuButton"
+toggle_mode = true
+text = "Flower"
+alignment = 0
+
+[node name="Button3" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"ToggledMenuButton"
+toggle_mode = true
+text = "5G"
+alignment = 0
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Container" type="MarginContainer" parent="CenterContainer/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="EmptyInfraMenu" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container"]
+layout_mode = 2
+theme_override_constants/separation = 16
+script = ExtResource("3_oc3s3")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "INFRA_NAME"
+
+[node name="EmptyInfraName" type="LineEdit" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "INFRA_NAME"
+caret_blink = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "INFRA_TYPE"
+
+[node name="EmptyInfraType" type="OptionButton" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "Cluster"
+popup/item_0/id = 0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "NUM_NODES"
+
+[node name="EmptyNodeCount" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 1.0
+alignment = 2
+
+[node name="Control" type="Control" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LoadingSpinner" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" instance=ExtResource("4_b63ds")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 2
+
+[node name="CancelButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/Buttons"]
+layout_mode = 2
+text = "CANCEL"
+
+[node name="CreateButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/Buttons"]
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "CREATE"
+
+[connection signal="tree_exiting" from="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" to="." method="queue_free"]
+[connection signal="pressed" from="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/Buttons/CancelButton" to="." method="queue_free"]
+[connection signal="pressed" from="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/Buttons/CreateButton" to="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" method="_on_create_button_pressed"]

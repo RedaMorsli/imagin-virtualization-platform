@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=24 format=3 uid="uid://blo6rjqneyoaq"]
+[gd_resource type="Theme" load_steps=25 format=3 uid="uid://blo6rjqneyoaq"]
 
 [ext_resource type="FontFile" uid="uid://bwcailw5m6y3d" path="res://res/fonts/Delta Jaeger Book.ttf" id="1_kr2q4"]
 [ext_resource type="FontFile" uid="uid://565giitnrh3m" path="res://res/fonts/Delta Jaeger Light.ttf" id="2_g26t5"]
@@ -185,6 +185,17 @@ draw_center = false
 border_width_right = 1
 border_color = Color(0, 0, 0, 0.2)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkien"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.050980393)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fko38"]
 content_margin_left = 8.0
 content_margin_top = 8.0
@@ -314,6 +325,9 @@ SecondaryText/colors/font_color = Color(0, 0, 0, 0.6)
 SecondaryText/fonts/font = ExtResource("2_g26t5")
 SidePanel/base_type = &"PanelContainer"
 SidePanel/styles/panel = SubResource("StyleBoxFlat_wumxc")
+Tag/base_type = &"Label"
+Tag/colors/font_color = Color(0, 0, 0, 0.4)
+Tag/styles/normal = SubResource("StyleBoxFlat_pkien")
 ToggledMenuButton/base_type = &"Button"
 ToggledMenuButton/colors/font_color = Color(0, 0, 0, 0.6)
 ToggledMenuButton/colors/font_hover_color = Color(0, 0, 0, 0.8)
