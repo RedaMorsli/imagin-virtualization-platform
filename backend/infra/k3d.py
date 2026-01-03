@@ -35,4 +35,18 @@ def create_k3d_cluster(config: Dict[str, Any]) -> str:
         error_output = result.stderr.strip() or result.stdout.strip()
         raise RuntimeError(f"k3d cluster creation failed: {error_output}")
 
+    kubeconfig_cmd = ["k3d", "kubeconfig", "merge", cluster_name]
+    kubeconfig_result = subprocess.run(
+        kubeconfig_cmd,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    if kubeconfig_result.returncode != 0:
+        error_output = kubeconfig_result.stderr.strip() or kubeconfig_result.stdout.strip()
+        raise RuntimeError(f"kubeconfig merge failed: {error_output}")
+    
+    config['context'] = 'k3d-' + config.get("name")
+
     return result.stdout.strip()

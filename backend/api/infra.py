@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import db
 import api.auth as auth
 import json
+import infra.k8s as k8s
 
 router = APIRouter(
     prefix="/infra",
@@ -55,7 +56,7 @@ async def fetch_infras_endpoint(request: FetchInfraRequest, authorization: str =
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=str(e)
         )
-    
+
     
 # ============ LOGIC ============
 
@@ -72,14 +73,15 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
     if existing:
         raise ValueError("Infra already exists")
     
+    
+    if infra_type == "cluster":
+        from infra.k3d import create_k3d_cluster
+        cluster_output = create_k3d_cluster(infra_config)
+
     db.execute(
         "INSERT INTO Infra (project_id, infra_name, infra_type, infra_config) VALUES (?, ?, ?, ?)",
         params=[project_id, infra_config.get("name"), infra_type, json.dumps(infra_config)]
     )
-
-    if infra_type == "cluster":
-        from infra.k3d import create_k3d_cluster
-        cluster_output = create_k3d_cluster(infra_config)
     
 
 def _fetch_infras(user_id: int, project_id: int):
@@ -95,7 +97,14 @@ def _fetch_infras(user_id: int, project_id: int):
         """,
         [project_id]
     )
-    infras = [{"infra_id": id, "infra_type": type, "infra_config": config} for id, type, config in rows]
+    infras = [{
+        "infra_id": id, 
+        "infra_type": type, 
+        "infra_config": json.loads(config), 
+        "status": k8s.get_cluster_status(json.loads(config).get("context"))
+        } for id, type, config in rows]
+    # for infra in infras:
+    #     infra['status'] = k8s.get_cluster_status(infra['infra_config']['context'])
     return {"infras": infras}
 
 

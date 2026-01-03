@@ -8,8 +8,13 @@ extends Resource
 
 @export var infra_config: Dictionary
 
+@export var status: Dictionary
 
-func _init(id: int, type: String, config: String) -> void:
+
+func _init(id: int, type: String, config, stat) -> void:
 	infra_id = id
 	infra_type = type
-	infra_config = JSON.parse_string(config)
+	infra_config = config
+	status = stat
+	#infra_config = JSON.parse_string(config)
+	#status = JSON.parse_string(stat)
