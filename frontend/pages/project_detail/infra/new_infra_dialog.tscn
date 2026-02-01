@@ -1,19 +1,19 @@
 [gd_scene format=3 uid="uid://d0vx2n1uumtnt"]
 
-[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_8h1i8"]
-[ext_resource type="Script" uid="uid://bn3fl685jjig7" path="res://autoloads/dialog/dialog_scene.gd" id="1_t4qso"]
-[ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="2_t4qso"]
-[ext_resource type="Script" uid="uid://ckmllcjdw4kal" path="res://pages/project_detail/infra/empty_infra_menu.gd" id="3_1dfm2"]
-[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="4_vb0mq"]
+[ext_resource type="Script" uid="uid://wm0k5cnt26m7" path="res://pages/project_detail/infra/new_infra_dialog.gd" id="1_oc3s3"]
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="2_s7nol"]
+[ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="3_hhpye"]
+[ext_resource type="Script" uid="uid://ckmllcjdw4kal" path="res://pages/project_detail/infra/empty_infra_menu.gd" id="4_gyf2r"]
+[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="5_hfby6"]
 
-[node name="InfraDialog" type="Control" unique_id=1882791825]
+[node name="NewInfraDialog" type="Control" unique_id=1882791825]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_t4qso")
+script = ExtResource("1_oc3s3")
 metadata/_custom_type_script = "uid://bn3fl685jjig7"
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1616736390]
@@ -32,7 +32,7 @@ grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="CenterContainer" unique_id=1745095863]
 layout_mode = 2
-theme = ExtResource("1_8h1i8")
+theme = ExtResource("2_s7nol")
 theme_type_variation = &"DialogPanel"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel" unique_id=1260561447]
@@ -62,7 +62,7 @@ toggle_mode = true
 button_pressed = true
 text = "EMPTY_INFRASTRUCTURE"
 alignment = 0
-script = ExtResource("2_t4qso")
+script = ExtResource("3_hhpye")
 metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=599550856]
@@ -79,7 +79,7 @@ theme_type_variation = &"ToggledMenuButton"
 toggle_mode = true
 text = "Flower"
 alignment = 0
-script = ExtResource("2_t4qso")
+script = ExtResource("3_hhpye")
 metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=182464876]
@@ -118,7 +118,7 @@ theme_override_constants/margin_bottom = 16
 [node name="EmptyInfraMenu" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=151320814]
 layout_mode = 2
 theme_override_constants/separation = 16
-script = ExtResource("3_1dfm2")
+script = ExtResource("4_gyf2r")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=223154245]
 layout_mode = 2
@@ -173,7 +173,7 @@ alignment = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LoadingSpinner" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=516609768 instance=ExtResource("4_vb0mq")]
+[node name="LoadingSpinner" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=516609768 instance=ExtResource("5_hfby6")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

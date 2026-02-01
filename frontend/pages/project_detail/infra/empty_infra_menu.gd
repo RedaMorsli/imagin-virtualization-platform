@@ -1,6 +1,8 @@
 extends VBoxContainer
 
 
+signal infra_created()
+
 @onready var infra_name: LineEdit = %EmptyInfraName
 @onready var infra_type: OptionButton = %EmptyInfraType
 @onready var node_count: SpinBox = %EmptyNodeCount
@@ -28,7 +30,6 @@ func _on_create_button_pressed() -> void:
 	)
 	if response.is_successful():
 		Events.infra_created.emit()
-		queue_free()
 	else:
 		buttons.show()
 		loading_spinner.hide()
