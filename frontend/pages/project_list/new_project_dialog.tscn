@@ -1,50 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcdyc3esl7los"]
+[gd_scene format=3 uid="uid://dcdyc3esl7los"]
 
 [ext_resource type="Script" uid="uid://cve7j0ak148nl" path="res://pages/project_list/new_project_dialog.gd" id="1_77njv"]
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_dulso"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="2_xjtpy"]
 
-[node name="NewProjectDialog" type="PanelContainer"]
+[node name="NewProjectDialog" type="PanelContainer" unique_id=997413681]
 offset_right = 200.0
 offset_bottom = 87.0
 theme = ExtResource("1_dulso")
 theme_type_variation = &"DialogPanel"
 script = ExtResource("1_77njv")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1681460588]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=1882963835]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="MarginContainer/VBox"]
+[node name="Label" type="Label" parent="MarginContainer/VBox" unique_id=997332154]
 layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "NEW_PROJECT"
 
-[node name="ProjectNameEdit" type="LineEdit" parent="MarginContainer/VBox"]
+[node name="ProjectNameEdit" type="LineEdit" parent="MarginContainer/VBox" unique_id=1749954249]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 placeholder_text = "PROJECT_NAME"
 
-[node name="CreateButton" type="Button" parent="MarginContainer/VBox"]
+[node name="CreateButton" type="Button" parent="MarginContainer/VBox" unique_id=909615080]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 text = "CREATE"
 
-[node name="LoadingSpinner" parent="MarginContainer/VBox" instance=ExtResource("2_xjtpy")]
+[node name="LoadingSpinner" parent="MarginContainer/VBox" unique_id=1766173055 instance=ExtResource("2_xjtpy")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="HTTPRequest" type="HTTPRequest" parent="MarginContainer/VBox"]
+[node name="HTTPRequest" type="HTTPRequest" parent="MarginContainer/VBox" unique_id=385926290]
 unique_name_in_owner = true
 
 [connection signal="pressed" from="MarginContainer/VBox/CreateButton" to="MarginContainer/VBox" method="_on_create_button_pressed"]

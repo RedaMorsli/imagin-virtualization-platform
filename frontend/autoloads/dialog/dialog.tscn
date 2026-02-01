@@ -1,13 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7kj6t6dudaua"]
+[gd_scene format=3 uid="uid://c7kj6t6dudaua"]
 
 [ext_resource type="Script" uid="uid://bbv8xvsyebkbs" path="res://autoloads/dialog/dialog.gd" id="1_n2md2"]
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="2_h6511"]
 
-[node name="Dialog" type="CanvasLayer"]
+[node name="Dialog" type="CanvasLayer" unique_id=743601426]
 layer = 3
 script = ExtResource("1_n2md2")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1819698526]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -15,7 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="DialogContainer" type="CenterContainer" parent="."]
+[node name="DialogContainer" type="CenterContainer" parent="." unique_id=169319562]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0

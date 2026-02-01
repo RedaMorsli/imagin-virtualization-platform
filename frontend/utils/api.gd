@@ -13,6 +13,7 @@ static var create_project_url: String = api_url + "projects/create"
 static var fetch_projects_url: String = api_url + "projects/fetch"
 static var create_infra_url: String = api_url + "infra/create"
 static var fetch_infras_url: String = api_url + "infra/fetch"
+static var fetch_kubeconfig_url: String = api_url + "infra/kubeconfig"
 
 
 func _init() -> void:

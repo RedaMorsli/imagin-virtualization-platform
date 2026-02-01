@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://v8pl058l81vh"]
+[gd_scene format=3 uid="uid://v8pl058l81vh"]
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_pjrb6"]
 [ext_resource type="Script" uid="uid://bh1v7v81w0172" path="res://pages/main/main.gd" id="2_4dugh"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cgd2ca7vik6q2" path="res://res/icons/sign-out.png" id="5_xkqaj"]
 [ext_resource type="PackedScene" uid="uid://e0fu8lh8ewl4" path="res://pages/project_list/project_page.tscn" id="6_2rgqa"]
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" unique_id=1046549022]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,7 @@ grow_vertical = 2
 theme = ExtResource("1_pjrb6")
 script = ExtResource("2_4dugh")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=630793633]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,22 +28,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="MainBreadcomb" type="PanelContainer" parent="VBoxContainer"]
+[node name="MainBreadcomb" type="PanelContainer" parent="VBoxContainer" unique_id=2122493282]
 layout_mode = 2
 theme_type_variation = &"TopPanel"
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainBreadcomb"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MainBreadcomb" unique_id=417613558]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainBreadcomb/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MainBreadcomb/MarginContainer" unique_id=1141064182]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Breadcomb" type="HBoxContainer" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer" node_paths=PackedStringArray("root")]
+[node name="Breadcomb" type="HBoxContainer" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer" unique_id=1229556403 node_paths=PackedStringArray("root")]
 layout_mode = 2
 theme_override_constants/separation = 8
 script = ExtResource("3_rth0c")
@@ -51,11 +51,11 @@ root = NodePath("../../../../MainContainer")
 separator_texture = ExtResource("4_rth0c")
 metadata/_custom_type_script = "uid://ch6xbre0ltmn3"
 
-[node name="Fill" type="Control" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer"]
+[node name="Fill" type="Control" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer" unique_id=339011105]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="UserButton" type="Button" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer"]
+[node name="UserButton" type="Button" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer" unique_id=614549230]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -65,16 +65,16 @@ text = "USER"
 icon = ExtResource("3_kfbq2")
 flat = true
 
-[node name="LogoutButton" type="Button" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer"]
+[node name="LogoutButton" type="Button" parent="VBoxContainer/MainBreadcomb/MarginContainer/HBoxContainer" unique_id=852344754]
 layout_mode = 2
 text = "LOGOUT_ACTION"
 icon = ExtResource("5_xkqaj")
 
-[node name="MainContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MainContainer" type="MarginContainer" parent="VBoxContainer" unique_id=20217637]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ProjectsList" parent="VBoxContainer/MainContainer" instance=ExtResource("6_2rgqa")]
+[node name="ProjectsList" parent="VBoxContainer/MainContainer" unique_id=1455651614 instance=ExtResource("6_2rgqa")]
 layout_mode = 2
 title = "PROJECTS"
 icon = ExtResource("2_pjrb6")

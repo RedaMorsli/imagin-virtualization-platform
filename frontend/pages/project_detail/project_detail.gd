@@ -1,7 +1,7 @@
 extends Page
 
 
-const NewInfraDialogScene = preload("uid://3sn0q3cri4f")
+const NewInfraDialogScene = preload("uid://d0vx2n1uumtnt")
 
 var project: Project
 

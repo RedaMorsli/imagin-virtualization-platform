@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dularfrh3frse"]
+[gd_scene format=3 uid="uid://dularfrh3frse"]
 
 [ext_resource type="Texture2D" uid="uid://dn6y3k61etnkb" path="res://res/icons/loading_circle.png" id="1_smulj"]
 [ext_resource type="Script" uid="uid://b7ymwcc5c3uni" path="res://components/loading/loading_spinner.gd" id="2_drfrm"]
 
-[node name="LoadingSpinner" type="TextureRect"]
+[node name="LoadingSpinner" type="TextureRect" unique_id=516609768]
 modulate = Color(0.89411765, 0, 0.19607843, 1)
 size_flags_horizontal = 4
 texture = ExtResource("1_smulj")

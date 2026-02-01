@@ -29,6 +29,15 @@ class FetchInfraResponse(BaseModel):
     infras: list[dict]
 
 
+class KubeconfigRequest(BaseModel):
+    project_id: int
+    infra_id: int
+
+
+class KubeconfigResponse(BaseModel):
+    kubeconfig: str
+
+
 # ============ ENDPOINTS ============
 
 
@@ -57,6 +66,18 @@ async def fetch_infras_endpoint(request: FetchInfraRequest, authorization: str =
             detail=str(e)
         )
 
+@router.get("/kubeconfig", response_model=KubeconfigResponse)
+async def fetch_kubeconfig_endpoint(request: KubeconfigRequest, authorization: str = Header(None)):
+    user = auth.get_user_by_token(auth.get_token(authorization))
+    try:
+        result = _get_kubeconfig(user['user_id'], request.project_id, request.infra_id)
+        return KubeconfigResponse(**result)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(e)
+        )
+
     
 # ============ LOGIC ============
 
@@ -67,8 +88,8 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
         raise ValueError("User does not have access to this project")
 
     existing = db.fetch_all(
-        "SELECT infra_name FROM Infra WHERE infra_name = ?",
-        params=[infra_config.get("name")],
+        "SELECT infra_name FROM Infra WHERE infra_name = ? AND project_id = ?",
+        params=[infra_config.get("name"), project_id],
     )
     if existing:
         raise ValueError("Infra already exists")
@@ -106,6 +127,35 @@ def _fetch_infras(user_id: int, project_id: int):
     # for infra in infras:
     #     infra['status'] = k8s.get_cluster_status(infra['infra_config']['context'])
     return {"infras": infras}
+
+
+def _get_kubeconfig(user_id: int, project_id: int, infra_id: int):
+    has_access = _user_has_project_access(user_id, project_id)
+    if not has_access:
+        raise ValueError("User does not have access to this project")
+
+    rows = db.fetch_all(
+        """
+        SELECT infra_config
+        FROM Infra
+        WHERE infra_id = ? AND project_id = ?
+        """,
+        params=[infra_id, project_id],
+    )
+
+    if not rows:
+        raise ValueError("Infra not found")
+
+    infra_config = json.loads(rows[0][0])
+    context = infra_config.get("context")
+    if not context:
+        raise ValueError("Infra kube context not found")
+    try:
+        kubeconfig_content = k8s.get_raw_kubeconfig(context, rewrite_host="localhost")
+    except Exception as exc:
+        raise ValueError(f"Failed to load kubeconfig: {exc}") from exc
+
+    return {"kubeconfig": kubeconfig_content}
 
 
 def _user_has_project_access(user_id: int, project_id: int) -> bool:

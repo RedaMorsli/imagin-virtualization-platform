@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://mxkh85ivueaw"]
+[gd_scene format=3 uid="uid://mxkh85ivueaw"]
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_cneet"]
 [ext_resource type="Script" uid="uid://d1h4k7ppv2elx" path="res://pages/auth/login_page.gd" id="2_0yw1h"]
@@ -25,7 +25,7 @@ bg_color = Color(1, 1, 1, 1)
 font = ExtResource("11_l1k4r")
 font_color = Color(0, 0, 0, 0.8)
 
-[node name="LoginPage" type="Control"]
+[node name="LoginPage" type="Control" unique_id=1247595105]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +35,7 @@ grow_vertical = 2
 theme = ExtResource("1_cneet")
 script = ExtResource("2_0yw1h")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=376539674]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,12 +44,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="Background" type="Control" parent="HBoxContainer"]
+[node name="Background" type="Control" parent="HBoxContainer" unique_id=325677416]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Background"]
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Background" unique_id=133131737]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,7 +61,7 @@ texture = ExtResource("2_7nvp7")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Background"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Background" unique_id=818430320]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,10 +73,10 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Background/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Background/MarginContainer" unique_id=1507917239]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/Background/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/Background/MarginContainer/VBoxContainer" unique_id=1830294104]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -85,33 +85,33 @@ label_settings = SubResource("LabelSettings_51wku")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="HBoxContainer/Background/MarginContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="HBoxContainer/Background/MarginContainer/VBoxContainer" unique_id=1199667479]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Footer" type="HBoxContainer" parent="HBoxContainer/Background/MarginContainer/VBoxContainer"]
+[node name="Footer" type="HBoxContainer" parent="HBoxContainer/Background/MarginContainer/VBoxContainer" unique_id=118221461]
 layout_mode = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Background/MarginContainer/VBoxContainer/Footer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Background/MarginContainer/VBoxContainer/Footer" unique_id=377785062]
 layout_mode = 2
 size_flags_horizontal = 2
 texture = ExtResource("8_xt4ks")
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Background/MarginContainer/VBoxContainer/Footer"]
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/Background/MarginContainer/VBoxContainer/Footer" unique_id=1468068161]
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("9_ygeuu")
 stretch_mode = 5
 
-[node name="LoginPanel" type="PanelContainer" parent="HBoxContainer"]
+[node name="LoginPanel" type="PanelContainer" parent="HBoxContainer" unique_id=275211015]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_jymx3")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/LoginPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/LoginPanel" unique_id=752583021]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -120,25 +120,25 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/LoginPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/LoginPanel/MarginContainer" unique_id=2067731479]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer" unique_id=2144446481]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=477303273]
 modulate = Color(0, 0, 0, 0.6)
 layout_mode = 2
 texture = ExtResource("4_eyhwf")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="LanguageButton" type="OptionButton" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LanguageButton" type="OptionButton" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=70838192]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -150,48 +150,48 @@ popup/item_1/text = "FR"
 popup/item_1/id = 1
 script = ExtResource("7_eyhwf")
 
-[node name="Fill" type="Control" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
+[node name="Fill" type="Control" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer" unique_id=64358779]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer" unique_id=737718673]
 layout_mode = 2
 text = "LOGIN_TITLE"
 label_settings = ExtResource("5_0yw1h")
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer" unique_id=1823815386]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="UsernameEdit" type="LineEdit" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="UsernameEdit" type="LineEdit" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1806729981]
 unique_name_in_owner = true
 modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 placeholder_text = "USERNAME"
-right_icon = ExtResource("6_48xq2")
 caret_blink = true
+right_icon = ExtResource("6_48xq2")
 
-[node name="PasswordEdit" type="LineEdit" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="PasswordEdit" type="LineEdit" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1475724961]
 unique_name_in_owner = true
 modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 placeholder_text = "PASSWORD"
-right_icon = ExtResource("7_8hty6")
 caret_blink = true
 secret = true
 secret_character = "●"
+right_icon = ExtResource("7_8hty6")
 
-[node name="ErrorLabel" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="ErrorLabel" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" unique_id=936181338]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_type_variation = &"ErrorLabel"
 text = "Error message"
 
-[node name="LoginButton" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="LoginButton" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" unique_id=796685219]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -199,23 +199,23 @@ mouse_default_cursor_shape = 2
 theme_type_variation = &"PrimaryButton"
 text = "LOGIN_ACTION"
 
-[node name="VerifyButton" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="VerifyButton" type="Button" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1395784446]
 visible = false
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 text = "Verify Session"
 
-[node name="LoadingSpinner" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("8_7nvp7")]
+[node name="LoadingSpinner" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" unique_id=336942995 instance=ExtResource("8_7nvp7")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="Fill2" type="Control" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
+[node name="Fill2" type="Control" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer" unique_id=525869631]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label2" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer" unique_id=806810760]
 layout_mode = 2
 text = "v0.0.0"
 label_settings = SubResource("LabelSettings_eyhwf")

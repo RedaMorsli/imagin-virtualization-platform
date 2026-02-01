@@ -1,9 +1,25 @@
-[gd_resource type="Theme" load_steps=25 format=3 uid="uid://blo6rjqneyoaq"]
+[gd_resource type="Theme" format=3 uid="uid://blo6rjqneyoaq"]
 
 [ext_resource type="FontFile" uid="uid://bwcailw5m6y3d" path="res://res/fonts/Delta Jaeger Book.ttf" id="1_kr2q4"]
 [ext_resource type="FontFile" uid="uid://565giitnrh3m" path="res://res/fonts/Delta Jaeger Light.ttf" id="2_g26t5"]
 [ext_resource type="Texture2D" uid="uid://c2j0fckb7gk3b" path="res://res/icons/circle.png" id="3_kinop"]
 [ext_resource type="Texture2D" uid="uid://c6dbxaj52o1st" path="res://res/icons/check-circle.png" id="3_pnvcd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uspo"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.4)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nkrwj"]
 content_margin_left = 8.0
@@ -224,13 +240,14 @@ Button/colors/font_disabled_color = Color(0, 0, 0, 0.4)
 Button/colors/font_hover_color = Color(0, 0, 0, 0.8)
 Button/colors/font_hover_pressed_color = Color(0, 0, 0, 0.8)
 Button/colors/font_pressed_color = Color(0, 0, 0, 0.8)
+Button/colors/icon_disabled_color = Color(0, 0, 0, 0.4)
 Button/colors/icon_hover_color = Color(0, 0, 0, 1)
 Button/colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
 Button/colors/icon_normal_color = Color(0, 0, 0, 1)
 Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
 Button/font_sizes/font_size = 18
 Button/fonts/font = ExtResource("1_kr2q4")
-Button/styles/disabled = SubResource("StyleBoxFlat_nkrwj")
+Button/styles/disabled = SubResource("StyleBoxFlat_3uspo")
 Button/styles/hover = SubResource("StyleBoxFlat_nkrwj")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_nkrwj")
 Button/styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_nkrwj")

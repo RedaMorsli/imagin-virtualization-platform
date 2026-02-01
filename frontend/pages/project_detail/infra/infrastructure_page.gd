@@ -7,6 +7,7 @@ const InfraItemScene = preload("uid://c5bygne2f7jso")
 @onready var loading_spinner: TextureRect = %LoadingSpinner
 @onready var empty_label: Label = %EmptyLabel
 @onready var error_label: Label = %ErrorLabel
+@onready var kubeconfig_button: Button = %KubeconfigButton
 
 
 func _ready() -> void:
@@ -38,9 +39,33 @@ func _fetch_infras():
 	if not infras or infras.is_empty():
 		empty_label.show()
 		return
+	
+	var is_there_cluster = false
+	
 	for i: Dictionary in infras:
 		var infra: Infra = Infra.new.callv(i.values())
 		var item = InfraItemScene.instantiate()
 		item.infra = infra
 		infra_container.add_child(item)
+		if infra.infra_type == 'cluster':
+			is_there_cluster = true
+	
+	kubeconfig_button.visible = is_there_cluster
 	infra_container.show()
+
+
+func _on_kubeconfig_button_pressed() -> void:
+	var response = await Http.send_request(
+		API.fetch_kubeconfig_url,
+		Auth.HTTP_HEADER,
+		HTTPClient.METHOD_GET,
+		{
+			'project_id': Context.project.project_id,
+			'infra_id': infra_container.get_children()[0].infra.infra_id
+		},
+		"Failed to fetch kubeconfig"
+	)
+	if not response.is_successful():
+		printerr("Error while fetching cluster config file")
+		return
+	DisplayServer.clipboard_set(response.get_data()['kubeconfig'])
