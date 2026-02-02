@@ -2,10 +2,29 @@ import os
 from urllib.parse import urlparse, urlunparse
 
 import yaml
-from kubernetes import client, config
+from kubernetes import client, config, utils
 from kubernetes.config import kube_config
 from kubernetes.config.config_exception import ConfigException
 from urllib3.exceptions import HTTPError as Urllib3HTTPError, MaxRetryError
+
+
+def apply_manifest(context: str, manifest_dict: dict) -> None:
+    if not context:
+        raise ValueError("context is required")
+
+    try:
+        config.load_kube_config(context=context)
+    except ConfigException as exc:
+        raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
+
+    k8s_client = client.ApiClient()
+
+    try:
+        utils.create_from_dict(k8s_client, manifest_dict)
+    except utils.FailToCreateError as exc:
+        raise RuntimeError("failed to apply manifest to cluster") from exc
+    except client.ApiException as exc:
+        raise RuntimeError("failed to apply manifest to cluster") from exc
 
 
 def get_raw_kubeconfig(context: str | None = None, rewrite_host: str | None = None) -> str:

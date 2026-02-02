@@ -20,3 +20,4 @@ EMPTY_INFRASTRUCTURE,Empty infrastructure,Infrastructure vide
 CANCEL,Cancel,Annuler
 INFRA_NAME,Infrastructure name,Nom de l'infrastructure
 INFRA_TYPE,Infrastructure type,Type d'infrastructure
+NUM_NODES, Number of nodes, Nombre de nœud

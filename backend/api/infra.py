@@ -18,6 +18,7 @@ class CreateInfraRequest(BaseModel):
     project_id: int
     infra_type: str
     infra_config: dict
+    provision: dict | None = None
 
 
 class FetchInfraRequest(BaseModel):
@@ -45,7 +46,7 @@ class KubeconfigResponse(BaseModel):
 async def create_infra_endpoint(request: CreateInfraRequest, authorization: str = Header(None)):
     user = auth.get_user_by_token(auth.get_token(authorization))
     try:
-        result = _create_infra(user['user_id'], request.project_id, request.infra_type, request.infra_config)
+        result = _create_infra(user['user_id'], request.project_id, request.infra_type, request.infra_config, request.provision)
         return Response(status_code=status.HTTP_200_OK)
     except ValueError as e:
         raise HTTPException(
@@ -82,7 +83,7 @@ async def fetch_kubeconfig_endpoint(request: KubeconfigRequest, authorization: s
 # ============ LOGIC ============
 
 
-def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: dict):
+def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: dict, provision: dict = None):
     has_access = _user_has_project_access(user_id, project_id)
     if not has_access:
         raise ValueError("User does not have access to this project")
@@ -98,6 +99,10 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
     if infra_type == "cluster":
         from infra.k3d import create_k3d_cluster
         cluster_output = create_k3d_cluster(infra_config)
+        if provision is not None:
+            if provision['name'] == "flower":
+                from infra.flower import provision_flower_on_cluster
+                provision_flower_on_cluster(infra_config['context'], provision)
 
     db.execute(
         "INSERT INTO Infra (project_id, infra_name, infra_type, infra_config) VALUES (?, ?, ?, ?)",

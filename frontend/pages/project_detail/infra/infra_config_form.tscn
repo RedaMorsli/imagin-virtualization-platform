@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://bmpkog4otww8g"]
+
+[ext_resource type="Script" uid="uid://bsevnpd7eb5ry" path="res://pages/project_detail/infra/infra_config_form.gd" id="1_puhg2"]
+
+[node name="InfraConfigForm" type="VBoxContainer" unique_id=1403315222]
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+script = ExtResource("1_puhg2")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=360508496]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer2" unique_id=397702383]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "INFRA_NAME"
+
+[node name="EmptyInfraName" type="LineEdit" parent="HBoxContainer2" unique_id=1389729798]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "INFRA_NAME"
+caret_blink = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="." unique_id=491261942]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer3" unique_id=2053299619]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "INFRA_TYPE"
+
+[node name="EmptyInfraType" type="OptionButton" parent="HBoxContainer3" unique_id=25530222]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "Cluster"
+popup/item_0/id = 0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="." unique_id=186024333]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer4" unique_id=392932532]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "NUM_NODES"
+
+[node name="EmptyNodeCount" type="SpinBox" parent="HBoxContainer4" unique_id=1778071820]
+unique_name_in_owner = true
+layout_mode = 2
+value = 1.0
+alignment = 2
+
+[node name="Control" type="Control" parent="." unique_id=989499127]
+layout_mode = 2
+size_flags_vertical = 3
