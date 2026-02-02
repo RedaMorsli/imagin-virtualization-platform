@@ -20,4 +20,13 @@ EMPTY_INFRASTRUCTURE,Empty infrastructure,Infrastructure vide
 CANCEL,Cancel,Annuler
 INFRA_NAME,Infrastructure name,Nom de l'infrastructure
 INFRA_TYPE,Infrastructure type,Type d'infrastructure
-NUM_NODES, Number of nodes, Nombre de nœud
+NO_INFRA_MSG,No infrastructure found,Aucune infrastructure trouvé
+NUM_NODES, Number of nodes,Nombre de nœuds
+CON_REGISTRY,Container registry,Registre de conteneurs
+REGISTRIES,Registries,Registres
+SEARCH_REGISTRIES,Search for registries,Trouver des registres
+NO_REGISTRY_MSG,No registry found,Aucun registre trouvé
+NEW_REGISTRY,New registry,Nouveau registre
+NEW_REGISTRY,New registry,Nouveau registre
+REGISTRY_NAME,Registry name,Nom du registre
+HOST_PORT,Host port,Port

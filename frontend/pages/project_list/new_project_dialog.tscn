@@ -44,8 +44,4 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="HTTPRequest" type="HTTPRequest" parent="MarginContainer/VBox" unique_id=385926290]
-unique_name_in_owner = true
-
-[connection signal="pressed" from="MarginContainer/VBox/CreateButton" to="MarginContainer/VBox" method="_on_create_button_pressed"]
-[connection signal="request_completed" from="MarginContainer/VBox/HTTPRequest" to="MarginContainer/VBox" method="_on_http_request_request_completed"]
+[connection signal="pressed" from="MarginContainer/VBox/CreateButton" to="." method="_on_create_button_pressed"]

@@ -50,3 +50,42 @@ def create_k3d_cluster(config: Dict[str, Any]) -> str:
     config['context'] = 'k3d-' + config.get("name")
 
     return result.stdout.strip()
+
+
+def create_k3d_registry(config: Dict[str, Any]) -> str:
+    """
+    Create a local container registry managed by k3d.
+
+    Expected config keys:
+      - name (str): registry name (required)
+      - port (int|str, optional): host port to expose (default: 5000)
+      - host (str, optional): host interface (default: 0.0.0.0)
+      - proxy_remote (str, optional): remote registry to proxy (passed to k3d)
+    """
+    name = config.get("name")
+    if not name:
+        raise ValueError("config must include 'name'")
+
+    port = str(config.get("port", 5000))
+    host = config.get("host", "0.0.0.0")
+
+    port_flag = f"{host}:{port}"
+
+    cmd = ["k3d", "registry", "create", name, "--port", port_flag]
+
+    proxy_remote = config.get("proxy_remote")
+    if proxy_remote:
+        cmd.extend(["--proxy-remote-registry", proxy_remote])
+
+    result = subprocess.run(
+        cmd,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        error_output = result.stderr.strip() or result.stdout.strip()
+        raise RuntimeError(f"k3d registry creation failed: {error_output}")
+
+    return result.stdout.strip()

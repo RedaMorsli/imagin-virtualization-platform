@@ -2,7 +2,7 @@ class_name NavigationButton
 extends Button
 
 # When the nav button is pressed, show the selected node and hide all other siblings
-@export var nav_container: Container
+@export var nav_node: Control
 @export var press_on_ready: bool = false
 #@export var title: String
 
@@ -17,5 +17,5 @@ func _ready() -> void:
 
 
 func _on_nav_button_pressed():
-	for child: CanvasItem in nav_container.get_parent().get_children():
-		child.visible = child == nav_container
+	for child: CanvasItem in nav_node.get_parent().get_children():
+		child.visible = child == nav_node

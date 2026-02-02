@@ -1,8 +1,6 @@
 extends Page
 
 
-const NewInfraDialogScene = preload("uid://d0vx2n1uumtnt")
-
 var project: Project
 
 
@@ -14,7 +12,3 @@ func _ready() -> void:
 		return
 	
 	title = project.project_name
-
-
-func _on_new_infra_button_pressed() -> void:
-	Dialog.popup(NewInfraDialogScene)

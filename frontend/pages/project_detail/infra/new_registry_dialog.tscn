@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://dtnaw4i02hsbv"]
+
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_2kmfx"]
+[ext_resource type="Script" uid="uid://7bxjsg0xib05" path="res://pages/project_detail/infra/new_registry_dialog.gd" id="2_2kmfx"]
+[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="3_tep33"]
+
+[node name="NewRegistryDialog" type="PanelContainer" unique_id=911415833]
+offset_right = 232.0
+offset_bottom = 263.0
+theme = ExtResource("1_2kmfx")
+theme_type_variation = &"DialogPanel"
+script = ExtResource("2_2kmfx")
+metadata/_custom_type_script = "uid://bn3fl685jjig7"
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=143145513]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=546660726]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/VBox" unique_id=1720065220]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "NEW_REGISTRY"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBox" unique_id=1247259643]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/VBoxContainer" unique_id=80327071]
+layout_mode = 2
+theme_type_variation = &"PrimaryText"
+text = "REGISTRY_NAME"
+
+[node name="NameEdit" type="LineEdit" parent="MarginContainer/VBox/VBoxContainer" unique_id=984287241]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+placeholder_text = "REGISTRY_NAME"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBox" unique_id=1562953330]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/VBoxContainer2" unique_id=135351982]
+layout_mode = 2
+theme_type_variation = &"PrimaryText"
+text = "HOST_PORT"
+
+[node name="PortEdit" type="SpinBox" parent="MarginContainer/VBox/VBoxContainer2" unique_id=572766396]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+max_value = 65535.0
+value = 5000.0
+
+[node name="CreateButton" type="Button" parent="MarginContainer/VBox" unique_id=1295098620]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "CREATE"
+
+[node name="LoadingSpinner" parent="MarginContainer/VBox" unique_id=516609768 instance=ExtResource("3_tep33")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[connection signal="pressed" from="MarginContainer/VBox/CreateButton" to="." method="_on_create_button_pressed"]

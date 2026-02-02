@@ -56,6 +56,18 @@ async def create_project_endpoint(authorization: str = Header(None)):
 # ============ LOGIC ============
 
 
+def user_has_project_access(user_id: int, project_id: int) -> bool:
+    access = db.fetch_all(
+        """
+        SELECT 1
+        FROM ProjectUsers
+        WHERE project_id = ? AND user_id = ?
+        """,
+        params=[project_id, user_id]
+    )
+    return bool(access)
+
+
 def _create_project(project_name: str, user_id: int):
     existing = db.fetch_all(
         "SELECT project_id FROM Projects WHERE project_name = ?",

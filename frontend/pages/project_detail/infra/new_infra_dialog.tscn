@@ -59,7 +59,7 @@ layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "Templates"
 
-[node name="NavEmptyInfra" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=337894270 node_paths=PackedStringArray("nav_container")]
+[node name="NavEmptyInfra" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=337894270 node_paths=PackedStringArray("nav_node")]
 layout_mode = 2
 theme_type_variation = &"ToggledMenuButton"
 toggle_mode = true
@@ -68,7 +68,7 @@ button_group = SubResource("ButtonGroup_hhpye")
 text = "EMPTY_INFRASTRUCTURE"
 alignment = 0
 script = ExtResource("3_hhpye")
-nav_container = NodePath("../../../Container/EmptyInfraMenu")
+nav_node = NodePath("../../../Container/EmptyInfraMenu")
 press_on_ready = true
 metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 
@@ -80,7 +80,7 @@ layout_mode = 2
 theme_type_variation = &"SecondaryText"
 text = "Federated Learning"
 
-[node name="NavFlower" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=995687180 node_paths=PackedStringArray("nav_container")]
+[node name="NavFlower" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=995687180 node_paths=PackedStringArray("nav_node")]
 layout_mode = 2
 theme_type_variation = &"ToggledMenuButton"
 toggle_mode = true
@@ -88,7 +88,7 @@ button_group = SubResource("ButtonGroup_hhpye")
 text = "Flower"
 alignment = 0
 script = ExtResource("3_hhpye")
-nav_container = NodePath("../../../../Container/Flower")
+nav_node = NodePath("../../../../Container/Flower")
 metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=182464876]

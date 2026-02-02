@@ -5,11 +5,13 @@
 [ext_resource type="Texture2D" uid="uid://c24q0fe8gs41" path="res://res/icons/globe.png" id="3_c7bj0"]
 [ext_resource type="Texture2D" uid="uid://brgbcjbpucoe4" path="res://res/icons/user.png" id="4_pp7d2"]
 [ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="4_u7wto"]
+[ext_resource type="Texture2D" uid="uid://bx8faf1yyncs" path="res://res/icons/shipping-container.png" id="5_3l63w"]
 [ext_resource type="Script" uid="uid://by6qd688rspu3" path="res://pages/project_detail/infra/infrastructure_page.gd" id="6_qcnkj"]
 [ext_resource type="Texture2D" uid="uid://dujpwevouq8ab" path="res://res/icons/magnifying-glass-bold.png" id="6_xj1s1"]
 [ext_resource type="Texture2D" uid="uid://brwgvk21r4atj" path="res://res/icons/plus-bold.png" id="7_qcnkj"]
 [ext_resource type="Texture2D" uid="uid://dcr8ydwrdkrl2" path="res://res/icons/clipboard-text.png" id="8_3l63w"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="8_jo66n"]
+[ext_resource type="Script" uid="uid://vwnqxhqykekx" path="res://pages/project_detail/registry_page.gd" id="12_y577k"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_u7wto"]
 
@@ -49,20 +51,35 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="InfraButton" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=362300402]
+[node name="NavInfra" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=362300402 node_paths=PackedStringArray("nav_node")]
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"ToggledMenuButton"
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_u7wto")
-text = "Infrastructures"
+text = "INFRASTRUCTURES"
 icon = ExtResource("3_c7bj0")
 alignment = 0
 script = ExtResource("4_u7wto")
+nav_node = NodePath("../../../../PageContainer/InfrastructurePage")
+press_on_ready = true
 metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 
-[node name="UsersButton" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=1864501826]
+[node name="NavRegistry" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=2129660620 node_paths=PackedStringArray("nav_node")]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"ToggledMenuButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_u7wto")
+text = "CON_REGISTRY"
+icon = ExtResource("5_3l63w")
+alignment = 0
+script = ExtResource("4_u7wto")
+nav_node = NodePath("../../../../PageContainer/RegistryPage")
+metadata/_custom_type_script = "uid://dkubfa6ljlc86"
+
+[node name="NavUsers" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=1864501826]
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"ToggledMenuButton"
@@ -79,6 +96,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="InfrastructurePage" type="Control" parent="HBox/PageContainer" unique_id=2144654257]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,9 +122,6 @@ theme_override_constants/margin_bottom = 32
 layout_mode = 2
 theme = ExtResource("1_5rb0n")
 theme_override_constants/separation = 32
-
-[node name="FetchHTTPRequest" type="HTTPRequest" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=2079639190]
-unique_name_in_owner = true
 
 [node name="Label" type="Label" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=561921378]
 layout_mode = 2
@@ -166,7 +181,7 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"SecondaryText"
-text = "NO_PROJECT_MSG"
+text = "NO_INFRA_MSG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -180,5 +195,93 @@ text = "NO_PROJECT_MSG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="RegistryPage" type="Control" parent="HBox/PageContainer" unique_id=1089204034]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_y577k")
+metadata/_custom_type_script = "uid://7hfidwmjf3x7"
+
+[node name="MarginContainer" type="MarginContainer" parent="HBox/PageContainer/RegistryPage" unique_id=1989576953]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="HBox/PageContainer/RegistryPage/MarginContainer" unique_id=268297111]
+layout_mode = 2
+theme = ExtResource("1_5rb0n")
+theme_override_constants/separation = 32
+
+[node name="Label" type="Label" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox" unique_id=180758309]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "REGISTRIES"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox" unique_id=1257029959]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox/HBoxContainer" unique_id=243833894]
+modulate = Color(0, 0, 0, 0.8)
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_type_variation = &"SearchBar"
+placeholder_text = "SEARCH_REGISTRIES"
+caret_blink = true
+right_icon = ExtResource("6_xj1s1")
+
+[node name="Control" type="Control" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox/HBoxContainer" unique_id=2030141760]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NewButton" type="Button" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox/HBoxContainer" unique_id=1465343456]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"PrimaryButton"
+text = "NEW_REGISTRY"
+icon = ExtResource("7_qcnkj")
+
+[node name="LoadingSpinner" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox" unique_id=516609768 instance=ExtResource("8_jo66n")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="RegistryContainer" type="GridContainer" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox" unique_id=1165433144]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="EmptyLabel" type="Label" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox" unique_id=55200427]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"SecondaryText"
+text = "NO_REGISTRY_MSG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ErrorLabel" type="Label" parent="HBox/PageContainer/RegistryPage/MarginContainer/VBox" unique_id=1795770466]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"ErrorLabel"
+text = "NO_PROJECT_MSG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer/KubeconfigButton" to="HBox/PageContainer/InfrastructurePage" method="_on_kubeconfig_button_pressed"]
-[connection signal="pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer/NewInfraButton" to="." method="_on_new_infra_button_pressed"]
+[connection signal="pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer/NewInfraButton" to="HBox/PageContainer/InfrastructurePage" method="_on_new_infra_button_pressed"]
+[connection signal="pressed" from="HBox/PageContainer/RegistryPage/MarginContainer/VBox/HBoxContainer/NewButton" to="HBox/PageContainer/RegistryPage" method="_on_new_button_pressed"]

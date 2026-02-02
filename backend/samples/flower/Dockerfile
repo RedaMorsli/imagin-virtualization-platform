@@ -9,17 +9,18 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+# Copy application code
+COPY samples/flower .
+
+
 # Install runtime dependencies
-COPY samples/flower/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY samples ./samples
 
 # Choose role at build- or run-time: server | client
 ARG APP_ROLE=server
 ENV APP_ROLE=${APP_ROLE}
 
 # Run the selected role
-ENTRYPOINT ["sh", "-c", "python -m samples.flower.${APP_ROLE}"]
+ENTRYPOINT ["sh", "-c", "python -m ${APP_ROLE}"]

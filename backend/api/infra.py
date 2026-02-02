@@ -5,6 +5,7 @@ import db
 import api.auth as auth
 import json
 import infra.k8s as k8s
+from api.project import user_has_project_access
 
 router = APIRouter(
     prefix="/infra",
@@ -67,6 +68,7 @@ async def fetch_infras_endpoint(request: FetchInfraRequest, authorization: str =
             detail=str(e)
         )
 
+
 @router.get("/kubeconfig", response_model=KubeconfigResponse)
 async def fetch_kubeconfig_endpoint(request: KubeconfigRequest, authorization: str = Header(None)):
     user = auth.get_user_by_token(auth.get_token(authorization))
@@ -84,7 +86,7 @@ async def fetch_kubeconfig_endpoint(request: KubeconfigRequest, authorization: s
 
 
 def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: dict, provision: dict = None):
-    has_access = _user_has_project_access(user_id, project_id)
+    has_access = user_has_project_access(user_id, project_id)
     if not has_access:
         raise ValueError("User does not have access to this project")
 
@@ -111,7 +113,7 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
     
 
 def _fetch_infras(user_id: int, project_id: int):
-    has_access = _user_has_project_access(user_id, project_id)
+    has_access = user_has_project_access(user_id, project_id)
     if not has_access:
         raise ValueError("User does not have access to this project")
     
@@ -127,7 +129,11 @@ def _fetch_infras(user_id: int, project_id: int):
         "infra_id": id, 
         "infra_type": type, 
         "infra_config": json.loads(config), 
-        "status": k8s.get_cluster_status(json.loads(config).get("context"))
+        "status": (
+            k8s.get_cluster_status(json.loads(config).get("context"))
+            if type == "cluster" and json.loads(config).get("context")
+            else {}
+        ),
         } for id, type, config in rows]
     # for infra in infras:
     #     infra['status'] = k8s.get_cluster_status(infra['infra_config']['context'])
@@ -135,7 +141,7 @@ def _fetch_infras(user_id: int, project_id: int):
 
 
 def _get_kubeconfig(user_id: int, project_id: int, infra_id: int):
-    has_access = _user_has_project_access(user_id, project_id)
+    has_access = user_has_project_access(user_id, project_id)
     if not has_access:
         raise ValueError("User does not have access to this project")
 
@@ -163,13 +169,5 @@ def _get_kubeconfig(user_id: int, project_id: int, infra_id: int):
     return {"kubeconfig": kubeconfig_content}
 
 
-def _user_has_project_access(user_id: int, project_id: int) -> bool:
-    access = db.fetch_all(
-        """
-        SELECT 1
-        FROM ProjectUsers
-        WHERE project_id = ? AND user_id = ?
-        """,
-        params=[project_id, user_id]
-    )
-    return bool(access)
+
+

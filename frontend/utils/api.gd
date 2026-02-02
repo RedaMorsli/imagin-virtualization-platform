@@ -14,6 +14,7 @@ static var fetch_projects_url: String = api_url + "projects/fetch"
 static var create_infra_url: String = api_url + "infra/create"
 static var fetch_infras_url: String = api_url + "infra/fetch"
 static var fetch_kubeconfig_url: String = api_url + "infra/kubeconfig"
+static var create_registry_url: String = api_url + "registry/create"
 
 
 func _init() -> void:

@@ -1,6 +1,7 @@
 extends Page
 
 
+const NewInfraDialogScene = preload("uid://d0vx2n1uumtnt")
 const InfraItemScene = preload("uid://c5bygne2f7jso")
 
 @onready var infra_container: GridContainer = %InfraContainer
@@ -69,3 +70,7 @@ func _on_kubeconfig_button_pressed() -> void:
 		printerr("Error while fetching cluster config file")
 		return
 	DisplayServer.clipboard_set(response.get_data()['kubeconfig'])
+
+
+func _on_new_infra_button_pressed() -> void:
+	Dialog.popup(NewInfraDialogScene)

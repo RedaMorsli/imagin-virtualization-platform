@@ -1,5 +1,5 @@
 class_name DialogScene
-extends Control
+extends PanelContainer
 
 
 signal completed()
