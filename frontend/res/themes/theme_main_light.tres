@@ -146,6 +146,9 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbwnr"]
+draw_center = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g26t5"]
 content_margin_left = 8.0
 content_margin_right = 8.0
@@ -302,6 +305,8 @@ FlatButton/styles/hover = SubResource("StyleBoxFlat_drxg4")
 FlatButton/styles/hover_pressed = SubResource("StyleBoxFlat_drxg4")
 FlatButton/styles/normal = SubResource("StyleBoxFlat_drxg4")
 FlatButton/styles/pressed = SubResource("StyleBoxFlat_drxg4")
+FlatMenuButton/colors/icon_hover_color = Color(0, 0, 0, 1)
+FlatMenuButton/colors/icon_normal_color = Color(0, 0, 0, 0.4)
 HeaderLarge/colors/font_color = Color(0, 0, 0, 1)
 HeaderMedium/colors/font_color = Color(0, 0, 0, 1)
 HeaderSmall/colors/font_color = Color(0, 0, 0, 1)
@@ -340,7 +345,7 @@ PopupMenu/colors/font_hover_color = Color(0, 0, 0, 0.8)
 PopupMenu/colors/icon_color = Color(0, 0, 0, 0.6)
 PopupMenu/icons/radio_checked = ExtResource("3_pnvcd")
 PopupMenu/icons/radio_unchecked = ExtResource("3_kinop")
-PopupMenu/styles/hover = SubResource("StyleBoxFlat_g26t5")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_lbwnr")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_g26t5")
 PrimaryButton/base_type = &"Button"
 PrimaryButton/colors/font_color = Color(1, 1, 1, 1)

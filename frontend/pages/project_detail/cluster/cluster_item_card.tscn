@@ -5,9 +5,7 @@
 
 [node name="ClusterItemCard" unique_id=292612764 instance=ExtResource("1_15u1j")]
 script = ExtResource("2_l8pvq")
-
-[node name="TitleLabel" parent="MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(1095869547) index="0" unique_id=1791249727]
-size_flags_horizontal = 3
+menu_options = Array[String](["Copy kubeconfig"])
 
 [node name="StatusLabel" type="Label" parent="MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(1095869547) index="1" unique_id=2061303325]
 unique_name_in_owner = true
@@ -18,6 +16,7 @@ text = "Running"
 [node name="Nodes" type="HBoxContainer" parent="MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(1095869547) index="2" unique_id=1131292560]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 alignment = 1
 
 [node name="AvailableNodesLabel" type="Label" parent="MarginContainer/HBoxContainer/Nodes" index="0" unique_id=2135615719]
@@ -41,3 +40,5 @@ text = "2"
 layout_mode = 2
 theme_type_variation = &"SecondaryText"
 text = "Nodes"
+
+[connection signal="menu_option_pressed" from="." to="." method="_on_option_pressed"]
