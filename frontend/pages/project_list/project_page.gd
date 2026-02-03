@@ -8,8 +8,7 @@ const ProjectItemScene = preload("uid://becyat4dcn7ka")
 @onready var project_container: GridContainer = %ProjectContainer
 @onready var loading_spinner: TextureRect = %LoadingSpinner
 @onready var empty_label: Label = %EmptyLabel
-
-var projects: = []
+@onready var project_managment_view: ItemManagementView = %ItemManagmentView
 
 
 func _ready() -> void:
@@ -22,30 +21,9 @@ func _on_new_project_button_pressed() -> void:
 
 
 func _fetch_projects():
-	var response = await Http.send_request(
-		API.fetch_projects_url,
-		Auth.HTTP_HEADER,
-		HTTPClient.METHOD_GET,
-		{},
-		"Failed to fetch projects"
-	)
-	projects = response.get_data()['projects']
-	for child in project_container.get_children():
-		child.queue_free()
-	if not projects:
-		loading_spinner.hide()
-		empty_label.show()
-		return
-	for project in projects:
-		var item: ProjectItem = ProjectItemScene.instantiate()
-		item.project = Project.new(project.project_id, project.project_name, "Empty Project")
-		item.project_pressed.connect(_on_project_pressed)
-		project_container.add_child(item)
-	loading_spinner.hide()
-	project_container.visible = not projects.is_empty()
-	empty_label.visible = projects.is_empty()
+	project_managment_view.fetch()
 
 
-func _on_project_pressed(project: Project):
-	Context.project = project
-	push_page(PageCatalog.project_detail, [project])
+func _on_item_managment_view_item_pressed(item_card: ItemCard) -> void:
+	Context.project = item_card.item
+	push_page(PageCatalog.project_detail, [item_card.item])

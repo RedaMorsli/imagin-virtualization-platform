@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://bmpkog4otww8g"]
 
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_5q7g4"]
 [ext_resource type="Script" uid="uid://bsevnpd7eb5ry" path="res://pages/project_detail/infra/infra_config_form.gd" id="1_puhg2"]
 
 [node name="InfraConfigForm" type="VBoxContainer" unique_id=1403315222]
 size_flags_vertical = 3
+theme = ExtResource("1_5q7g4")
 theme_override_constants/separation = 16
 script = ExtResource("1_puhg2")
 

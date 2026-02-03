@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://becyat4dcn7ka"]
+
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_j8auk"]
+[ext_resource type="Script" uid="uid://ba6qagnuaf8ys" path="res://components/managment/item_card.gd" id="2_j8auk"]
+
+[node name="ItemCard" type="PanelContainer" unique_id=292612764]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 76.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_j8auk")
+theme_type_variation = &"Card"
+script = ExtResource("2_j8auk")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1119476572]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1095869547]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1791249727]
+unique_name_in_owner = true
+auto_translate_mode = 2
+layout_mode = 2
+theme_type_variation = &"PrimaryText"
+text = "Item Title"
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=1151347073]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CardButton" type="Button" parent="." unique_id=1224560228]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"ItemCardButton"
+
+[connection signal="pressed" from="CardButton" to="." method="_on_card_button_pressed"]

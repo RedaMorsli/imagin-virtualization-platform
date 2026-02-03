@@ -61,6 +61,33 @@ draw_center = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_22ve8"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6nvbg"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.89411765, 0, 0.19607843, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nw6ic"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.89411765, 0, 0.19607843, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6skb5"]
+draw_center = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_er5q4"]
 content_margin_left = 8.0
 content_margin_right = 8.0
@@ -287,6 +314,11 @@ IconButton/styles/hover = SubResource("StyleBoxFlat_22ve8")
 IconButton/styles/hover_pressed = SubResource("StyleBoxFlat_22ve8")
 IconButton/styles/normal = SubResource("StyleBoxFlat_22ve8")
 IconButton/styles/pressed = SubResource("StyleBoxFlat_22ve8")
+ItemCardButton/base_type = &"Button"
+ItemCardButton/styles/hover = SubResource("StyleBoxFlat_6nvbg")
+ItemCardButton/styles/hover_pressed = SubResource("StyleBoxFlat_nw6ic")
+ItemCardButton/styles/normal = SubResource("StyleBoxFlat_6skb5")
+ItemCardButton/styles/pressed = SubResource("StyleBoxFlat_nw6ic")
 LineEdit/colors/caret_color = Color(0, 0, 0, 0.4)
 LineEdit/colors/font_color = Color(0, 0, 0, 1)
 LineEdit/colors/font_placeholder_color = Color(0, 0, 0, 0.4)

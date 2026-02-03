@@ -2,9 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_3v2q0"]
 [ext_resource type="Script" uid="uid://d4gv1o4oyl6ag" path="res://pages/project_list/project_page.gd" id="1_dtdpq"]
-[ext_resource type="Texture2D" uid="uid://dujpwevouq8ab" path="res://res/icons/magnifying-glass-bold.png" id="2_mg64l"]
-[ext_resource type="Texture2D" uid="uid://brwgvk21r4atj" path="res://res/icons/plus-bold.png" id="3_2j6ad"]
-[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="4_jtadv"]
+[ext_resource type="Texture2D" uid="uid://3cahu4s87qlj" path="res://res/icons/squares-four.png" id="2_3v2q0"]
+[ext_resource type="PackedScene" uid="uid://ctsbo1sahlsti" path="res://components/managment/item_management_view.tscn" id="3_nrj1j"]
+[ext_resource type="Script" uid="uid://bbwrnphbcmhcr" path="res://pages/project_list/project_management_view.gd" id="4_hrim3"]
 
 [node name="ProjectPage" type="MarginContainer" unique_id=766884003]
 anchors_preset = 15
@@ -17,11 +17,12 @@ theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 64
 script = ExtResource("1_dtdpq")
+title = "Projects"
+icon = ExtResource("2_3v2q0")
 
 [node name="VBox" type="VBoxContainer" parent="." unique_id=1131523929]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 0
 theme = ExtResource("1_3v2q0")
 theme_override_constants/separation = 32
 
@@ -30,52 +31,14 @@ layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 text = "PROJECTS"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBox" unique_id=1827106830]
-layout_mode = 2
-
-[node name="LineEdit" type="LineEdit" parent="VBox/HBoxContainer" unique_id=1893095850]
-modulate = Color(0, 0, 0, 0.8)
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-theme_type_variation = &"SearchBar"
-placeholder_text = "SEARCH_PROJECTS"
-caret_blink = true
-right_icon = ExtResource("2_mg64l")
-
-[node name="Control" type="Control" parent="VBox/HBoxContainer" unique_id=2055938801]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="NewProjectButton" type="Button" parent="VBox/HBoxContainer" unique_id=445272983]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_type_variation = &"PrimaryButton"
-text = "NEW_PROJECT"
-icon = ExtResource("3_2j6ad")
-
-[node name="LoadingSpinner" parent="VBox" unique_id=1567750622 instance=ExtResource("4_jtadv")]
+[node name="ItemManagmentView" parent="VBox" unique_id=1176108334 instance=ExtResource("3_nrj1j")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 6
+script = ExtResource("4_hrim3")
+fetch_route = "projects/fetch"
+search_message = "SEARCH_PROJECTS"
+empty_message = "NO_PROJECT_MSG"
+new_item_message = "NEW_PROJECT"
 
-[node name="ProjectContainer" type="GridContainer" parent="VBox" unique_id=708278219]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
-columns = 3
-
-[node name="EmptyLabel" type="Label" parent="VBox" unique_id=232491984]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"SecondaryText"
-text = "NO_PROJECT_MSG"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[connection signal="pressed" from="VBox/HBoxContainer/NewProjectButton" to="." method="_on_new_project_button_pressed"]
+[connection signal="item_pressed" from="VBox/ItemManagmentView" to="." method="_on_item_managment_view_item_pressed"]
+[connection signal="new_item_requested" from="VBox/ItemManagmentView" to="." method="_on_new_project_button_pressed"]

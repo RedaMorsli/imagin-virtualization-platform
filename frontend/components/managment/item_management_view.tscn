@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://ctsbo1sahlsti"]
+
+[ext_resource type="Script" uid="uid://qpo8erstq4r4" path="res://components/managment/item_management_view.gd" id="1_h6xx6"]
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_rgk5a"]
+[ext_resource type="Texture2D" uid="uid://dujpwevouq8ab" path="res://res/icons/magnifying-glass-bold.png" id="1_yi4c5"]
+[ext_resource type="Texture2D" uid="uid://brwgvk21r4atj" path="res://res/icons/plus-bold.png" id="2_h6xx6"]
+[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="3_bbq2g"]
+
+[node name="ItemManagementView" type="VBoxContainer" unique_id=1637286438]
+offset_right = 405.0
+offset_bottom = 87.0
+size_flags_vertical = 3
+theme = ExtResource("1_rgk5a")
+theme_override_constants/separation = 32
+script = ExtResource("1_h6xx6")
+metadata/_custom_type_script = "uid://qpo8erstq4r4"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=5730630]
+layout_mode = 2
+
+[node name="SearchEdit" type="LineEdit" parent="HBoxContainer" unique_id=1128103678]
+unique_name_in_owner = true
+modulate = Color(0, 0, 0, 0.8)
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme_type_variation = &"SearchBar"
+placeholder_text = "Search for items"
+clear_button_enabled = true
+caret_blink = true
+right_icon = ExtResource("1_yi4c5")
+
+[node name="Control" type="Control" parent="HBoxContainer" unique_id=272359809]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NewItemButton" type="Button" parent="HBoxContainer" unique_id=1282435709]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"PrimaryButton"
+text = "New Item"
+icon = ExtResource("2_h6xx6")
+
+[node name="LoadingSpinner" parent="." unique_id=516609768 instance=ExtResource("3_bbq2g")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="ItemContainer" type="VBoxContainer" parent="." unique_id=645377729]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="EmptyLabel" type="Label" parent="." unique_id=800060996]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"SecondaryText"
+text = "No items message"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ErrorLabel" type="Label" parent="." unique_id=1240884358]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"ErrorLabel"
+text = "Error message"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HBoxContainer/NewItemButton" to="." method="_on_new_item_button_pressed"]
