@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://brgbcjbpucoe4" path="res://res/icons/user.png" id="4_pp7d2"]
 [ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="4_u7wto"]
 [ext_resource type="Texture2D" uid="uid://bx8faf1yyncs" path="res://res/icons/shipping-container.png" id="5_3l63w"]
-[ext_resource type="Script" uid="uid://by6qd688rspu3" path="res://pages/project_detail/infra/infrastructure_page.gd" id="6_qcnkj"]
 [ext_resource type="Texture2D" uid="uid://dujpwevouq8ab" path="res://res/icons/magnifying-glass-bold.png" id="6_xj1s1"]
+[ext_resource type="Script" uid="uid://7hfidwmjf3x7" path="res://pages/page.gd" id="7_aigaq"]
 [ext_resource type="Texture2D" uid="uid://brwgvk21r4atj" path="res://res/icons/plus-bold.png" id="7_qcnkj"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="8_jo66n"]
 [ext_resource type="PackedScene" uid="uid://ctsbo1sahlsti" path="res://components/managment/item_management_view.tscn" id="8_y577k"]
@@ -103,7 +103,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("6_qcnkj")
+script = ExtResource("7_aigaq")
 metadata/_custom_type_script = "uid://7hfidwmjf3x7"
 
 [node name="MarginContainer" type="MarginContainer" parent="HBox/PageContainer/InfrastructurePage" unique_id=455099003]

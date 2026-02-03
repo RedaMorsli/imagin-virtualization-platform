@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://jo6qcamyrf7w"]
+
+[ext_resource type="PackedScene" uid="uid://becyat4dcn7ka" path="res://components/managment/item_card.tscn" id="1_15u1j"]
+[ext_resource type="Script" uid="uid://skcejpnjf3ha" path="res://pages/project_detail/cluster/cluster_item_card.gd" id="2_l8pvq"]
+
+[node name="ClusterItemCard" unique_id=292612764 instance=ExtResource("1_15u1j")]
+script = ExtResource("2_l8pvq")
+
+[node name="TitleLabel" parent="MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(1095869547) index="0" unique_id=1791249727]
+size_flags_horizontal = 3
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(1095869547) index="1" unique_id=2061303325]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Running"
+
+[node name="Nodes" type="HBoxContainer" parent="MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(1095869547) index="2" unique_id=1131292560]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="AvailableNodesLabel" type="Label" parent="MarginContainer/HBoxContainer/Nodes" index="0" unique_id=2135615719]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "2"
+
+[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer/Nodes" index="1" unique_id=1805598236]
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "/"
+
+[node name="TotalNodesLabel" type="Label" parent="MarginContainer/HBoxContainer/Nodes" index="2" unique_id=853881644]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "2"
+
+[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/Nodes" index="3" unique_id=1496124716]
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "Nodes"

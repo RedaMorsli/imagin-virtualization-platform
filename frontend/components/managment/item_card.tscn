@@ -30,10 +30,6 @@ layout_mode = 2
 theme_type_variation = &"PrimaryText"
 text = "Item Title"
 
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=1151347073]
-layout_mode = 2
-size_flags_horizontal = 3
-
 [node name="CardButton" type="Button" parent="." unique_id=1224560228]
 layout_mode = 2
 focus_mode = 0

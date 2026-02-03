@@ -2,6 +2,12 @@ extends ItemManagementView
 
 
 const NewInfraDialogScene = preload("uid://d0vx2n1uumtnt")
+const ClusterCardScene = preload("uid://jo6qcamyrf7w")
+
+
+func _ready() -> void:
+	Events.infra_created.connect(fetch)
+	fetch()
 
 
 func instanciate_items(fetched_data) -> Array[ItemCard]:
@@ -9,9 +15,8 @@ func instanciate_items(fetched_data) -> Array[ItemCard]:
 	var items: Array[ItemCard]
 	for i in infras:
 		var infra: Infra = Infra.new.callv(i.values())
-		var item: ItemCard = ItemCard.instanciate()
+		var item: ClusterCard = ClusterCardScene.instantiate()
 		item.item = infra
-		item.title = infra.infra_config.name
 		items.append(item)
 	return items
 
