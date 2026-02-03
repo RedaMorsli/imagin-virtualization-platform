@@ -9,8 +9,9 @@
 [ext_resource type="Script" uid="uid://by6qd688rspu3" path="res://pages/project_detail/infra/infrastructure_page.gd" id="6_qcnkj"]
 [ext_resource type="Texture2D" uid="uid://dujpwevouq8ab" path="res://res/icons/magnifying-glass-bold.png" id="6_xj1s1"]
 [ext_resource type="Texture2D" uid="uid://brwgvk21r4atj" path="res://res/icons/plus-bold.png" id="7_qcnkj"]
-[ext_resource type="Texture2D" uid="uid://dcr8ydwrdkrl2" path="res://res/icons/clipboard-text.png" id="8_3l63w"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="8_jo66n"]
+[ext_resource type="PackedScene" uid="uid://ctsbo1sahlsti" path="res://components/managment/item_management_view.tscn" id="8_y577k"]
+[ext_resource type="Script" uid="uid://cys0j5yniahjf" path="res://pages/project_detail/infra/infra_management_view.gd" id="9_aigaq"]
 [ext_resource type="Script" uid="uid://vwnqxhqykekx" path="res://pages/project_detail/registry_page.gd" id="12_y577k"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_u7wto"]
@@ -96,7 +97,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="InfrastructurePage" type="Control" parent="HBox/PageContainer" unique_id=2144654257]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -128,74 +128,17 @@ layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 text = "INFRASTRUCTURES"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=1954792387]
-layout_mode = 2
-
-[node name="LineEdit" type="LineEdit" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer" unique_id=903567660]
-modulate = Color(0, 0, 0, 0.8)
-custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
-theme_type_variation = &"SearchBar"
-placeholder_text = "SEARCH_INFRASTRUCTURES"
-caret_blink = true
-right_icon = ExtResource("6_xj1s1")
-
-[node name="Control" type="Control" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer" unique_id=447893072]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="KubeconfigButton" type="Button" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer" unique_id=1347916293]
+[node name="InfraManagementView" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=1637286438 instance=ExtResource("8_y577k")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "Copy cluster config"
-icon = ExtResource("8_3l63w")
-
-[node name="NewInfraButton" type="Button" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer" unique_id=2109521157]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_type_variation = &"PrimaryButton"
-text = "NEW_INFRASTRUCTURE"
-icon = ExtResource("7_qcnkj")
-
-[node name="LoadingSpinner" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=102326469 instance=ExtResource("8_jo66n")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_vertical = 6
-
-[node name="InfraContainer" type="GridContainer" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=689115386]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
-columns = 3
-
-[node name="EmptyLabel" type="Label" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=1738865382]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"SecondaryText"
-text = "NO_INFRA_MSG"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ErrorLabel" type="Label" parent="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox" unique_id=896474535]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"ErrorLabel"
-text = "NO_PROJECT_MSG"
-horizontal_alignment = 1
-vertical_alignment = 1
+script = ExtResource("9_aigaq")
+fetch_route = "infra/fetch"
+search_message = "SEARCH_INFRA"
+empty_message = "EMPTY_INFRA"
+new_item_message = "NEW_INFRA"
 
 [node name="RegistryPage" type="Control" parent="HBox/PageContainer" unique_id=1089204034]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -282,6 +225,6 @@ text = "NO_PROJECT_MSG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer/KubeconfigButton" to="HBox/PageContainer/InfrastructurePage" method="_on_kubeconfig_button_pressed"]
-[connection signal="pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/HBoxContainer/NewInfraButton" to="HBox/PageContainer/InfrastructurePage" method="_on_new_infra_button_pressed"]
+[connection signal="item_pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" to="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" method="_on_infra_pressed"]
+[connection signal="new_item_requested" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" to="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" method="_on_new_infra_requested"]
 [connection signal="pressed" from="HBox/PageContainer/RegistryPage/MarginContainer/VBox/HBoxContainer/NewButton" to="HBox/PageContainer/RegistryPage" method="_on_new_button_pressed"]

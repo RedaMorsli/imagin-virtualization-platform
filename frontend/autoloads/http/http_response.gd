@@ -22,7 +22,7 @@ func get_data():
 	return JSON.parse_string(body.get_string_from_utf8())
 
 
-func get_error() -> String:
+func get_error():
 	return get_data()['detail']
 
 

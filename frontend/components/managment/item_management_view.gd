@@ -2,11 +2,12 @@ class_name ItemManagementView
 extends VBoxContainer
 
 
-signal item_pressed(item: ItemCard)
+signal item_pressed(item_card: ItemCard)
 signal new_item_requested()
 
 @export_category("Fetch")
 @export var fetch_route: String
+@export var include_project_id: bool = true
 
 @export_category("Texts")
 @export var search_message: String
@@ -32,12 +33,12 @@ func fetch():
 		API.api_url + fetch_route,
 		Auth.HTTP_HEADER,
 		HTTPClient.METHOD_GET,
-		{},
+		{'project_id': Context.project.project_id} if include_project_id else {},
 		"Failed to fetch items"
 	)
 	if not response.is_successful():
 		printerr("Couldn't fetch items")
-		error_label.text = response.get_error()
+		error_label.text = str(response.get_error())
 		error_label.show()
 		loading_spinner.hide()
 		empty_label.hide()
