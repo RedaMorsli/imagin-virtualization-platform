@@ -73,4 +73,5 @@ text = "Error message"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="text_changed" from="HBoxContainer/SearchEdit" to="." method="_on_search_edit_text_changed"]
 [connection signal="pressed" from="HBoxContainer/NewItemButton" to="." method="_on_new_item_button_pressed"]

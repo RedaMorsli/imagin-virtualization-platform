@@ -69,3 +69,11 @@ func _on_item_pressed(item_card: ItemCard):
 
 func _on_new_item_button_pressed() -> void:
 	new_item_requested.emit()
+
+
+func _on_search_edit_text_changed(new_text: String) -> void:
+	for item: ItemCard in item_container.get_children():
+		if new_text.is_empty():
+			item.show()
+			continue
+		item.visible = item.title.to_lower().strip_edges().contains(new_text.to_lower().strip_edges())

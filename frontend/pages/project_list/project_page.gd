@@ -2,12 +2,7 @@ extends Page
 
 
 const NewProjectDialogScene = preload("uid://dcdyc3esl7los")
-const ProjectItemScene = preload("uid://becyat4dcn7ka")
 
-@onready var fetch_http_request: HTTPRequest = %FetchHTTPRequest
-@onready var project_container: GridContainer = %ProjectContainer
-@onready var loading_spinner: TextureRect = %LoadingSpinner
-@onready var empty_label: Label = %EmptyLabel
 @onready var project_managment_view: ItemManagementView = %ItemManagmentView
 
 
