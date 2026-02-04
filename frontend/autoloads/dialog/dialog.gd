@@ -11,8 +11,8 @@ func _ready() -> void:
 	hide()
 
 
-func popup(p_scene: PackedScene) -> DialogScene:
-	_dialog_scene = p_scene.instantiate()
+func popup(scene: DialogScene) -> DialogScene:
+	_dialog_scene = scene
 	_dialog_scene.tree_exiting.connect(
 		func ():
 			hide()
@@ -20,6 +20,7 @@ func popup(p_scene: PackedScene) -> DialogScene:
 	dialog_container.add_child(_dialog_scene)
 	show()
 	return _dialog_scene
+
 
 
 func _on_background_gui_input(event: InputEvent) -> void:

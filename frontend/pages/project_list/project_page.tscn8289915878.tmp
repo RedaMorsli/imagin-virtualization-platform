@@ -31,16 +31,15 @@ layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 text = "PROJECTS"
 
-[node name="ItemManagmentView" parent="VBox" unique_id=1176108334 node_paths=PackedStringArray("root_page") instance=ExtResource("3_nrj1j")]
+[node name="ItemManagmentView" parent="VBox" unique_id=1176108334 instance=ExtResource("3_nrj1j")]
 unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("4_hrim3")
-root_page = NodePath("../..")
 fetch_route = "projects/fetch"
 include_project_id = false
 search_message = "SEARCH_PROJECTS"
 empty_message = "NO_PROJECT_MSG"
 new_item_message = "NEW_PROJECT"
 
-[connection signal="item_pressed" from="VBox/ItemManagmentView" to="VBox/ItemManagmentView" method="_on_project_pressed"]
-[connection signal="new_item_requested" from="VBox/ItemManagmentView" to="VBox/ItemManagmentView" method="_on_new_project_button_pressed"]
+[connection signal="item_pressed" from="VBox/ItemManagmentView" to="." method="_on_item_managment_view_item_pressed"]
+[connection signal="new_item_requested" from="VBox/ItemManagmentView" to="." method="_on_new_project_button_pressed"]

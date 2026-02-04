@@ -20,8 +20,6 @@ func _on_create_button_pressed() -> void:
 		data,
 		'Failed to create cluster'
 	)
-	if response.is_successful():
-		Events.infra_created.emit()
-	else:
+	if not response.is_successful():
 		buttons.show()
 		loading_spinner.hide()

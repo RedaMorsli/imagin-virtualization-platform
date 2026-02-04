@@ -5,11 +5,6 @@ const NewInfraDialogScene = preload("uid://d0vx2n1uumtnt")
 const ClusterCardScene = preload("uid://jo6qcamyrf7w")
 
 
-func _ready() -> void:
-	Events.infra_created.connect(fetch)
-	fetch()
-
-
 func instanciate_items(fetched_data) -> Array[ItemCard]:
 	var infras = fetched_data['infras']
 	var items: Array[ItemCard]
@@ -26,4 +21,5 @@ func _on_infra_pressed(item_card: ItemCard):
 
 
 func _on_new_infra_requested() -> void:
-	Dialog.popup(NewInfraDialogScene)
+	var dialog = Dialog.popup(NewInfraDialogScene.instantiate())
+	dialog.completed.connect(fetch)

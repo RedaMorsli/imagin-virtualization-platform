@@ -121,9 +121,9 @@ def _fetch_infras(user_id: int, project_id: int):
         """
         SELECT infra_id, infra_type, infra_config
         FROM Infra i
-        WHERE i.project_id = ?
+        WHERE i.project_id = ? AND infra_type = ?
         """,
-        [project_id]
+        [project_id, "cluster"]
     )
     infras = [{
         "infra_id": id, 
@@ -135,8 +135,6 @@ def _fetch_infras(user_id: int, project_id: int):
             else {}
         ),
         } for id, type, config in rows]
-    # for infra in infras:
-    #     infra['status'] = k8s.get_cluster_status(infra['infra_config']['context'])
     return {"infras": infras}
 
 

@@ -1,3 +1,4 @@
+import json
 import subprocess
 from typing import Any, Dict
 
@@ -89,3 +90,60 @@ def create_k3d_registry(config: Dict[str, Any]) -> str:
         raise RuntimeError(f"k3d registry creation failed: {error_output}")
 
     return result.stdout.strip()
+
+
+def get_registry_status(name: str) -> dict:
+    """Return status information for a k3d-managed registry."""
+    if not name:
+        raise ValueError("registry name is required")
+
+    result = subprocess.run(
+        ["k3d", "registry", "list", "-o", "json"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        error_output = result.stderr.strip() or result.stdout.strip()
+        return {"status": "unknown", "error": error_output}
+
+    try:
+        registries = json.loads(result.stdout or "[]")
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("failed to parse k3d registry list output") from exc
+
+    target_names = {name, f"k3d-{name}"}
+    match = next(
+        (
+            reg
+            for reg in registries
+            if (reg.get("name") or reg.get("Name")) in target_names
+        ),
+        None,
+    )
+
+    if not match:
+        return {"status": "not found"}
+
+    state = match.get("state") or match.get("State") or {}
+    status = state.get("status") or state.get("Status")
+
+    if not status:
+        running_flag = state.get("running") or state.get("Running")
+        if running_flag is True:
+            status = "running"
+        elif running_flag is False:
+            status = "stopped"
+        else:
+            status = "unknown"
+
+    host = match.get("host") or match.get("Host")
+    port = match.get("port") or match.get("Port")
+
+    if not host or not port:
+        options = match.get("options") or match.get("Options") or {}
+        host = host or options.get("host") or options.get("Host")
+        port = port or options.get("port") or options.get("Port")
+
+    return {"status": status, "host": host, "port": port}

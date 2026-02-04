@@ -7,6 +7,7 @@ signal new_item_requested()
 
 @export_category("Fetch")
 @export var fetch_route: String
+@export var fetch_on_ready: bool = true
 @export var include_project_id: bool = true
 
 @export_category("Texts")
@@ -26,9 +27,14 @@ func _ready() -> void:
 	search_edit.placeholder_text = search_message
 	empty_label.text = empty_message
 	new_item_button.text = new_item_message
+	if fetch_on_ready:
+		fetch()
 
 
 func fetch():
+	loading_spinner.show()
+	empty_label.hide()
+	error_label.hide()
 	var response = await Http.send_request(
 		API.api_url + fetch_route,
 		Auth.HTTP_HEADER,
