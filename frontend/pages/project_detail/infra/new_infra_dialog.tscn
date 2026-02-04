@@ -112,10 +112,11 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="EmptyInfraMenu" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=438385505]
+[node name="EmptyInfraMenu" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=438385505 node_paths=PackedStringArray("dialog")]
 visible = false
 layout_mode = 2
 script = ExtResource("4_gyf2r")
+dialog = NodePath("../../../../..")
 
 [node name="InfraConfigForm" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=1403315222 instance=ExtResource("5_s7nol")]
 unique_name_in_owner = true
@@ -141,10 +142,11 @@ layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 text = "CREATE"
 
-[node name="Flower" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=1874492348]
+[node name="Flower" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=1874492348 node_paths=PackedStringArray("dialog")]
 layout_mode = 2
 theme_override_constants/separation = 8
 script = ExtResource("6_hhpye")
+dialog = NodePath("../../../../..")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower" unique_id=1254086469]
 layout_mode = 2

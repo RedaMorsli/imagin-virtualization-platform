@@ -58,6 +58,20 @@ layout_mode = 2
 value = 1.0
 alignment = 2
 
-[node name="Control" type="Control" parent="." unique_id=989499127]
+[node name="HBoxContainer5" type="HBoxContainer" parent="." unique_id=1873286106]
 layout_mode = 2
-size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer5" unique_id=1876170282]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "REGISTRY"
+
+[node name="RegistryOption" type="OptionButton" parent="HBoxContainer5" unique_id=727423984]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = " "
+popup/item_0/id = 0

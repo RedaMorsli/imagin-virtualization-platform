@@ -7,8 +7,10 @@ const RegistryCardScene = preload("uid://jo6qcamyrf7w")
 func instanciate_items(fetched_data) -> Array[ItemCard]:
 	var registries = fetched_data['registries']
 	var items: Array[ItemCard]
+	Context.registries.clear()
 	for r in registries:
 		var registry: Infra = Infra.new.callv(r.values())
+		Context.registries.append(registry)
 		var item: ItemCard = ItemCard.instanciate()
 		item.title = registry.infra_config.name
 		item.item = registry

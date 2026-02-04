@@ -100,7 +100,36 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
     
     if infra_type == "cluster":
         from infra.k3d import create_k3d_cluster
-        cluster_output = create_k3d_cluster(infra_config)
+        registry_use = None
+        if "registry_infra_id" in infra_config and infra_config.get("registry_infra_id") is not None:
+            try:
+                registry_infra_id = int(infra_config.get("registry_infra_id"))
+            except (TypeError, ValueError):
+                raise ValueError("'registry_infra_id' must be an integer") from None
+
+            registry_rows = db.fetch_all(
+                """
+                SELECT infra_config
+                FROM Infra
+                WHERE infra_id = ? AND infra_type = ? AND project_id = ?
+                """,
+                params=[registry_infra_id, "registry", project_id],
+            )
+            if not registry_rows:
+                raise ValueError("Registry infra not found for provided id")
+
+            try:
+                registry_config = json.loads(registry_rows[0][0])
+            except (TypeError, json.JSONDecodeError) as exc:
+                raise RuntimeError("Stored registry config is invalid") from exc
+
+            registry_name = registry_config.get("name")
+            if not registry_name:
+                raise ValueError("Registry infra config missing 'name'")
+            registry_port = registry_config.get("port", 5000)
+            registry_use = f"k3d-{registry_name}:{registry_port}"
+
+        cluster_output = create_k3d_cluster(infra_config, registry=registry_use)
         if provision is not None:
             if provision['name'] == "flower":
                 from infra.flower import provision_flower_on_cluster
@@ -165,7 +194,5 @@ def _get_kubeconfig(user_id: int, project_id: int, infra_id: int):
         raise ValueError(f"Failed to load kubeconfig: {exc}") from exc
 
     return {"kubeconfig": kubeconfig_content}
-
-
 
 

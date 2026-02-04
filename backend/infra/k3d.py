@@ -3,7 +3,7 @@ import subprocess
 from typing import Any, Dict
 
 
-def create_k3d_cluster(config: Dict[str, Any]) -> str:
+def create_k3d_cluster(config: Dict[str, Any], registry: str | None = None) -> str:
     cluster_name = config.get("name")
     if not cluster_name:
         raise ValueError("config must include 'name'")
@@ -22,6 +22,8 @@ def create_k3d_cluster(config: Dict[str, Any]) -> str:
     agent_count = max(node_count - 1, 0)
 
     cmd = ["k3d", "cluster", "create", cluster_name, "--servers", "1"]
+    if registry:
+        cmd.extend(["--registry-use", registry])
     if agent_count:
         cmd.extend(["--agents", str(agent_count)])
 
@@ -31,6 +33,8 @@ def create_k3d_cluster(config: Dict[str, Any]) -> str:
         capture_output=True,
         text=True,
     )
+
+    print(cmd)
 
     if result.returncode != 0:
         error_output = result.stderr.strip() or result.stdout.strip()

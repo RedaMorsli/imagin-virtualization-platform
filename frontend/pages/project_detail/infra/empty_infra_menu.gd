@@ -3,6 +3,7 @@ extends VBoxContainer
 
 signal infra_created()
 
+@export var dialog: DialogScene
 
 @onready var buttons: HBoxContainer = %Buttons
 @onready var loading_spinner: TextureRect = %LoadingSpinner
@@ -23,3 +24,6 @@ func _on_create_button_pressed() -> void:
 	if not response.is_successful():
 		buttons.show()
 		loading_spinner.hide()
+		return
+	dialog.completed.emit()
+	dialog.queue_free()
