@@ -1,0 +1,248 @@
+[gd_scene format=3 uid="uid://cg6sftdi0e37l"]
+
+[ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_b87r7"]
+[ext_resource type="Script" uid="uid://bbxeh3n10tcyv" path="res://pages/project_detail/experiments/new_experiment_dialog.gd" id="2_gi1la"]
+[ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="3_7y6cp"]
+[ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="3_kancq"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_hptfi"]
+
+[node name="NewExperimentDialog" type="PanelContainer" unique_id=911415833]
+offset_right = 232.0
+offset_bottom = 263.0
+theme = ExtResource("1_b87r7")
+theme_type_variation = &"DialogPanel"
+script = ExtResource("2_gi1la")
+metadata/_custom_type_script = "uid://bn3fl685jjig7"
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=549625467]
+layout_mode = 2
+
+[node name="Panel" type="PanelContainer" parent="CenterContainer" unique_id=1545773254]
+layout_mode = 2
+theme = ExtResource("1_b87r7")
+theme_type_variation = &"DialogPanel"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel" unique_id=56988342]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/HBoxContainer" unique_id=1068477591]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer" unique_id=1141081649]
+custom_minimum_size = Vector2(0, 350)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1294059258]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Templates"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1071911860]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1338986466]
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "Federated Learning"
+
+[node name="NavFlower" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=959024097 node_paths=PackedStringArray("nav_node")]
+layout_mode = 2
+theme_type_variation = &"ToggledMenuButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_hptfi")
+text = "Flower"
+alignment = 0
+script = ExtResource("3_7y6cp")
+nav_node = NodePath("../../../../Container/Flower")
+metadata/_custom_type_script = "uid://dkubfa6ljlc86"
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/Panel/HBoxContainer" unique_id=648268047]
+layout_mode = 2
+
+[node name="Container" type="MarginContainer" parent="CenterContainer/Panel/HBoxContainer" unique_id=1054443422]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Flower" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=97869886]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower" unique_id=608370565]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FlowerForm" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer" unique_id=958155608]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1236524828]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer2" unique_id=977298772]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Name"
+
+[node name="EmptyInfraName" type="LineEdit" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer2" unique_id=1574705662]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Experiment name"
+caret_blink = true
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=2042746993]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer4" unique_id=57776078]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Servers"
+
+[node name="FlowerServers" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer4" unique_id=1627285915]
+unique_name_in_owner = true
+layout_mode = 2
+value = 1.0
+alignment = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=408421546]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer5" unique_id=2125702345]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Clients"
+
+[node name="FlowerClients" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer5" unique_id=1764433805]
+unique_name_in_owner = true
+layout_mode = 2
+value = 5.0
+alignment = 2
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1714282543]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer6" unique_id=725913716]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Client CPU limit"
+
+[node name="FlowerCpuLimit" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer6" unique_id=651871009]
+unique_name_in_owner = true
+layout_mode = 2
+value = 500.0
+allow_greater = true
+alignment = 2
+suffix = "m"
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1153042157]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer7" unique_id=727812759]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Client memory limit"
+
+[node name="FlowerMemoryLimit" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer7" unique_id=1306950431]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+max_value = 1024.0
+value = 500.0
+allow_greater = true
+alignment = 2
+suffix = "Mi"
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=966188338]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer8" unique_id=293729269]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Flower code"
+
+[node name="Button" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer8" unique_id=2004540020]
+layout_mode = 2
+text = "Select folder"
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=469314937]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer9" unique_id=1319494965]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Server entrypoint"
+
+[node name="OptionButton" type="OptionButton" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer9" unique_id=567247570]
+layout_mode = 2
+item_count = 1
+popup/item_0/id = 0
+
+[node name="HBoxContainer11" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=730480908]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer11" unique_id=2116529474]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Client entrypoint"
+
+[node name="OptionButton" type="OptionButton" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer11" unique_id=819512034]
+layout_mode = 2
+item_count = 1
+popup/item_0/id = 0
+
+[node name="HBoxContainer10" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=48243271]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer10" unique_id=906600538]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Dataset"
+
+[node name="Button" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer10" unique_id=1962552305]
+layout_mode = 2
+text = "Select file"
+
+[node name="FlowerLoadingSpinner" parent="CenterContainer/Panel/HBoxContainer/Container/Flower" unique_id=516609768 instance=ExtResource("3_kancq")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="FlowerButtons" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower" unique_id=1940819875]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 2
+
+[node name="CancelButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/FlowerButtons" unique_id=1759688206]
+layout_mode = 2
+text = "CANCEL"
+
+[node name="FlowerCreateButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/FlowerButtons" unique_id=1851850006]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "CREATE"
+
+[connection signal="pressed" from="CenterContainer/Panel/HBoxContainer/Container/Flower/FlowerButtons/FlowerCreateButton" to="CenterContainer/Panel/HBoxContainer/Container/Flower" method="_on_create_button_pressed"]

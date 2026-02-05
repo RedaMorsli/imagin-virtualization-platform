@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dtnaw4i02hsbv"]
 
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="1_2kmfx"]
-[ext_resource type="Script" uid="uid://7bxjsg0xib05" path="res://pages/project_detail/infra/new_registry_dialog.gd" id="2_2kmfx"]
+[ext_resource type="Script" uid="uid://7bxjsg0xib05" path="res://pages/project_detail/registry/new_registry_dialog.gd" id="2_2kmfx"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="3_tep33"]
 
 [node name="NewRegistryDialog" type="PanelContainer" unique_id=911415833]

@@ -24,7 +24,7 @@ NO_INFRA_MSG,No infrastructure found,Aucune infrastructure trouvé
 NUM_NODES,Number of nodes,Nombre de nœuds
 CON_REGISTRY,Container registry,Registre de conteneurs
 REGISTRIES,Registries,Registres
-REGISTRy,Registry,Registre
+REGISTRY,Registry,Registre
 SEARCH_REGISTRIES,Search for registries,Trouver des registres
 NO_REGISTRY_MSG,No registry found,Aucun registre trouvé
 NEW_REGISTRY,New registry,Nouveau registre

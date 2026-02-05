@@ -69,6 +69,17 @@ CREATE TABLE IF NOT EXISTS Infra (
 	created_at TIMESTAMP DEFAULT (now()),
 );
 
+CREATE SEQUENCE IF NOT EXISTS seq_experiment_id START 1;
+
+CREATE TABLE IF NOT EXISTS Experiments (
+	experiment_id INTEGER PRIMARY KEY DEFAULT nextval('seq_experiment_id'),
+	project_id INTEGER NOT NULL REFERENCES Projects(project_id),
+	experiment_name VARCHAR(150) NOT NULL UNIQUE,
+	experiment_type VARCHAR(100) NOT NULL,
+	experiment_config TEXT NOT NULL,
+	created_at TIMESTAMP DEFAULT (now()),
+);
+
 -- Populate
 
 INSERT INTO Roles (name, description)
