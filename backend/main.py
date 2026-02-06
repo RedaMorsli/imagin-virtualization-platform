@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-from api import auth, project, infra, registry, experiment
+from api import auth, project, infra, registry, storage, experiment
 from db import init_db
 
 
@@ -11,6 +11,7 @@ app.include_router(auth.router)
 app.include_router(project.router)
 app.include_router(infra.router)
 app.include_router(registry.router)
+app.include_router(storage.router)
 app.include_router(experiment.router)
 
 

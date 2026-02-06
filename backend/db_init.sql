@@ -39,6 +39,7 @@ CREATE SEQUENCE IF NOT EXISTS seq_project_id START 1;
 CREATE TABLE IF NOT EXISTS Projects (
 	project_id INTEGER PRIMARY KEY DEFAULT nextval('seq_project_id'),
 	project_name VARCHAR(150) NOT NULL UNIQUE,
+	storage_infra_id INTEGER REFERENCES Infra(infra_id),
 	created_at TIMESTAMP DEFAULT (now()),
 );
 

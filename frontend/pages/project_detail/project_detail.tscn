@@ -7,11 +7,13 @@
 [ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="4_u7wto"]
 [ext_resource type="Texture2D" uid="uid://bx8faf1yyncs" path="res://res/icons/shipping-container.png" id="5_3l63w"]
 [ext_resource type="Texture2D" uid="uid://b2xnv4radj83i" path="res://res/icons/flask.png" id="5_y577k"]
+[ext_resource type="Texture2D" uid="uid://dvp38n3qc6v3g" path="res://res/icons/database.png" id="6_aigaq"]
 [ext_resource type="Script" uid="uid://7hfidwmjf3x7" path="res://pages/page.gd" id="7_aigaq"]
 [ext_resource type="PackedScene" uid="uid://ctsbo1sahlsti" path="res://components/managment/item_management_view.tscn" id="8_y577k"]
 [ext_resource type="Script" uid="uid://cys0j5yniahjf" path="res://pages/project_detail/infra/infra_management_view.gd" id="9_aigaq"]
 [ext_resource type="Script" uid="uid://dtgkhlwpjwska" path="res://pages/project_detail/registry/registry_management_view.gd" id="11_3l63w"]
 [ext_resource type="Script" uid="uid://jwukxfud20vs" path="res://pages/project_detail/experiments/experiment_management_view.gd" id="11_y577k"]
+[ext_resource type="PackedScene" uid="uid://c8tvmwsfq74p5" path="res://pages/project_detail/storage/storage_page.tscn" id="13_65ywb"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_u7wto"]
 
@@ -77,6 +79,19 @@ icon = ExtResource("5_y577k")
 alignment = 0
 script = ExtResource("4_u7wto")
 nav_node = NodePath("../../../../PageContainer/ExperimentPage")
+metadata/_custom_type_script = "uid://dkubfa6ljlc86"
+
+[node name="NavStorage" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=1018903710 node_paths=PackedStringArray("nav_node")]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"ToggledMenuButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_u7wto")
+text = "STORAGE"
+icon = ExtResource("6_aigaq")
+alignment = 0
+script = ExtResource("4_u7wto")
+nav_node = NodePath("../../../../PageContainer/StoragePage")
 metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 
 [node name="NavRegistry" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=2129660620 node_paths=PackedStringArray("nav_node")]
@@ -151,6 +166,7 @@ empty_message = "EMPTY_INFRA"
 new_item_message = "NEW_INFRA"
 
 [node name="ExperimentPage" type="Control" parent="HBox/PageContainer" unique_id=1776133339]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -189,6 +205,9 @@ fetch_route = "experiments/fetch"
 search_message = "Search for experiments"
 empty_message = "No experiment found"
 new_item_message = "New experiment"
+
+[node name="StoragePage" parent="HBox/PageContainer" unique_id=1448557692 instance=ExtResource("13_65ywb")]
+layout_mode = 1
 
 [node name="RegistryPage" type="Control" parent="HBox/PageContainer" unique_id=1089204034]
 visible = false
