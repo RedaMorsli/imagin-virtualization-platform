@@ -59,10 +59,10 @@ async def create_storage_endpoint(request: CreateStorageRequest, authorization: 
 
 
 @router.get("/fetch", response_model=FetchStorageResponse)
-async def fetch_storage_endpoint(request: FetchStorageRequest, authorization: str = Header(None)):
+async def fetch_storage_endpoint(project_id: int, authorization: str = Header(None)):
     user = auth.get_user_by_token(auth.get_token(authorization))
     try:
-        result = _fetch_storages(user['user_id'], request.project_id)
+        result = _fetch_storages(user['user_id'], project_id)
         return FetchStorageResponse(**result)
     except ValueError as e:
         raise HTTPException(

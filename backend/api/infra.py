@@ -57,10 +57,10 @@ async def create_infra_endpoint(request: CreateInfraRequest, authorization: str 
 
 
 @router.get("/fetch", response_model=FetchInfraResponse)
-async def fetch_infras_endpoint(request: FetchInfraRequest, authorization: str = Header(None)):
+async def fetch_infras_endpoint(project_id: int, authorization: str = Header(None)):
     user = auth.get_user_by_token(auth.get_token(authorization))
     try:
-        result = _fetch_infras(user['user_id'], request.project_id)
+        result = _fetch_infras(user['user_id'], project_id)
         return FetchInfraResponse(**result)
     except ValueError as e:
         raise HTTPException(

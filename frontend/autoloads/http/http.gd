@@ -18,7 +18,11 @@ func send_request(
 	var request: HTTPRequest = HTTPRequest.new()
 	add_child(request)
 	var json = JSON.stringify(data)
-	var error = request.request(url, headers, method, json)
+	var error
+	if data.is_empty():
+		error = request.request(url, headers, method)
+	else:
+		error = request.request(url, headers, method, json)
 	if error != OK:
 		printerr("Error when sending http request to '" + url + "' (code " + str(error) + ")")
 		if error_msg:

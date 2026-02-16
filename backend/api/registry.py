@@ -44,10 +44,10 @@ async def create_registry_endpoint(request: CreateRegistryRequest, authorization
 
 
 @router.get("/fetch", response_model=FetchRegistryResponse)
-async def fetch_registry_endpoint(request: FetchRegistryRequest, authorization: str = Header(None)):
+async def fetch_registry_endpoint(project_id: int, authorization: str = Header(None)):
     user = auth.get_user_by_token(auth.get_token(authorization))
     try:
-        result = _fetch_registries(user['user_id'], request.project_id)
+        result = _fetch_registries(user['user_id'], project_id)
         return FetchRegistryResponse(**result)
     except ValueError as e:
         raise HTTPException(

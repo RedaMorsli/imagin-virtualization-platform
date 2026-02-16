@@ -6,7 +6,7 @@ const HEADERS_JSON = ["Content-Type: application/json"]
 const ENV_API_URL = "API_URL"
 
 
-static var api_url = "http://127.0.0.1:8000/" # Replaced by env var
+static var api_url = "http://localhost:8000/" # Replaced by env var
 static var login_url: String = api_url + "auth/login"
 static var verify_url: String = api_url + "auth/verify"
 static var create_project_url: String = api_url + "projects/create"

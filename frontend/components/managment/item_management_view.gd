@@ -35,11 +35,14 @@ func fetch():
 	loading_spinner.show()
 	empty_label.hide()
 	error_label.hide()
+	var query_params = "" 
+	if include_project_id:
+		query_params = "?project_id=" + str(Context.project.project_id)
 	var response = await Http.send_request(
-		API.api_url + fetch_route,
+		API.api_url + fetch_route + query_params,
 		Auth.HTTP_HEADER,
 		HTTPClient.METHOD_GET,
-		{'project_id': Context.project.project_id} if include_project_id else {},
+		{},
 		"Failed to fetch items"
 	)
 	if not response.is_successful():
