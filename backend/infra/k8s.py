@@ -1,4 +1,7 @@
+import base64
 import os
+import time
+from typing import Any
 from urllib.error import HTTPError as UrlHTTPError, URLError
 from urllib.parse import urlparse, urlunparse
 from urllib.request import urlopen
@@ -13,6 +16,10 @@ HEADLAMP_MANIFEST_URL = "https://raw.githubusercontent.com/kubernetes-sigs/headl
 HEADLAMP_SERVICE_NAME = "headlamp"
 HEADLAMP_SERVICE_NAMESPACE = "kube-system"
 HEADLAMP_NODE_PORT = 30080
+HEADLAMP_ADMIN_SERVICE_ACCOUNT = "headlamp-admin"
+HEADLAMP_ADMIN_CLUSTER_ROLE_BINDING = "headlamp-admin"
+HEADLAMP_ADMIN_CLUSTER_ROLE = "cluster-admin"
+HEADLAMP_TOKEN_REQUEST_AUDIENCE = "https://kubernetes.default.svc"
 
 
 def apply_manifest(context: str, manifest_dict: dict) -> None:
@@ -171,6 +178,242 @@ def install_headlamp(context: str, node_port: int = HEADLAMP_NODE_PORT) -> None:
         namespace=HEADLAMP_SERVICE_NAMESPACE,
         service_type="NodePort",
         node_port=node_port,
+    )
+
+
+def ensure_service_account(context: str, namespace: str, service_account_name: str) -> None:
+    if not context:
+        raise ValueError("context is required")
+    if not namespace:
+        raise ValueError("namespace is required")
+    if not service_account_name:
+        raise ValueError("service_account_name is required")
+
+    try:
+        config.load_kube_config(context=context)
+    except ConfigException as exc:
+        raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
+
+    core_api = client.CoreV1Api()
+    service_account = client.V1ServiceAccount(
+        metadata=client.V1ObjectMeta(name=service_account_name, namespace=namespace)
+    )
+
+    try:
+        core_api.create_namespaced_service_account(namespace=namespace, body=service_account)
+    except client.ApiException as exc:
+        if exc.status != 409:
+            raise RuntimeError(
+                f"failed to create service account '{service_account_name}' in namespace '{namespace}'"
+            ) from exc
+
+
+def ensure_cluster_role_binding(
+    context: str,
+    binding_name: str,
+    service_account_name: str,
+    namespace: str,
+    cluster_role_name: str = HEADLAMP_ADMIN_CLUSTER_ROLE,
+) -> None:
+    if not context:
+        raise ValueError("context is required")
+    if not binding_name:
+        raise ValueError("binding_name is required")
+    if not service_account_name:
+        raise ValueError("service_account_name is required")
+    if not namespace:
+        raise ValueError("namespace is required")
+    if not cluster_role_name:
+        raise ValueError("cluster_role_name is required")
+
+    try:
+        config.load_kube_config(context=context)
+    except ConfigException as exc:
+        raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
+
+    rbac_api = client.RbacAuthorizationV1Api()
+    binding = {
+        "apiVersion": "rbac.authorization.k8s.io/v1",
+        "kind": "ClusterRoleBinding",
+        "metadata": {"name": binding_name},
+        "roleRef": {
+            "apiGroup": "rbac.authorization.k8s.io",
+            "kind": "ClusterRole",
+            "name": cluster_role_name,
+        },
+        "subjects": [
+            {
+                "kind": "ServiceAccount",
+                "name": service_account_name,
+                "namespace": namespace,
+            }
+        ],
+    }
+
+    try:
+        rbac_api.create_cluster_role_binding(body=binding)
+    except client.ApiException as exc:
+        if exc.status != 409:
+            raise RuntimeError(f"failed to create cluster role binding '{binding_name}'") from exc
+
+
+def _create_service_account_token_legacy(
+    core_api: client.CoreV1Api,
+    namespace: str,
+    service_account_name: str,
+) -> str:
+    secret_name = f"{service_account_name}-token"
+    token_secret = client.V1Secret(
+        metadata=client.V1ObjectMeta(
+            name=secret_name,
+            namespace=namespace,
+            annotations={"kubernetes.io/service-account.name": service_account_name},
+        ),
+        type="kubernetes.io/service-account-token",
+    )
+
+    try:
+        core_api.create_namespaced_secret(namespace=namespace, body=token_secret)
+    except client.ApiException as exc:
+        if exc.status != 409:
+            raise RuntimeError(
+                f"failed to create token secret '{secret_name}' in namespace '{namespace}'"
+            ) from exc
+
+    for _ in range(30):
+        try:
+            secret = core_api.read_namespaced_secret(name=secret_name, namespace=namespace)
+        except client.ApiException as exc:
+            if exc.status == 404:
+                time.sleep(1)
+                continue
+            raise RuntimeError(
+                f"failed to read token secret '{secret_name}' in namespace '{namespace}'"
+            ) from exc
+
+        encoded_token = (secret.data or {}).get("token")
+        if encoded_token:
+            try:
+                return base64.b64decode(encoded_token).decode("utf-8")
+            except (ValueError, UnicodeDecodeError) as exc:
+                raise RuntimeError(f"failed to decode token from secret '{secret_name}'") from exc
+
+        time.sleep(1)
+
+    raise RuntimeError(f"timed out waiting for token secret '{secret_name}' to be populated")
+
+
+def create_service_account_token(
+    context: str,
+    namespace: str,
+    service_account_name: str,
+    expiration_seconds: int | None = None,
+) -> str:
+    if not context:
+        raise ValueError("context is required")
+    if not namespace:
+        raise ValueError("namespace is required")
+    if not service_account_name:
+        raise ValueError("service_account_name is required")
+    if expiration_seconds is not None:
+        try:
+            expiration_seconds = int(expiration_seconds)
+        except (TypeError, ValueError):
+            raise ValueError("expiration_seconds must be an integer") from None
+        if expiration_seconds < 1:
+            raise ValueError("expiration_seconds must be at least 1")
+
+    try:
+        config.load_kube_config(context=context)
+    except ConfigException as exc:
+        raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
+
+    def _extract_token(token_response: Any) -> str | None:
+        status_obj = getattr(token_response, "status", None)
+        token_value = getattr(status_obj, "token", None) if status_obj is not None else None
+        if token_value:
+            return token_value
+
+        if isinstance(token_response, dict):
+            token_value = (token_response.get("status") or {}).get("token")
+            if isinstance(token_value, str) and token_value:
+                return token_value
+
+        return None
+
+    core_api = client.CoreV1Api()
+    token_request_error = None
+    create_token_method = getattr(core_api, "create_namespaced_service_account_token", None)
+
+    if callable(create_token_method):
+        base_spec = {}
+        if expiration_seconds is not None:
+            base_spec["expirationSeconds"] = expiration_seconds
+
+        token_request_bodies = [{"spec": dict(base_spec)}]
+        token_request_with_audience = {"spec": dict(base_spec)}
+        token_request_with_audience["spec"]["audiences"] = [HEADLAMP_TOKEN_REQUEST_AUDIENCE]
+        token_request_bodies.append(token_request_with_audience)
+
+        for token_request_body in token_request_bodies:
+            try:
+                token_response = create_token_method(
+                    name=service_account_name,
+                    namespace=namespace,
+                    body=token_request_body,
+                )
+            except TypeError:
+                try:
+                    token_response = create_token_method(
+                        service_account_name,
+                        namespace,
+                        token_request_body,
+                    )
+                except (client.ApiException, TypeError, ValueError) as exc:
+                    token_request_error = exc
+                    continue
+            except (client.ApiException, ValueError) as exc:
+                token_request_error = exc
+                continue
+
+            token = _extract_token(token_response)
+            if token:
+                return token
+            token_request_error = RuntimeError(
+                "TokenRequest API returned an empty token in response"
+            )
+
+    try:
+        return _create_service_account_token_legacy(
+            core_api=core_api,
+            namespace=namespace,
+            service_account_name=service_account_name,
+        )
+    except Exception as legacy_exc:
+        if token_request_error is not None:
+            raise RuntimeError(
+                f"failed to create service account token via TokenRequest and legacy fallback: {token_request_error}"
+            ) from legacy_exc
+        raise
+
+
+def create_headlamp_service_account_token(context: str) -> str:
+    ensure_service_account(
+        context=context,
+        namespace=HEADLAMP_SERVICE_NAMESPACE,
+        service_account_name=HEADLAMP_ADMIN_SERVICE_ACCOUNT,
+    )
+    ensure_cluster_role_binding(
+        context=context,
+        binding_name=HEADLAMP_ADMIN_CLUSTER_ROLE_BINDING,
+        service_account_name=HEADLAMP_ADMIN_SERVICE_ACCOUNT,
+        namespace=HEADLAMP_SERVICE_NAMESPACE,
+        cluster_role_name=HEADLAMP_ADMIN_CLUSTER_ROLE,
+    )
+    return create_service_account_token(
+        context=context,
+        namespace=HEADLAMP_SERVICE_NAMESPACE,
+        service_account_name=HEADLAMP_ADMIN_SERVICE_ACCOUNT,
     )
 
 

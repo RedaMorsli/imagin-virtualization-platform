@@ -139,6 +139,9 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
             if not context:
                 raise ValueError("Cluster context not found after cluster creation")
             k8s.install_headlamp(context, infra_config.get("web_ui_port", 30080))
+            infra_config["web_ui_token"] = k8s.create_headlamp_service_account_token(context)
+            infra_config["web_ui_service_account"] = k8s.HEADLAMP_ADMIN_SERVICE_ACCOUNT
+            infra_config["web_ui_service_account_namespace"] = k8s.HEADLAMP_SERVICE_NAMESPACE
 
         if provision is not None:
             if provision['name'] == "flower":
@@ -204,4 +207,3 @@ def _get_kubeconfig(user_id: int, project_id: int, infra_id: int):
         raise ValueError(f"Failed to load kubeconfig: {exc}") from exc
 
     return {"kubeconfig": kubeconfig_content}
-
