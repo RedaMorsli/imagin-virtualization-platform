@@ -75,3 +75,37 @@ selected = 0
 item_count = 1
 popup/item_0/text = " "
 popup/item_0/id = 0
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="." unique_id=76053581]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer6" unique_id=411481776]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Web UI (Headlamp)"
+
+[node name="WebuiCheck" type="CheckBox" parent="HBoxContainer6" unique_id=70353429]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+button_pressed = true
+flat = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="." unique_id=527295749]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer7" unique_id=23937405]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Web UI port"
+
+[node name="WebUIPort" type="SpinBox" parent="HBoxContainer7" unique_id=222907215]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 30000.0
+max_value = 32767.0
+value = 30080.0
+rounded = true
+alignment = 2

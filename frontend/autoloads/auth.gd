@@ -3,7 +3,10 @@ extends Node
 
 var HTTP_HEADER:
 	get():
-		return ["Authorization: Bearer " + Config.auth_token]
+		return [
+			"Authorization: Bearer " + Config.auth_token,
+			"Content-Type: application/json"
+			]
 
 signal logged_in()
 signal logged_out()

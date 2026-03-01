@@ -129,7 +129,17 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
             registry_port = registry_config.get("port", 5000)
             registry_use = f"k3d-{registry_name}:{registry_port}"
 
+        if infra_config.get("web_ui") is True:
+            infra_config['ports'] = [infra_config.get("web_ui_port", 30080)]
+
         cluster_output = create_k3d_cluster(infra_config, registry=registry_use)
+
+        if infra_config.get("web_ui") is True:
+            context = infra_config.get("context")
+            if not context:
+                raise ValueError("Cluster context not found after cluster creation")
+            k8s.install_headlamp(context, infra_config.get("web_ui_port", 30080))
+
         if provision is not None:
             if provision['name'] == "flower":
                 from infra.flower import provision_flower_on_cluster
@@ -194,5 +204,4 @@ def _get_kubeconfig(user_id: int, project_id: int, infra_id: int):
         raise ValueError(f"Failed to load kubeconfig: {exc}") from exc
 
     return {"kubeconfig": kubeconfig_content}
-
 

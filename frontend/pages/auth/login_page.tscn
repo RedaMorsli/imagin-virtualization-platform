@@ -181,7 +181,6 @@ layout_mode = 2
 placeholder_text = "PASSWORD"
 caret_blink = true
 secret = true
-secret_character = "●"
 right_icon = ExtResource("7_8hty6")
 
 [node name="ErrorLabel" type="Label" parent="HBoxContainer/LoginPanel/MarginContainer/VBoxContainer/VBoxContainer" unique_id=936181338]

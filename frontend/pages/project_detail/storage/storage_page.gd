@@ -20,12 +20,12 @@ func _ready() -> void:
 		'disabled':
 			not_active_container.show()
 		_:
-			error_label.text = status
+			error_label.text = str(status)
 			error_label.show()
 	loading_spinner.hide()
 
 
-func _get_storage_status() -> String:
+func _get_storage_status():
 	var data = {
 		'project_id': Context.project.project_id
 	}

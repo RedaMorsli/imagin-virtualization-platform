@@ -20,12 +20,30 @@ def create_k3d_cluster(config: Dict[str, Any], registry: str | None = None) -> s
         raise ValueError("'node_count' must be at least 1")
 
     agent_count = max(node_count - 1, 0)
+    raw_ports = config.get("ports", [])
+    if raw_ports is None:
+        raw_ports = []
+    if not isinstance(raw_ports, (list, tuple)):
+        raise ValueError("'ports' must be an array of port numbers")
+
+    ports: list[int] = []
+    for raw_port in raw_ports:
+        try:
+            port = int(raw_port)
+        except (TypeError, ValueError):
+            raise ValueError("'ports' entries must be integers") from None
+
+        if port < 1 or port > 65535:
+            raise ValueError("'ports' entries must be between 1 and 65535")
+        ports.append(port)
 
     cmd = ["k3d", "cluster", "create", cluster_name, "--servers", "1"]
     if registry:
         cmd.extend(["--registry-use", registry])
     if agent_count:
         cmd.extend(["--agents", str(agent_count)])
+    for port in ports:
+        cmd.extend(["-p", f"{port}:{port}@loadbalancer"])
 
     result = subprocess.run(
         cmd,
