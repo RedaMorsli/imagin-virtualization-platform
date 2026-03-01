@@ -44,3 +44,11 @@ func _on_option_pressed(idx: int):
 				printerr("Error while fetching cluster config file")
 				return
 			DisplayServer.clipboard_set(response.get_data()['kubeconfig'])
+		1:
+			DisplayServer.clipboard_set(infra.infra_config['web_ui_token'])
+
+
+func _on_item_pressed(item: ItemCard) -> void:
+	OS.shell_open("http://localhost:" + str(int(infra.infra_config['web_ui_port'])))
+	#OS.shell_open("http://localhost:30080")
+	

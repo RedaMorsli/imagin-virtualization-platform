@@ -5,7 +5,7 @@
 
 [node name="ClusterItemCard" unique_id=292612764 instance=ExtResource("1_15u1j")]
 script = ExtResource("2_l8pvq")
-menu_options = Array[String](["Copy kubeconfig"])
+menu_options = Array[String](["Copy kubeconfig", "Copy WebUI token"])
 
 [node name="StatusLabel" type="Label" parent="MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(1095869547) index="1" unique_id=2061303325]
 unique_name_in_owner = true
@@ -41,4 +41,5 @@ layout_mode = 2
 theme_type_variation = &"SecondaryText"
 text = "Nodes"
 
+[connection signal="item_pressed" from="." to="." method="_on_item_pressed"]
 [connection signal="menu_option_pressed" from="." to="." method="_on_option_pressed"]
