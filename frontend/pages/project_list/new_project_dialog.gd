@@ -14,7 +14,7 @@ func _on_create_button_pressed() -> void:
 	}
 	var response = await Http.send_request(
 		API.create_project_url,
-		["Authorization: Bearer " + Config.auth_token],
+		Auth.HTTP_HEADER,
 		HTTPClient.METHOD_POST,
 		data,
 		"Failed to create project"
