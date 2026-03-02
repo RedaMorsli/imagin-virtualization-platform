@@ -4,8 +4,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -15,8 +15,24 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     environment:
-      - API_URL=http://localhost:8000
+      API_URL: https://${DOMAIN_NAME:?DOMAIN_NAME is required}/api/
+    expose:
+      - "80"
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: nginx
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME:?DOMAIN_NAME is required}
+      NGINX_ENVSUBST_FILTER: DOMAIN_NAME
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/templates/default.conf.template:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
     depends_on:
+      - frontend
       - backend

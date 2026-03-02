@@ -1,4 +1,4 @@
-# imagin-virtualization-platform
+﻿# imagin-virtualization-platform
 
 ## Installation
 
@@ -12,5 +12,32 @@
    ```bash
    python backend/main.py
    ```
-4. Install the Godot Engine (download from the official site) if you don�t have it yet.
+4. Install the Godot Engine (download from the official site) if you don’t have it yet.
 5. Open the Godot project located in the `frontend` folder to run the frontend.
+
+### Production (Docker Compose + HTTPS)
+This setup serves the frontend and backend behind Nginx with TLS termination.
+
+1. Prerequisites:
+   - Docker and Docker Compose installed on the VPS.
+   - A domain name pointing to your VPS public IP (A/AAAA DNS record).
+   - TLS certificate and key files for your domain.
+2. Configure domain variable:
+   - Copy `.env.example` to `.env`.
+   - Set `DOMAIN_NAME` in `.env`:
+   ```env
+   DOMAIN_NAME=your-domain.com
+   ```
+3. Install TLS certificate files:
+   - Place your certificate chain at `nginx/certs/fullchain.pem`.
+   - Place your private key at `nginx/certs/privkey.pem`.
+4. Start the stack:
+   ```bash
+   docker compose up -d --build
+   ```
+5. Ensure ports `80` and `443` are open in your VPS firewall/security group.
+6. Open `https://your-domain.com` in your browser.
+
+Notes:
+- HTTP traffic is redirected to HTTPS automatically.
+- Frontend API calls are configured from `DOMAIN_NAME` and routed through Nginx at `https://<DOMAIN_NAME>/api/`.
