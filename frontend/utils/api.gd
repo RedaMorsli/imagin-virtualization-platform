@@ -4,21 +4,72 @@ extends Script
 
 const HEADERS_JSON = ["Content-Type: application/json"]
 const ENV_API_URL = "API_URL"
+const WEB_API_BASE = "/api/"
+const DEV_API_BASE = "http://localhost:8000/"
 
 
-static var api_url = "http://localhost:8000/" # Replaced by env var
-static var login_url: String = api_url + "auth/login"
-static var verify_url: String = api_url + "auth/verify"
-static var create_project_url: String = api_url + "projects/create"
-static var fetch_projects_url: String = api_url + "projects/fetch"
-static var create_infra_url: String = api_url + "infra/create"
-static var fetch_infras_url: String = api_url + "infra/fetch"
-static var fetch_kubeconfig_url: String = api_url + "infra/kubeconfig"
-static var create_registry_url: String = api_url + "registry/create"
-static var get_storage_status_url: String = api_url + "storage/status"
-static var create_storage_url: String = api_url + "storage/create"
+static var api_url: String:
+	get:
+		return _get_api_base()
+
+static var login_url: String:
+	get:
+		return _build_url("auth/login")
+
+static var verify_url: String:
+	get:
+		return _build_url("auth/verify")
+
+static var create_project_url: String:
+	get:
+		return _build_url("projects/create")
+
+static var fetch_projects_url: String:
+	get:
+		return _build_url("projects/fetch")
+
+static var create_infra_url: String:
+	get:
+		return _build_url("infra/create")
+
+static var fetch_infras_url: String:
+	get:
+		return _build_url("infra/fetch")
+
+static var fetch_kubeconfig_url: String:
+	get:
+		return _build_url("infra/kubeconfig")
+
+static var create_registry_url: String:
+	get:
+		return _build_url("registry/create")
+
+static var get_storage_status_url: String:
+	get:
+		return _build_url("storage/status")
+
+static var create_storage_url: String:
+	get:
+		return _build_url("storage/create")
 
 
-func _init() -> void:
+static func _get_api_base() -> String:
+	# In browser builds, route backend calls through the same origin reverse proxy.
+	if OS.has_feature("web"):
+		return WEB_API_BASE
 	if OS.has_environment(ENV_API_URL):
-		api_url = OS.get_environment(ENV_API_URL)
+		return _normalize_base_url(OS.get_environment(ENV_API_URL))
+	return DEV_API_BASE
+
+
+static func _build_url(path: String) -> String:
+	return _get_api_base() + path
+
+
+static func _normalize_base_url(url: String) -> String:
+	var normalized = url.strip_edges()
+	if normalized.is_empty():
+		return DEV_API_BASE
+	if not normalized.ends_with("/"):
+		normalized += "/"
+	return normalized

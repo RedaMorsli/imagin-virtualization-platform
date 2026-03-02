@@ -23,10 +23,10 @@ This setup serves the frontend and backend behind Nginx with TLS termination.
    - A domain name pointing to your VPS public IP (A/AAAA DNS record).
    - TLS certificate and key files for your domain.
 2. Configure domain variable:
-   - Copy `.env.example` to `.env`.
-   - Set `DOMAIN_NAME` in `.env`:
-   ```env
-   DOMAIN_NAME=your-domain.com
+   ```bash
+   cp .env.example .env
+   sed -i 's/^DOMAIN_NAME=.*/DOMAIN_NAME=your-domain.com/' .env
+   cat .env
    ```
 3. Install TLS certificate files:
    - Place your certificate chain at `nginx/certs/fullchain.pem`.
