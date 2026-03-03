@@ -16,7 +16,7 @@
 5. Open the Godot project located in the `frontend` folder to run the frontend.
 
 ### Production (Docker Compose + HTTPS)
-This setup serves the frontend and backend behind Nginx with TLS termination.
+This setup serves the frontend and backend behind Traefik with TLS termination.
 
 1. Prerequisites:
    - Docker and Docker Compose installed on the VPS.
@@ -29,8 +29,8 @@ This setup serves the frontend and backend behind Nginx with TLS termination.
    cat .env
    ```
 3. Install TLS certificate files:
-   - Place your certificate chain at `nginx/certs/fullchain.pem`.
-   - Place your private key at `nginx/certs/privkey.pem`.
+   - Place your certificate chain at `traefik/certs/fullchain.pem`.
+   - Place your private key at `traefik/certs/privkey.pem`.
 4. Start the stack:
    ```bash
    docker compose up -d --build
@@ -40,4 +40,4 @@ This setup serves the frontend and backend behind Nginx with TLS termination.
 
 Notes:
 - HTTP traffic is redirected to HTTPS automatically.
-- Frontend API calls are configured from `DOMAIN_NAME` and routed through Nginx at `https://<DOMAIN_NAME>/api/`.
+- Frontend API calls are configured from `DOMAIN_NAME` and routed through Traefik at `https://<DOMAIN_NAME>/api/`.
