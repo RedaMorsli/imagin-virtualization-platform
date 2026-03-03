@@ -45,10 +45,15 @@ func _on_option_pressed(idx: int):
 				return
 			DisplayServer.clipboard_set(response.get_data()['kubeconfig'])
 		1:
-			DisplayServer.clipboard_set(infra.infra_config['web_ui_token'])
+			if infra.infra_config.has("web_ui_token"):
+				DisplayServer.clipboard_set(infra.infra_config['web_ui_token'])
 
 
 func _on_item_pressed(item: ItemCard) -> void:
-	OS.shell_open("http://localhost:" + str(int(infra.infra_config['web_ui_port'])))
-	#OS.shell_open("http://localhost:30080")
+	var web_ui_url = str(infra.infra_config.get("web_ui_url", "")).strip_edges()
+	if web_ui_url != "":
+		OS.shell_open(web_ui_url)
+		return
+	if infra.infra_config.has("web_ui_port"):
+		OS.shell_open("http://localhost:" + str(int(infra.infra_config['web_ui_port'])))
 	

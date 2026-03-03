@@ -5,11 +5,16 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     environment:
+      DOMAIN_NAME: ${DOMAIN_NAME:?DOMAIN_NAME is required}
+      APPS_BASE_DOMAIN: ${APPS_BASE_DOMAIN:-}
+      TRAEFIK_DYNAMIC_DIR: /app/traefik-dynamic
+      ENDPOINT_TARGET_HOST: host.docker.internal
       K8S_API_REWRITE_HOST: host.docker.internal
     expose:
       - "8000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/dynamic:/app/traefik-dynamic
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
@@ -42,7 +47,7 @@ services:
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
 
   traefik:
-    image: traefik:v3.6.1
+    image: traefik:v3.6.9
     container_name: traefik
     command:
       - "--providers.docker=true"
@@ -61,6 +66,8 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./traefik/dynamic:/etc/traefik/dynamic:ro"
       - "./traefik/certs:/etc/traefik/certs:ro"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - frontend
       - backend

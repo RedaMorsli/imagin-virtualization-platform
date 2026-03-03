@@ -5,6 +5,7 @@ import db
 import api.auth as auth
 import json
 import infra.k8s as k8s
+import infra.traefik as traefik
 from api.project import user_has_project_access
 
 router = APIRouter(
@@ -142,6 +143,14 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
             infra_config["web_ui_token"] = k8s.create_headlamp_service_account_token(context)
             infra_config["web_ui_service_account"] = k8s.HEADLAMP_ADMIN_SERVICE_ACCOUNT
             infra_config["web_ui_service_account_namespace"] = k8s.HEADLAMP_SERVICE_NAMESPACE
+            route_details = traefik.register_http_endpoint(
+                route_name=f"headlamp-p{project_id}-{infra_config.get('name', 'cluster')}",
+                target_port=infra_config.get("web_ui_port", 30080),
+            )
+            infra_config["web_ui_hostname"] = route_details["hostname"]
+            infra_config["web_ui_url"] = route_details["url"]
+            infra_config["web_ui_route_name"] = route_details["route_name"]
+            infra_config["web_ui_route_config_file"] = route_details["config_file"]
 
         if provision is not None:
             if provision['name'] == "flower":

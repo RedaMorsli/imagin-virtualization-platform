@@ -21,11 +21,14 @@ This setup serves the frontend and backend behind Traefik with TLS termination.
 1. Prerequisites:
    - Docker and Docker Compose installed on the VPS.
    - A domain name pointing to your VPS public IP (A/AAAA DNS record).
+   - A wildcard DNS record for app endpoints (for example `*.apps.your-domain.com`).
    - TLS certificate and key files for your domain.
 2. Configure domain variable:
    ```bash
    cp .env.example .env
    sed -i 's/^DOMAIN_NAME=.*/DOMAIN_NAME=your-domain.com/' .env
+   # Optional: override if you do not use apps.<DOMAIN_NAME>
+   # echo "APPS_BASE_DOMAIN=apps.your-domain.com" >> .env
    cat .env
    ```
 3. Install TLS certificate files:
@@ -41,3 +44,4 @@ This setup serves the frontend and backend behind Traefik with TLS termination.
 Notes:
 - HTTP traffic is redirected to HTTPS automatically.
 - Frontend API calls are configured from `DOMAIN_NAME` and routed through Traefik at `https://<DOMAIN_NAME>/api/`.
+- Cluster web UIs (for example Headlamp) are exposed through dynamic Traefik routes on `https://<generated-subdomain>.<APPS_BASE_DOMAIN>`.
