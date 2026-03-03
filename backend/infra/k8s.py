@@ -488,10 +488,18 @@ def get_raw_kubeconfig(context: str | None = None, rewrite_host: str | None = No
             parsed = urlparse(server)
             if not parsed.scheme or not parsed.netloc:
                 continue
+            original_host = parsed.hostname
             new_netloc = f"{rewrite_host}"
             if parsed.port:
                 new_netloc = f"{new_netloc}:{parsed.port}"
             cluster_spec["server"] = urlunparse(parsed._replace(netloc=new_netloc))
+            # Keep TLS verification bound to the original API server certificate identity.
+            if (
+                original_host
+                and rewrite_host != original_host
+                and not cluster_spec.get("tls-server-name")
+            ):
+                cluster_spec["tls-server-name"] = original_host
 
     sanitized_config = _strip_config_nodes(config_node)
     if context:
