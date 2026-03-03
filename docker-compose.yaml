@@ -4,10 +4,14 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
+    environment:
+      K8S_API_REWRITE_HOST: host.docker.internal
     expose:
       - "8000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   frontend:
     build:

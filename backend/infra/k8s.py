@@ -1,5 +1,6 @@
 import base64
 import os
+import tempfile
 import time
 from typing import Any
 from urllib.error import HTTPError as UrlHTTPError, URLError
@@ -20,6 +21,39 @@ HEADLAMP_ADMIN_SERVICE_ACCOUNT = "headlamp-admin"
 HEADLAMP_ADMIN_CLUSTER_ROLE_BINDING = "headlamp-admin"
 HEADLAMP_ADMIN_CLUSTER_ROLE = "cluster-admin"
 HEADLAMP_TOKEN_REQUEST_AUDIENCE = "https://kubernetes.default.svc"
+K8S_API_REWRITE_HOST_ENV = "K8S_API_REWRITE_HOST"
+
+
+def _configured_kube_api_rewrite_host() -> str | None:
+    rewrite_host = os.environ.get(K8S_API_REWRITE_HOST_ENV, "").strip()
+    if not rewrite_host:
+        return None
+    return rewrite_host
+
+
+def _load_kube_config(context: str) -> None:
+    rewrite_host = _configured_kube_api_rewrite_host()
+    if not rewrite_host:
+        config.load_kube_config(context=context)
+        return
+
+    try:
+        rewritten_kubeconfig = get_raw_kubeconfig(context=context, rewrite_host=rewrite_host)
+    except RuntimeError as exc:
+        raise ConfigException(str(exc)) from exc
+
+    temp_kubeconfig_path = ""
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as temp_kubeconfig:
+            temp_kubeconfig.write(rewritten_kubeconfig)
+            temp_kubeconfig_path = temp_kubeconfig.name
+        config.load_kube_config(config_file=temp_kubeconfig_path, context=context)
+    finally:
+        if temp_kubeconfig_path:
+            try:
+                os.remove(temp_kubeconfig_path)
+            except OSError:
+                pass
 
 
 def apply_manifest(context: str, manifest_dict: dict) -> None:
@@ -27,7 +61,7 @@ def apply_manifest(context: str, manifest_dict: dict) -> None:
         raise ValueError("context is required")
 
     try:
-        config.load_kube_config(context=context)
+        _load_kube_config(context)
     except ConfigException as exc:
         raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
 
@@ -48,7 +82,7 @@ def apply_manifest_from_url(context: str, manifest_url: str) -> None:
         raise ValueError("manifest_url is required")
 
     try:
-        config.load_kube_config(context=context)
+        _load_kube_config(context)
     except ConfigException as exc:
         raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
 
@@ -117,7 +151,7 @@ def change_service_type(
         raise ValueError("node_port can only be set when service_type is 'NodePort'")
 
     try:
-        config.load_kube_config(context=context)
+        _load_kube_config(context)
     except ConfigException as exc:
         raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
 
@@ -190,7 +224,7 @@ def ensure_service_account(context: str, namespace: str, service_account_name: s
         raise ValueError("service_account_name is required")
 
     try:
-        config.load_kube_config(context=context)
+        _load_kube_config(context)
     except ConfigException as exc:
         raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
 
@@ -227,7 +261,7 @@ def ensure_cluster_role_binding(
         raise ValueError("cluster_role_name is required")
 
     try:
-        config.load_kube_config(context=context)
+        _load_kube_config(context)
     except ConfigException as exc:
         raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
 
@@ -324,7 +358,7 @@ def create_service_account_token(
             raise ValueError("expiration_seconds must be at least 1")
 
     try:
-        config.load_kube_config(context=context)
+        _load_kube_config(context)
     except ConfigException as exc:
         raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
 
@@ -496,7 +530,7 @@ def get_cluster_status(context: str) -> dict:
         raise ValueError("context is required")
 
     try:
-        config.load_kube_config(context=context)
+        _load_kube_config(context)
     except ConfigException as exc:
         raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
 
