@@ -24,6 +24,21 @@ app.include_router(storage.router)
 app.include_router(experiment.router)
 
 
+@app.on_event("startup")
+def startup_tasks():
+    init_db()
+    try:
+        reconciliation = infra.reconcile_cluster_web_ui_endpoints()
+        print(
+            "Cluster endpoint reconciliation complete: "
+            f"reconciled={reconciliation['reconciled']}, "
+            f"updated={reconciliation['updated']}, "
+            f"errors={reconciliation['errors']}"
+        )
+    except Exception as exc:
+        print(f"warning: cluster endpoint reconciliation failed at startup: {exc}")
+
+
 def start_auth_server(host: str = "0.0.0.0", port: int = 8000):
     uvicorn.run(
         app,
@@ -33,5 +48,4 @@ def start_auth_server(host: str = "0.0.0.0", port: int = 8000):
     )
 
 if __name__ == "__main__":
-    init_db()
     start_auth_server()

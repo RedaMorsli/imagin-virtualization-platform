@@ -6,9 +6,9 @@ services:
     container_name: backend
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME:?DOMAIN_NAME is required}
-      APPS_BASE_DOMAIN: ${APPS_BASE_DOMAIN:-}
       TRAEFIK_DYNAMIC_DIR: /app/traefik-dynamic
       ENDPOINT_TARGET_HOST: host.docker.internal
+      ENDPOINT_PATH_BASE: ${ENDPOINT_PATH_BASE:-/endpoints}
       K8S_API_REWRITE_HOST: host.docker.internal
     expose:
       - "8000"

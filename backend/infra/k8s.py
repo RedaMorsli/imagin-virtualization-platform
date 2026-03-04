@@ -1,5 +1,6 @@
 import base64
 import os
+import re
 import tempfile
 import time
 from typing import Any
@@ -15,6 +16,7 @@ from urllib3.exceptions import HTTPError as Urllib3HTTPError, MaxRetryError
 
 HEADLAMP_MANIFEST_URL = "https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml"
 HEADLAMP_SERVICE_NAME = "headlamp"
+HEADLAMP_DEPLOYMENT_NAME = "headlamp"
 HEADLAMP_SERVICE_NAMESPACE = "kube-system"
 HEADLAMP_NODE_PORT = 30080
 HEADLAMP_ADMIN_SERVICE_ACCOUNT = "headlamp-admin"
@@ -114,6 +116,135 @@ def apply_manifest_from_url(context: str, manifest_url: str) -> None:
         raise RuntimeError("failed to apply manifest to cluster") from exc
 
 
+def _normalize_base_url_path(base_url: str) -> str:
+    normalized = (base_url or "").strip()
+    if not normalized:
+        return "/"
+    if not normalized.startswith("/"):
+        normalized = f"/{normalized}"
+    normalized = re.sub(r"/{2,}", "/", normalized)
+    if not normalized.endswith("/"):
+        normalized = f"{normalized}/"
+    return normalized
+
+
+def _build_probe_http_get_patch(probe: Any, base_url_path: str) -> dict | None:
+    if probe is None:
+        return None
+
+    http_get = getattr(probe, "http_get", None)
+    if http_get is None:
+        return None
+
+    http_get_patch = {
+        "path": base_url_path,
+        "port": http_get.port,
+    }
+    if http_get.host:
+        http_get_patch["host"] = http_get.host
+    if http_get.scheme:
+        http_get_patch["scheme"] = http_get.scheme
+
+    headers = []
+    for header in (http_get.http_headers or []):
+        if not header or not getattr(header, "name", None):
+            continue
+        headers.append({"name": header.name, "value": getattr(header, "value", "")})
+    if headers:
+        http_get_patch["httpHeaders"] = headers
+
+    return {"httpGet": http_get_patch}
+
+
+def configure_headlamp_base_url(context: str, base_url: str) -> None:
+    if not context:
+        raise ValueError("context is required")
+
+    normalized_base_url = _normalize_base_url_path(base_url)
+
+    try:
+        _load_kube_config(context)
+    except ConfigException as exc:
+        raise RuntimeError(f"failed to load kubeconfig for context '{context}'") from exc
+
+    apps_api = client.AppsV1Api()
+    try:
+        deployment = apps_api.read_namespaced_deployment(
+            name=HEADLAMP_DEPLOYMENT_NAME,
+            namespace=HEADLAMP_SERVICE_NAMESPACE,
+        )
+    except client.ApiException as exc:
+        if exc.status == 404:
+            raise ValueError(
+                f"deployment '{HEADLAMP_DEPLOYMENT_NAME}' not found in namespace "
+                f"'{HEADLAMP_SERVICE_NAMESPACE}'"
+            ) from exc
+        raise RuntimeError("failed to read headlamp deployment from cluster") from exc
+
+    pod_spec = getattr(getattr(deployment.spec, "template", None), "spec", None)
+    containers = list(getattr(pod_spec, "containers", []) or [])
+    if not containers:
+        raise RuntimeError("headlamp deployment has no containers")
+
+    target_container = next(
+        (container for container in containers if container.name == HEADLAMP_SERVICE_NAME),
+        containers[0],
+    )
+
+    original_args = list(target_container.args or [])
+    updated_args: list[str] = []
+    skip_next = False
+    for arg in original_args:
+        if skip_next:
+            skip_next = False
+            continue
+        if arg == "--base-url":
+            skip_next = True
+            continue
+        if isinstance(arg, str) and arg.startswith("--base-url="):
+            continue
+        updated_args.append(arg)
+    updated_args.append(f"--base-url={normalized_base_url}")
+
+    container_patch: dict[str, Any] = {
+        "name": target_container.name,
+        "args": updated_args,
+    }
+
+    for probe_attr, patch_key in (
+        ("liveness_probe", "livenessProbe"),
+        ("readiness_probe", "readinessProbe"),
+        ("startup_probe", "startupProbe"),
+    ):
+        probe_patch = _build_probe_http_get_patch(
+            getattr(target_container, probe_attr, None),
+            normalized_base_url,
+        )
+        if probe_patch is not None:
+            container_patch[patch_key] = probe_patch
+
+    patch_body = {
+        "spec": {
+            "template": {
+                "spec": {
+                    "containers": [container_patch],
+                }
+            }
+        }
+    }
+
+    try:
+        apps_api.patch_namespaced_deployment(
+            name=HEADLAMP_DEPLOYMENT_NAME,
+            namespace=HEADLAMP_SERVICE_NAMESPACE,
+            body=patch_body,
+        )
+    except client.ApiException as exc:
+        raise RuntimeError(
+            f"failed to set Headlamp base URL to '{normalized_base_url}' for context '{context}'"
+        ) from exc
+
+
 def change_service_type(
     context: str,
     service_name: str,
@@ -204,7 +335,11 @@ def change_service_type(
         ) from exc
 
 
-def install_headlamp(context: str, node_port: int = HEADLAMP_NODE_PORT) -> None:
+def install_headlamp(
+    context: str,
+    node_port: int = HEADLAMP_NODE_PORT,
+    base_url: str = "/",
+) -> None:
     apply_manifest_from_url(context, HEADLAMP_MANIFEST_URL)
     change_service_type(
         context=context,
@@ -213,6 +348,7 @@ def install_headlamp(context: str, node_port: int = HEADLAMP_NODE_PORT) -> None:
         service_type="NodePort",
         node_port=node_port,
     )
+    configure_headlamp_base_url(context=context, base_url=base_url)
 
 
 def ensure_service_account(context: str, namespace: str, service_account_name: str) -> None:

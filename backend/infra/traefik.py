@@ -7,12 +7,13 @@ from typing import Dict
 import yaml
 
 TRAEFIK_DYNAMIC_DIR_ENV = "TRAEFIK_DYNAMIC_DIR"
-APPS_BASE_DOMAIN_ENV = "APPS_BASE_DOMAIN"
 DOMAIN_NAME_ENV = "DOMAIN_NAME"
 ENDPOINT_TARGET_HOST_ENV = "ENDPOINT_TARGET_HOST"
+ENDPOINT_PATH_BASE_ENV = "ENDPOINT_PATH_BASE"
 
 DEFAULT_TRAEFIK_DYNAMIC_DIR = "/app/traefik-dynamic"
 DEFAULT_ENDPOINT_TARGET_HOST = "host.docker.internal"
+DEFAULT_ENDPOINT_PATH_BASE = "/endpoints"
 ENDPOINT_FILE_PREFIX = "endpoint-"
 MAX_DNS_LABEL_LENGTH = 63
 HASH_SUFFIX_LENGTH = 8
@@ -48,24 +49,32 @@ def _router_name(route_name: str) -> str:
     return f"{bounded_base}-{suffix}"
 
 
-def _resolve_apps_base_domain() -> str:
-    explicit_domain = os.environ.get(APPS_BASE_DOMAIN_ENV, "").strip().strip(".").lower()
-    if explicit_domain:
-        return explicit_domain
-
-    root_domain = os.environ.get(DOMAIN_NAME_ENV, "").strip().strip(".").lower()
-    if not root_domain:
-        raise RuntimeError(
-            "Cannot resolve apps base domain. Set APPS_BASE_DOMAIN or DOMAIN_NAME."
-        )
-    return f"apps.{root_domain}"
-
-
 def _resolve_dynamic_dir() -> str:
     dynamic_dir = os.environ.get(TRAEFIK_DYNAMIC_DIR_ENV, DEFAULT_TRAEFIK_DYNAMIC_DIR).strip()
     if not dynamic_dir:
         raise RuntimeError("TRAEFIK_DYNAMIC_DIR is empty")
     return dynamic_dir
+
+
+def _resolve_domain_name() -> str:
+    domain_name = os.environ.get(DOMAIN_NAME_ENV, "").strip().strip(".").lower()
+    if not domain_name:
+        raise RuntimeError("DOMAIN_NAME is required")
+    return domain_name
+
+
+def _resolve_endpoint_path_base() -> str:
+    endpoint_path_base = os.environ.get(
+        ENDPOINT_PATH_BASE_ENV, DEFAULT_ENDPOINT_PATH_BASE
+    ).strip()
+    if not endpoint_path_base:
+        raise RuntimeError("ENDPOINT_PATH_BASE is empty")
+    if not endpoint_path_base.startswith("/"):
+        endpoint_path_base = f"/{endpoint_path_base}"
+    endpoint_path_base = re.sub(r"/{2,}", "/", endpoint_path_base).rstrip("/")
+    if endpoint_path_base in ("", "/"):
+        raise RuntimeError("ENDPOINT_PATH_BASE must not resolve to '/'")
+    return endpoint_path_base
 
 
 def _write_yaml_atomic(path: str, payload: Dict) -> None:
@@ -93,6 +102,24 @@ def _write_yaml_atomic(path: str, payload: Dict) -> None:
                 pass
 
 
+def build_endpoint_id(seed: str) -> str:
+    if not seed:
+        raise ValueError("seed is required")
+    return _router_name(seed)
+
+
+def resolve_endpoint_details(endpoint_id: str) -> Dict[str, str]:
+    normalized_endpoint_id = build_endpoint_id(endpoint_id)
+    domain_name = _resolve_domain_name()
+    endpoint_path_prefix = f"{_resolve_endpoint_path_base()}/{normalized_endpoint_id}"
+    return {
+        "endpoint_id": normalized_endpoint_id,
+        "domain_name": domain_name,
+        "path_prefix": endpoint_path_prefix,
+        "url": f"https://{domain_name}{endpoint_path_prefix}/",
+    }
+
+
 def register_http_endpoint(route_name: str, target_port: int | str) -> Dict[str, str]:
     if not route_name:
         raise ValueError("route_name is required")
@@ -103,31 +130,37 @@ def register_http_endpoint(route_name: str, target_port: int | str) -> Dict[str,
     if parsed_port < 1 or parsed_port > 65535:
         raise ValueError("target_port must be between 1 and 65535")
 
-    apps_base_domain = _resolve_apps_base_domain()
     endpoint_target_host = os.environ.get(
         ENDPOINT_TARGET_HOST_ENV, DEFAULT_ENDPOINT_TARGET_HOST
     ).strip()
     if not endpoint_target_host:
         raise RuntimeError("ENDPOINT_TARGET_HOST is empty")
 
-    router_name = _router_name(route_name)
-    hostname = f"{router_name}.{apps_base_domain}"
+    endpoint_details = resolve_endpoint_details(route_name)
+    endpoint_id = endpoint_details["endpoint_id"]
+    domain_name = endpoint_details["domain_name"]
+    endpoint_path_prefix = endpoint_details["path_prefix"]
+    endpoint_url = endpoint_details["url"]
     target_url = f"http://{endpoint_target_host}:{parsed_port}"
-    file_name = f"{ENDPOINT_FILE_PREFIX}{router_name}.yaml"
+    file_name = f"{ENDPOINT_FILE_PREFIX}{endpoint_id}.yaml"
     output_path = os.path.join(_resolve_dynamic_dir(), file_name)
 
     config = {
         "http": {
             "routers": {
-                router_name: {
-                    "rule": f"Host(`{hostname}`)",
+                endpoint_id: {
+                    "rule": (
+                        f"Host(`{domain_name}`) && "
+                        f"(Path(`{endpoint_path_prefix}`) || "
+                        f"PathPrefix(`{endpoint_path_prefix}/`))"
+                    ),
                     "entryPoints": ["websecure"],
-                    "service": router_name,
+                    "service": endpoint_id,
                     "tls": {},
                 }
             },
             "services": {
-                router_name: {
+                endpoint_id: {
                     "loadBalancer": {
                         "servers": [
                             {"url": target_url},
@@ -141,9 +174,12 @@ def register_http_endpoint(route_name: str, target_port: int | str) -> Dict[str,
     _write_yaml_atomic(output_path, config)
 
     return {
-        "route_name": router_name,
-        "hostname": hostname,
-        "url": f"https://{hostname}",
+        "route_name": endpoint_id,
+        "endpoint_id": endpoint_id,
+        "hostname": domain_name,
+        "domain_name": domain_name,
+        "path_prefix": endpoint_path_prefix,
+        "url": endpoint_url,
         "target_url": target_url,
         "config_file": file_name,
     }
@@ -152,8 +188,8 @@ def register_http_endpoint(route_name: str, target_port: int | str) -> Dict[str,
 def delete_http_endpoint(route_name: str) -> bool:
     if not route_name:
         raise ValueError("route_name is required")
-    router_name = _router_name(route_name)
-    path = os.path.join(_resolve_dynamic_dir(), f"{ENDPOINT_FILE_PREFIX}{router_name}.yaml")
+    endpoint_id = build_endpoint_id(route_name)
+    path = os.path.join(_resolve_dynamic_dir(), f"{ENDPOINT_FILE_PREFIX}{endpoint_id}.yaml")
     if not os.path.exists(path):
         return False
     os.remove(path)
