@@ -176,9 +176,10 @@ def _reconcile_cluster_web_ui_route(
     endpoint_id = _resolve_web_ui_endpoint_id(project_id, infra_name, infra_config)
     web_ui_port = _resolve_web_ui_port(infra_config)
     route_details = traefik.register_http_endpoint(route_name=endpoint_id, target_port=web_ui_port)
-    base_url = f"{route_details['path_prefix']}/"
+    base_url = route_details["path_prefix"]
 
     context = str(infra_config.get("context", "")).strip()
+    token_updated = False
     if context:
         try:
             k8s.configure_headlamp_base_url(context=context, base_url=base_url)
@@ -189,12 +190,26 @@ def _reconcile_cluster_web_ui_route(
                 f"warning: failed to set Headlamp base URL for infra_id={infra_id}, "
                 f"context='{context}': {exc}"
             )
+        try:
+            refreshed_token = k8s.create_headlamp_service_account_token(context)
+            if infra_config.get("web_ui_token") != refreshed_token:
+                infra_config["web_ui_token"] = refreshed_token
+                token_updated = True
+        except Exception as exc:
+            if fail_on_headlamp_error:
+                raise
+            print(
+                f"warning: failed to refresh Headlamp token for infra_id={infra_id}, "
+                f"context='{context}': {exc}"
+            )
     elif fail_on_headlamp_error:
         raise ValueError("Cluster context not found while configuring Headlamp base URL")
 
     updated = _apply_web_ui_route_metadata(infra_config, route_details)
     if infra_config.get("web_ui_port") != web_ui_port:
         infra_config["web_ui_port"] = web_ui_port
+        updated = True
+    if token_updated:
         updated = True
     return updated
 
@@ -315,7 +330,7 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
             context = infra_config.get("context")
             if not context:
                 raise ValueError("Cluster context not found after cluster creation")
-            k8s.install_headlamp(context, web_ui_port, base_url=f"{endpoint_details['path_prefix']}/")
+            k8s.install_headlamp(context, web_ui_port, base_url=endpoint_details["path_prefix"])
             infra_config["web_ui_token"] = k8s.create_headlamp_service_account_token(context)
             infra_config["web_ui_service_account"] = k8s.HEADLAMP_ADMIN_SERVICE_ACCOUNT
             infra_config["web_ui_service_account_namespace"] = k8s.HEADLAMP_SERVICE_NAMESPACE

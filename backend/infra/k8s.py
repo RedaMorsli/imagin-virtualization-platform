@@ -123,8 +123,9 @@ def _normalize_base_url_path(base_url: str) -> str:
     if not normalized.startswith("/"):
         normalized = f"/{normalized}"
     normalized = re.sub(r"/{2,}", "/", normalized)
-    if not normalized.endswith("/"):
-        normalized = f"{normalized}/"
+    normalized = normalized.rstrip("/")
+    if not normalized:
+        return "/"
     return normalized
 
 
@@ -161,6 +162,7 @@ def configure_headlamp_base_url(context: str, base_url: str) -> None:
         raise ValueError("context is required")
 
     normalized_base_url = _normalize_base_url_path(base_url)
+    probe_path = normalized_base_url if normalized_base_url == "/" else f"{normalized_base_url}/"
 
     try:
         _load_kube_config(context)
@@ -218,7 +220,7 @@ def configure_headlamp_base_url(context: str, base_url: str) -> None:
     ):
         probe_patch = _build_probe_http_get_patch(
             getattr(target_container, probe_attr, None),
-            normalized_base_url,
+            probe_path,
         )
         if probe_patch is not None:
             container_patch[patch_key] = probe_patch
