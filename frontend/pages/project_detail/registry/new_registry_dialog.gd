@@ -30,6 +30,7 @@ func _on_create_button_pressed() -> void:
 		completed.emit()
 		queue_free()
 	else:
+		OS.alert("Error: " + response.get_error())
 		create_button.show()
 		loading_spinner.hide()
 		return
