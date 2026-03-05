@@ -2,6 +2,8 @@ class_name ClusterCard
 extends ItemCard
 
 
+signal cluster_deleted()
+
 @onready var status_label: Label = %StatusLabel
 @onready var available_nodes_label: Label = %AvailableNodesLabel
 @onready var total_nodes_label: Label = %TotalNodesLabel
@@ -29,7 +31,7 @@ func _ready() -> void:
 
 func _on_option_pressed(idx: int):
 	match idx:
-		0:
+		0: # Copy kubeconfig
 			var response = await Http.send_request(
 				API.fetch_kubeconfig_url,
 				Auth.HTTP_HEADER,
@@ -44,9 +46,24 @@ func _on_option_pressed(idx: int):
 				printerr("Error while fetching cluster config file")
 				return
 			DisplayServer.clipboard_set(response.get_data()['kubeconfig'])
-		1:
+		1: # Copy headlamp token
 			if infra.infra_config.has("web_ui_token"):
 				DisplayServer.clipboard_set(infra.infra_config['web_ui_token'])
+		2: # Delete
+			var response = await Http.send_request(
+				API.delete_infra_url,
+				Auth.HTTP_HEADER,
+				HTTPClient.METHOD_POST,
+				{
+					'project_id': Context.project.project_id,
+					'infra_id': infra.infra_id
+				},
+				"Failed to delete infra"
+			)
+			if not response.is_successful():
+				printerr("Error while deleting infra")
+				return
+			cluster_deleted.emit()
 
 
 func _on_item_pressed(item: ItemCard) -> void:

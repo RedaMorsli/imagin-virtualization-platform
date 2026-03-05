@@ -32,6 +32,11 @@ static var create_infra_url: String:
 	get:
 		return _build_url("infra/create")
 
+
+static var delete_infra_url: String:
+	get:
+		return _build_url("infra/delete")
+
 static var fetch_infras_url: String:
 	get:
 		return _build_url("infra/fetch")

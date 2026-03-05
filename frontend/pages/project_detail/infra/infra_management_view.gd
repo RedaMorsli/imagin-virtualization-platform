@@ -11,13 +11,14 @@ func instanciate_items(fetched_data) -> Array[ItemCard]:
 	for i in infras:
 		var infra: Infra = Infra.new.callv(i.values())
 		var item: ClusterCard = ClusterCardScene.instantiate()
+		item.cluster_deleted.connect(_on_cluster_deleted)
 		item.item = infra
 		items.append(item)
 	return items
 
 
-func _on_infra_pressed(item_card: ItemCard):
-	pass
+func _on_cluster_deleted():
+	fetch()
 
 
 func _on_new_infra_requested() -> void:

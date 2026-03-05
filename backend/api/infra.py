@@ -23,6 +23,11 @@ class CreateInfraRequest(BaseModel):
     provision: dict | None = None
 
 
+class DeleteInfraRequest(BaseModel):
+    project_id: int
+    infra_id: int
+
+
 class FetchInfraRequest(BaseModel):
     project_id: int
 
@@ -49,6 +54,19 @@ async def create_infra_endpoint(request: CreateInfraRequest, authorization: str 
     user = auth.get_user_by_token(auth.get_token(authorization))
     try:
         result = _create_infra(user['user_id'], request.project_id, request.infra_type, request.infra_config, request.provision)
+        return Response(status_code=status.HTTP_200_OK)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(e)
+        )
+
+
+@router.post("/delete")
+async def delete_infra_endpoint(request: DeleteInfraRequest, authorization: str = Header(None)):
+    user = auth.get_user_by_token(auth.get_token(authorization))
+    try:
+        _delete_infra(user['user_id'], request.project_id, request.infra_id)
         return Response(status_code=status.HTTP_200_OK)
     except ValueError as e:
         raise HTTPException(
@@ -161,6 +179,42 @@ def _apply_web_ui_route_metadata(infra_config: dict, route_details: dict) -> boo
             infra_config[key] = value
             updated = True
     return updated
+
+
+def _resolve_cluster_name(infra_name: str | None, infra_config: dict) -> str:
+    by_config = str(infra_config.get("name", "")).strip()
+    if by_config:
+        return by_config
+
+    by_row_name = str(infra_name or "").strip()
+    if by_row_name:
+        return by_row_name
+
+    context = str(infra_config.get("context", "")).strip()
+    if context.startswith("k3d-") and len(context) > 4:
+        return context[4:]
+    if context:
+        return context
+
+    raise ValueError("Cluster name not found for infra")
+
+
+def _delete_cluster_web_ui_route(
+    project_id: int,
+    infra_name: str | None,
+    infra_config: dict,
+) -> None:
+    if not _uses_headlamp_web_ui(infra_config):
+        return
+
+    endpoint_id = _resolve_web_ui_endpoint_id(project_id, infra_name, infra_config)
+    try:
+        traefik.delete_http_endpoint(endpoint_id)
+    except Exception as exc:
+        print(
+            f"warning: failed to delete Headlamp route for project_id={project_id}, "
+            f"infra_name='{infra_name}': {exc}"
+        )
 
 
 def _reconcile_cluster_web_ui_route(
@@ -350,6 +404,42 @@ def _create_infra(user_id: int, project_id: int, infra_type: str, infra_config: 
         params=[project_id, infra_config.get("name"), infra_type, json.dumps(infra_config)]
     )
     
+
+def _delete_infra(user_id: int, project_id: int, infra_id: int):
+    has_access = user_has_project_access(user_id, project_id)
+    if not has_access:
+        raise ValueError("User does not have access to this project")
+
+    rows = db.fetch_all(
+        """
+        SELECT infra_name, infra_type, infra_config
+        FROM Infra
+        WHERE infra_id = ? AND project_id = ?
+        """,
+        params=[infra_id, project_id],
+    )
+    if not rows:
+        raise ValueError("Infra not found")
+
+    infra_name, infra_type, raw_infra_config = rows[0]
+    try:
+        infra_config = json.loads(raw_infra_config)
+    except (TypeError, json.JSONDecodeError) as exc:
+        raise RuntimeError("Stored infra config is invalid") from exc
+
+    if infra_type == "cluster":
+        from infra.k3d import delete_k3d_cluster
+        cluster_name = _resolve_cluster_name(infra_name, infra_config)
+        delete_k3d_cluster(cluster_name)
+        _delete_cluster_web_ui_route(project_id, infra_name, infra_config)
+    else:
+        raise ValueError(f"Unsupported infra type '{infra_type}' for /infra/delete")
+
+    db.execute(
+        "DELETE FROM Infra WHERE infra_id = ? AND project_id = ?",
+        params=[infra_id, project_id],
+    )
+
 
 def _fetch_infras(user_id: int, project_id: int):
     has_access = user_has_project_access(user_id, project_id)

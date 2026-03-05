@@ -3,6 +3,19 @@ import subprocess
 from typing import Any, Dict
 
 
+def _run_k3d_command(cmd: list[str], action: str) -> subprocess.CompletedProcess[str]:
+    result = subprocess.run(
+        cmd,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        error_output = result.stderr.strip() or result.stdout.strip()
+        raise RuntimeError(f"{action} failed: {error_output}")
+    return result
+
+
 def create_k3d_cluster(config: Dict[str, Any], registry: str | None = None) -> str:
     cluster_name = config.get("name")
     if not cluster_name:
@@ -45,30 +58,12 @@ def create_k3d_cluster(config: Dict[str, Any], registry: str | None = None) -> s
     for port in ports:
         cmd.extend(["-p", f"{port}:{port}@loadbalancer"])
 
-    result = subprocess.run(
-        cmd,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
+    result = _run_k3d_command(cmd, "k3d cluster creation")
 
     print(cmd)
 
-    if result.returncode != 0:
-        error_output = result.stderr.strip() or result.stdout.strip()
-        raise RuntimeError(f"k3d cluster creation failed: {error_output}")
-
     kubeconfig_cmd = ["k3d", "kubeconfig", "merge", cluster_name]
-    kubeconfig_result = subprocess.run(
-        kubeconfig_cmd,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-
-    if kubeconfig_result.returncode != 0:
-        error_output = kubeconfig_result.stderr.strip() or kubeconfig_result.stdout.strip()
-        raise RuntimeError(f"kubeconfig merge failed: {error_output}")
+    _run_k3d_command(kubeconfig_cmd, "kubeconfig merge")
     
     config['context'] = 'k3d-' + config.get("name")
 
@@ -100,17 +95,17 @@ def create_k3d_registry(config: Dict[str, Any]) -> str:
     if proxy_remote:
         cmd.extend(["--proxy-remote-registry", proxy_remote])
 
-    result = subprocess.run(
-        cmd,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
+    result = _run_k3d_command(cmd, "k3d registry creation")
 
-    if result.returncode != 0:
-        error_output = result.stderr.strip() or result.stdout.strip()
-        raise RuntimeError(f"k3d registry creation failed: {error_output}")
+    return result.stdout.strip()
 
+
+def delete_k3d_cluster(cluster_name: str) -> str:
+    if not cluster_name:
+        raise ValueError("cluster_name is required")
+
+    cmd = ["k3d", "cluster", "delete", cluster_name]
+    result = _run_k3d_command(cmd, "k3d cluster deletion")
     return result.stdout.strip()
 
 
