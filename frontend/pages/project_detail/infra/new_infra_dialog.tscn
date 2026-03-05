@@ -71,6 +71,7 @@ text = "Federated Learning"
 [node name="NavFlower" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=995687180 node_paths=PackedStringArray("nav_node")]
 layout_mode = 2
 theme_type_variation = &"ToggledMenuButton"
+disabled = true
 toggle_mode = true
 button_group = SubResource("ButtonGroup_hhpye")
 text = "Flower"
@@ -90,6 +91,7 @@ text = "5G"
 [node name="Button3" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2" unique_id=1572591093]
 layout_mode = 2
 theme_type_variation = &"ToggledMenuButton"
+disabled = true
 toggle_mode = true
 text = "free5GC"
 alignment = 0
@@ -97,6 +99,7 @@ alignment = 0
 [node name="Button4" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2" unique_id=2021004630]
 layout_mode = 2
 theme_type_variation = &"ToggledMenuButton"
+disabled = true
 toggle_mode = true
 text = "Magma"
 alignment = 0
@@ -113,7 +116,6 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="EmptyInfraMenu" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=438385505 node_paths=PackedStringArray("dialog")]
-visible = false
 layout_mode = 2
 script = ExtResource("4_gyf2r")
 dialog = NodePath("../../../../..")
@@ -127,6 +129,14 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 8
+
+[node name="ErrorLabel" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=2022402619]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"ErrorLabel"
+text = "Error"
+horizontal_alignment = 2
 
 [node name="Buttons" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=2105600259]
 unique_name_in_owner = true
@@ -143,6 +153,7 @@ theme_type_variation = &"PrimaryButton"
 text = "CREATE"
 
 [node name="Flower" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=1874492348 node_paths=PackedStringArray("dialog")]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 script = ExtResource("6_hhpye")
