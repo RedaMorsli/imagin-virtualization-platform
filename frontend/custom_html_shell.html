@@ -52,9 +52,9 @@
         <div id="loading-overlay">
             <img id="loading-spinner" src="loading_circle_black.png" alt="Loading">
         </div>
-        <script src="index.js"></script>
+        <script src="$GODOT_URL"></script>
         <script>
-            var engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":1530984,"index.wasm":37686550},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4});
+            var engine = new Engine($GODOT_CONFIG);
             var loadingOverlay = document.getElementById("loading-overlay");
 
             engine.startGame().then(function () {
@@ -65,4 +65,3 @@
         </script>
     </body>
 </html>
-
