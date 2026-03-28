@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="2_ikq3p"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="3_oip1w"]
 
-[node name="StoragePage" type="Control" unique_id=1448557692]
+[node name="StoragePage" type="Control" unique_id=1678319056]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,7 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_e13x5")
 metadata/_custom_type_script = "uid://7hfidwmjf3x7"
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=154600670]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=177995182]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,59 +26,66 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=611586898]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=85094280]
 layout_mode = 2
 theme = ExtResource("2_ikq3p")
-theme_override_constants/separation = 32
-
-[node name="Label" type="Label" parent="MarginContainer/VBox" unique_id=83946568]
-layout_mode = 2
-theme_type_variation = &"HeaderLarge"
-text = "Storage"
-
-[node name="NotActiveContainer" type="VBoxContainer" parent="MarginContainer/VBox" unique_id=24430542]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
 theme_override_constants/separation = 16
-alignment = 1
 
-[node name="InfoLabel" type="Label" parent="MarginContainer/VBox/NotActiveContainer" unique_id=780222320]
+[node name="HeaderRow" type="HBoxContainer" parent="MarginContainer/VBox" unique_id=920698947]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBox/HeaderRow" unique_id=316703911]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderLarge"
+text = "STORAGE"
+
+[node name="UploadButton" type="Button" parent="MarginContainer/VBox/HeaderRow" unique_id=471958071]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"SecondaryText"
-text = "Storage is not enabled for this project."
-horizontal_alignment = 1
-
-[node name="EnableButton" type="Button" parent="MarginContainer/VBox/NotActiveContainer" unique_id=853731210]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
 theme_type_variation = &"PrimaryButton"
-text = "Enable storage"
+text = "UPLOAD_FILE"
 
-[node name="ErrorLabel" type="Label" parent="MarginContainer/VBox/NotActiveContainer" unique_id=359193780]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"ErrorLabel"
-text = "error label"
-horizontal_alignment = 1
-
-[node name="LoadingSpinner" parent="MarginContainer/VBox" unique_id=516609768 instance=ExtResource("3_oip1w")]
+[node name="LoadingSpinner" parent="MarginContainer/VBox" unique_id=1537077162 instance=ExtResource("3_oip1w")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="ActiveContainer" type="VBoxContainer" parent="MarginContainer/VBox" unique_id=952739271]
+[node name="ErrorLabel" type="Label" parent="MarginContainer/VBox" unique_id=576609778]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
+theme_type_variation = &"ErrorLabel"
+autowrap_mode = 3
 
-[node name="Label" type="Label" parent="MarginContainer/VBox/ActiveContainer" unique_id=1684532380]
+[node name="EmptyLabel" type="Label" parent="MarginContainer/VBox" unique_id=1987776462]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_type_variation = &"SecondaryText"
-text = "Storage is active."
+text = "NO_FILES_MSG"
 horizontal_alignment = 1
 
-[connection signal="pressed" from="MarginContainer/VBox/NotActiveContainer/EnableButton" to="." method="_enable_storage"]
+[node name="FileScroll" type="ScrollContainer" parent="MarginContainer/VBox" unique_id=2027734149]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FileList" type="VBoxContainer" parent="MarginContainer/VBox/FileScroll" unique_id=1601565906]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=136399105]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+size = Vector2i(640, 400)
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[connection signal="pressed" from="MarginContainer/VBox/HeaderRow/UploadButton" to="." method="_on_upload_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_selected"]

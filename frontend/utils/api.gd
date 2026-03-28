@@ -49,13 +49,17 @@ static var create_registry_url: String:
 	get:
 		return _build_url("registry/create")
 
-static var get_storage_status_url: String:
+static var list_files_url: String:
 	get:
-		return _build_url("storage/status")
+		return _build_url("storage/files")
 
-static var create_storage_url: String:
+static var upload_file_url: String:
 	get:
-		return _build_url("storage/create")
+		return _build_url("storage/upload")
+
+static var delete_file_url: String:
+	get:
+		return _build_url("storage/file")
 
 
 static func _get_api_base() -> String:

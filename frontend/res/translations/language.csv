@@ -31,3 +31,7 @@ NEW_REGISTRY,New registry,Nouveau registre
 NEW_REGISTRY,New registry,Nouveau registre
 REGISTRY_NAME,Registry name,Nom du registre
 HOST_PORT,Host port,Port
+STORAGE,Storage,Stockage
+UPLOAD_FILE,Upload,Téléverser
+NO_FILES_MSG,No files found,Aucun fichier trouvé
+DELETE,Delete,Supprimer

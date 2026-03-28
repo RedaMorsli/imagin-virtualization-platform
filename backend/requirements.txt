@@ -4,3 +4,5 @@ duckdb
 kubernetes
 docker
 pyyaml
+minio
+python-multipart

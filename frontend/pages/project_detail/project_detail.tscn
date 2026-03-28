@@ -82,7 +82,6 @@ nav_node = NodePath("../../../../PageContainer/ExperimentPage")
 metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 
 [node name="NavStorage" type="Button" parent="HBox/SidePanel/MarginContainer/VBoxContainer" unique_id=1018903710 node_paths=PackedStringArray("nav_node")]
-visible = false
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"ToggledMenuButton"
