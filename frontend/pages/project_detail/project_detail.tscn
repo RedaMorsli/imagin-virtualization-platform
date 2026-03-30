@@ -71,7 +71,6 @@ metadata/_custom_type_script = "uid://dkubfa6ljlc86"
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"ToggledMenuButton"
-disabled = true
 toggle_mode = true
 button_group = SubResource("ButtonGroup_u7wto")
 text = "Experiments"
@@ -175,6 +174,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("7_aigaq")
+title = "EXPERIMENTS"
 metadata/_custom_type_script = "uid://7hfidwmjf3x7"
 
 [node name="MarginContainer" type="MarginContainer" parent="HBox/PageContainer/ExperimentPage" unique_id=1924413326]
@@ -199,15 +199,14 @@ layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 text = "Experiments"
 
-[node name="ExperimentManagementView" parent="HBox/PageContainer/ExperimentPage/MarginContainer/VBox" unique_id=1292353738 instance=ExtResource("8_y577k")]
+[node name="ExperimentManagementView" type="VBoxContainer" parent="HBox/PageContainer/ExperimentPage/MarginContainer/VBox" unique_id=1292353738]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_y577k")
-fetch_route = "experiments/fetch"
-search_message = "Search for experiments"
-empty_message = "No experiment found"
-new_item_message = "New experiment"
 
 [node name="StoragePage" parent="HBox/PageContainer" unique_id=1448557692 instance=ExtResource("13_65ywb")]
+visible = false
 layout_mode = 1
 
 [node name="RegistryPage" type="Control" parent="HBox/PageContainer" unique_id=1089204034]
@@ -253,5 +252,4 @@ new_item_message = "NEW_REGISTRY"
 
 [connection signal="item_pressed" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" to="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" method="_on_infra_pressed"]
 [connection signal="new_item_requested" from="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" to="HBox/PageContainer/InfrastructurePage/MarginContainer/VBox/InfraManagementView" method="_on_new_infra_requested"]
-[connection signal="new_item_requested" from="HBox/PageContainer/ExperimentPage/MarginContainer/VBox/ExperimentManagementView" to="HBox/PageContainer/ExperimentPage/MarginContainer/VBox/ExperimentManagementView" method="_on_new_item_requested"]
 [connection signal="new_item_requested" from="HBox/PageContainer/RegistryPage/MarginContainer/VBox/RegistryManagementView" to="HBox/PageContainer/RegistryPage/MarginContainer/VBox/RegistryManagementView" method="_on_new_registry_requested"]

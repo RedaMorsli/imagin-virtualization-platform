@@ -80,6 +80,28 @@ CREATE TABLE IF NOT EXISTS Experiments (
 	created_at TIMESTAMP DEFAULT (now()),
 );
 
+CREATE SEQUENCE IF NOT EXISTS seq_run_id START 1;
+
+CREATE TABLE IF NOT EXISTS ExperimentRuns (
+	run_id INTEGER PRIMARY KEY DEFAULT nextval('seq_run_id'),
+	experiment_id INTEGER NOT NULL REFERENCES Experiments(experiment_id),
+	run_config TEXT NOT NULL,
+	status VARCHAR(32) DEFAULT 'provisioning',
+	started_at TIMESTAMP DEFAULT (now()),
+	finished_at TIMESTAMP
+);
+
+CREATE SEQUENCE IF NOT EXISTS seq_run_metric_id START 1;
+
+CREATE TABLE IF NOT EXISTS RunMetrics (
+	metric_id INTEGER PRIMARY KEY DEFAULT nextval('seq_run_metric_id'),
+	run_id INTEGER NOT NULL REFERENCES ExperimentRuns(run_id),
+	round INTEGER NOT NULL,
+	metric_name VARCHAR(64) NOT NULL,
+	metric_value FLOAT NOT NULL,
+	recorded_at TIMESTAMP DEFAULT (now())
+);
+
 -- Populate
 
 INSERT INTO Roles (name, description)

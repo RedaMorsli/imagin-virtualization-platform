@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from api import auth, project, infra, registry, storage, experiment
 from db import init_db
+import infra.fl_docker as fl_docker
 
 
 app = FastAPI(title="Auth Server", version="1.0.0")
@@ -28,6 +29,10 @@ app.include_router(experiment.router)
 def startup_tasks():
     init_db()
     try:
+        fl_docker.ensure_worker_image()
+    except Exception as exc:
+        print(f"warning: FL worker image build failed at startup: {exc}")
+    try:
         reconciliation = infra.reconcile_cluster_web_ui_endpoints()
         print(
             "Cluster endpoint reconciliation complete: "
@@ -40,6 +45,7 @@ def startup_tasks():
 
 
 def start_auth_server(host: str = "0.0.0.0", port: int = 8000):
+    print("Starting server...")
     uvicorn.run(
         app,
         host=host,

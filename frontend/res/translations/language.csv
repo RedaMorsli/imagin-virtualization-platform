@@ -35,3 +35,19 @@ STORAGE,Storage,Stockage
 UPLOAD_FILE,Upload,Téléverser
 NO_FILES_MSG,No files found,Aucun fichier trouvé
 DELETE,Delete,Supprimer
+EXPERIMENTS,Experiments,Expériences
+NEW_EXPERIMENT,New experiment,Nouvelle expérience
+NO_EXPERIMENTS_MSG,No experiments yet,Aucune expérience
+FL_FLOWER,Flower — Federated Learning,Flower — Apprentissage Fédéré
+FL_CLIENTS,Clients,Clients
+FL_ROUNDS,Rounds,Rounds
+FL_CPU_LIMIT,CPU limit per client,Limite CPU par client
+FL_MEMORY_LIMIT,Memory limit per client,Limite mémoire par client
+FL_LAUNCH_RUN,Launch run,Lancer
+FL_NO_RUNS,No runs yet,Aucune exécution
+FL_RUN_STATUS_PROVISIONING,Provisioning,En cours de provisionnement
+FL_RUN_STATUS_RUNNING,Running,En cours
+FL_RUN_STATUS_COMPLETED,Completed,Terminé
+FL_RUN_STATUS_FAILED,Failed,Échoué
+FL_ACCURACY,Accuracy,Précision
+FL_LOSS,Loss,Perte

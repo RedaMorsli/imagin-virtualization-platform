@@ -49,6 +49,26 @@ static var create_registry_url: String:
 	get:
 		return _build_url("registry/create")
 
+static var create_experiment_url: String:
+	get:
+		return _build_url("experiments/create")
+
+static var fetch_experiments_url: String:
+	get:
+		return _build_url("experiments/fetch")
+
+static var delete_experiment_url: String:
+	get:
+		return _build_url("experiments/delete")
+
+static var launch_run_url: String:
+	get:
+		return _build_url("experiments/runs/launch")
+
+static var fetch_runs_url: String:
+	get:
+		return _build_url("experiments/runs/fetch")
+
 static var list_files_url: String:
 	get:
 		return _build_url("storage/files")

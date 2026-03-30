@@ -1,0 +1,6 @@
+flwr==1.14.0
+torch
+torchvision
+requests
+numpy
+wandb
