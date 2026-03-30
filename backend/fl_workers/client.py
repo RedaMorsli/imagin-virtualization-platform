@@ -129,14 +129,13 @@ class MNISTClient(fl.client.NumPyClient):
     def __init__(self):
         self.model        = MNISTModel().to(DEVICE)
         self.train_loader, self.test_loader = load_data()
-        self._round = 0
 
     def get_parameters(self, config):
         return get_weights(self.model)
 
     def fit(self, parameters, config):
         set_weights(self.model, parameters)
-        self._round   = int(config.get("server_round", self._round + 1))
+        server_round  = int(config.get("server_round", 1))
         epochs        = int(config.get("local_epochs", "1"))
         optimizer     = torch.optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
         criterion     = nn.CrossEntropyLoss()
@@ -153,18 +152,21 @@ class MNISTClient(fl.client.NumPyClient):
                 n_samples  += labels.size(0)
 
         train_loss = total_loss / n_samples if n_samples > 0 else 0.0
+        print(f"[client-{CLIENT_ID}] round {server_round} fit — train_loss={train_loss:.4f} samples={n_samples}")
 
         if _wandb_run is not None:
             try:
-                _wandb_run.log({"client/train_loss": train_loss}, step=self._round)
+                _wandb_run.log({"client/train_loss": train_loss}, step=server_round)
             except Exception as exc:
                 print(f"[client-{CLIENT_ID}] warn: wandb.log failed: {exc}")
 
-        return get_weights(self.model), n_samples, {}
+        # Return train_loss in metrics so the server can aggregate it globally
+        return get_weights(self.model), n_samples, {"train_loss": train_loss}
 
-    def evaluate(self, parameters, _config):
+    def evaluate(self, parameters, config):
         set_weights(self.model, parameters)
-        criterion = nn.CrossEntropyLoss()
+        server_round = int(config.get("server_round", 1))
+        criterion    = nn.CrossEntropyLoss()
         self.model.eval()
         total_loss, correct, n = 0.0, 0, 0
         with torch.no_grad():
@@ -177,6 +179,7 @@ class MNISTClient(fl.client.NumPyClient):
 
         eval_loss     = float(total_loss / n)
         eval_accuracy = float(correct / n)
+        print(f"[client-{CLIENT_ID}] round {server_round} eval — loss={eval_loss:.4f} accuracy={eval_accuracy:.4f}")
 
         if _wandb_run is not None:
             try:
@@ -185,7 +188,7 @@ class MNISTClient(fl.client.NumPyClient):
                         "client/eval_loss":     eval_loss,
                         "client/eval_accuracy": eval_accuracy,
                     },
-                    step=self._round,
+                    step=server_round,
                 )
             except Exception as exc:
                 print(f"[client-{CLIENT_ID}] warn: wandb.log failed: {exc}")

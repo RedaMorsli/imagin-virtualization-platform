@@ -67,8 +67,37 @@ def _post(path: str, payload: dict) -> None:
         print(f"[server] warn: failed to POST {path}: {exc}")
 
 
+def _wandb_log(metrics: dict, step: int) -> None:
+    if _wandb_run is None:
+        return
+    try:
+        _wandb_run.log(metrics, step=step)
+    except Exception as exc:
+        print(f"[server] warn: wandb.log failed: {exc}")
+
+
 class ReportingFedAvg(FedAvg):
-    """FedAvg that POSTs per-round metrics to the platform and optionally logs to W&B."""
+    """FedAvg that reports per-round metrics to the platform and optionally to W&B."""
+
+    def aggregate_fit(self, server_round, results, failures):
+        aggregated = super().aggregate_fit(server_round, results, failures)
+
+        # Compute weighted average of train_loss reported by clients
+        total_examples = 0
+        weighted_loss  = 0.0
+        for client_proxy, fit_res in results:
+            n = fit_res.num_examples
+            loss = fit_res.metrics.get("train_loss")
+            if loss is not None:
+                weighted_loss  += float(loss) * n
+                total_examples += n
+
+        if total_examples > 0:
+            avg_train_loss = weighted_loss / total_examples
+            print(f"[server] round {server_round} — global train_loss={avg_train_loss:.4f}")
+            _wandb_log({"global/train_loss": avg_train_loss}, step=server_round)
+
+        return aggregated
 
     def aggregate_evaluate(self, server_round, results, failures):
         aggregated = super().aggregate_evaluate(server_round, results, failures)
@@ -80,6 +109,8 @@ class ReportingFedAvg(FedAvg):
             **{k: float(v) for k, v in metrics.items()},
         }
 
+        print(f"[server] round {server_round} — global eval: {round_metrics}")
+
         # Always post to local DB
         _post("/experiments/runs/metrics", {
             "run_id":  RUN_ID,
@@ -87,16 +118,8 @@ class ReportingFedAvg(FedAvg):
             "metrics": round_metrics,
         })
 
-        # Also log to W&B when enabled
-        if _wandb_run is not None:
-            try:
-                _wandb_run.log(
-                    {f"server/{k}": v for k, v in round_metrics.items()},
-                    step=server_round,
-                )
-                print(f"[server] wandb logged round {server_round}: {round_metrics}")
-            except Exception as exc:
-                print(f"[server] warn: wandb.log failed: {exc}")
+        # Log global eval metrics to W&B
+        _wandb_log({f"global/{k}": v for k, v in round_metrics.items()}, step=server_round)
 
         return aggregated
 
@@ -106,6 +129,7 @@ strategy = ReportingFedAvg(
     min_evaluate_clients=NUM_CLIENTS,
     min_available_clients=NUM_CLIENTS,
     on_fit_config_fn=lambda rnd: {"server_round": str(rnd), "local_epochs": "1"},
+    on_evaluate_config_fn=lambda rnd: {"server_round": str(rnd)},
 )
 
 fl.server.start_server(
