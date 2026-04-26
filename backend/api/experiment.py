@@ -45,6 +45,12 @@ class RunCompleteRequest(BaseModel):
     status: str
 
 
+class ManageClientsRequest(BaseModel):
+    run_id: int
+    action: str          # "pause" or "unpause"
+    client_ids: list
+
+
 # ============ ENDPOINTS ============
 
 @router.post("/create")
@@ -125,6 +131,16 @@ async def run_complete_endpoint(request: RunCompleteRequest):
         args=(request.run_id,),
         daemon=True,
     ).start()
+    return Response(status_code=status.HTTP_200_OK)
+
+
+# Called by the FL server container to pause/unpause client containers.
+@router.post("/runs/manage-clients")
+async def manage_clients_endpoint(request: ManageClientsRequest):
+    if request.action == "pause":
+        fl_docker.pause_clients(request.run_id, request.client_ids)
+    elif request.action == "unpause":
+        fl_docker.unpause_clients(request.run_id, request.client_ids)
     return Response(status_code=status.HTTP_200_OK)
 
 

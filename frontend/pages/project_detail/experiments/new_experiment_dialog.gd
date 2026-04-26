@@ -38,7 +38,11 @@ func _on_create_button_pressed() -> void:
 			"memory_limit_mb": int(memory_spin.value),
 			"metric_logging":  metric_log_option_button.get_item_text(metric_log_option_button.selected).to_lower(),
 			"wandb_api_key":   wandb_key_edit.text,
-			"wandb_entity":    wandb_entity_edit.text
+			"wandb_entity":    wandb_entity_edit.text,
+			 "client_selection": {
+				"algorithm": %CSAOptionButton.get_item_text(%CSAOptionButton.selected).to_lower(),
+				"params": { "num_selected": %NumberClientPerRound.value }
+			}
 		}
 	}
 
@@ -62,3 +66,7 @@ func _on_metric_option_button_item_selected(index: int) -> void:
 	var show_wandb := index == 1
 	wandb_key_container.visible = show_wandb
 	wandb_entity_container.visible = show_wandb
+
+
+func _on_csa_option_button_item_selected(index: int) -> void:
+	%RandomParams.visible = index == 1

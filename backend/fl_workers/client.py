@@ -160,8 +160,8 @@ class MNISTClient(fl.client.NumPyClient):
             except Exception as exc:
                 print(f"[client-{CLIENT_ID}] warn: wandb.log failed: {exc}")
 
-        # Return train_loss in metrics so the server can aggregate it globally
-        return get_weights(self.model), n_samples, {"train_loss": train_loss}
+        # Return train_loss and client_id in metrics so the server can aggregate and map clients
+        return get_weights(self.model), n_samples, {"train_loss": train_loss, "client_id": CLIENT_ID}
 
     def evaluate(self, parameters, config):
         set_weights(self.model, parameters)

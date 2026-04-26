@@ -10,6 +10,7 @@ The server container is also connected to the platform network so it can
 POST metrics/completion callbacks to the backend.
 """
 
+import json
 import os
 import time
 
@@ -93,6 +94,10 @@ def launch_run(run_id: int, config: dict, platform_url: str, project_name: str =
     wandb_project    = project_name or f"project-{run_id}"
     wandb_run_name   = experiment_name
 
+    client_selection = config.get("client_selection", {})
+    client_selection_algorithm = str(client_selection.get("algorithm", "all"))
+    client_selection_params    = client_selection.get("params", {})
+
     if cpu_limit.endswith("m"):
         cpu_cores = int(cpu_limit[:-1]) / 1000.0
     else:
@@ -119,6 +124,8 @@ def launch_run(run_id: int, config: dict, platform_url: str, project_name: str =
                 "FL_NUM_ROUNDS":  str(num_rounds),
                 "FL_NUM_CLIENTS": str(num_clients),
                 "PLATFORM_URL":   platform_url,
+                "CLIENT_SELECTION_ALGORITHM": client_selection_algorithm,
+                "CLIENT_SELECTION_PARAMS":    json.dumps(client_selection_params),
                 **shared_env,
             },
             network=_net_name(run_id),
@@ -196,6 +203,54 @@ def _remove_container(dc, name: str) -> bool:
         return True
     except NotFound:
         return False
+
+
+# ── Pause / unpause ──────────────────────────────────────────────────────────
+
+def pause_clients(run_id: int, client_ids: list) -> None:
+    """Pause specified client containers to free CPU resources."""
+    try:
+        import docker
+        from docker.errors import NotFound, APIError
+    except ModuleNotFoundError:
+        return
+
+    dc = docker.from_env()
+    try:
+        for cid in client_ids:
+            name = _client_name(run_id, cid)
+            try:
+                container = dc.containers.get(name)
+                if container.status == "running":
+                    container.pause()
+                    print(f"[fl_docker] paused {name}")
+            except (NotFound, APIError) as exc:
+                print(f"[fl_docker] warn: could not pause {name}: {exc}")
+    finally:
+        dc.close()
+
+
+def unpause_clients(run_id: int, client_ids: list) -> None:
+    """Unpause specified client containers."""
+    try:
+        import docker
+        from docker.errors import NotFound, APIError
+    except ModuleNotFoundError:
+        return
+
+    dc = docker.from_env()
+    try:
+        for cid in client_ids:
+            name = _client_name(run_id, cid)
+            try:
+                container = dc.containers.get(name)
+                if container.status == "paused":
+                    container.unpause()
+                    print(f"[fl_docker] unpaused {name}")
+            except (NotFound, APIError) as exc:
+                print(f"[fl_docker] warn: could not unpause {name}: {exc}")
+    finally:
+        dc.close()
 
 
 # ── Status ────────────────────────────────────────────────────────────────────

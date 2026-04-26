@@ -134,6 +134,41 @@ layout_mode = 2
 value = 5.0
 alignment = 2
 
+[node name="HBoxContainer13" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1139921311]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer13" unique_id=1437686944]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Client selection algorithm"
+
+[node name="CSAOptionButton" type="OptionButton" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer13" unique_id=2042238609]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "All"
+popup/item_0/id = 0
+popup/item_1/text = "Random"
+popup/item_1/id = 1
+
+[node name="RandomParams" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=235860356]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/RandomParams" unique_id=364284137]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Number of clients per round"
+
+[node name="NumberClientPerRound" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/RandomParams" unique_id=1536659406]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="HBoxContainer6" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1714282543]
 layout_mode = 2
 
@@ -189,22 +224,6 @@ popup/item_0/id = 0
 popup/item_1/text = "Wandb"
 popup/item_1/id = 1
 
-[node name="WandbEntityContainer" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1786141341]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/WandbEntityContainer" unique_id=138031547]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SecondaryText"
-text = "Wandb entity"
-
-[node name="WandbEntityEdit" type="LineEdit" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/WandbEntityContainer" unique_id=799423240]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
 [node name="WandbKeyContainer" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1072619917]
 unique_name_in_owner = true
 visible = false
@@ -221,6 +240,22 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 secret = true
+
+[node name="WandbEntityContainer" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=1786141341]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/WandbEntityContainer" unique_id=138031547]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SecondaryText"
+text = "Wandb entity"
+
+[node name="WandbEntityEdit" type="LineEdit" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/WandbEntityContainer" unique_id=799423240]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="HBoxContainer8" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm" unique_id=966188338]
 visible = false
@@ -301,5 +336,6 @@ layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 text = "CREATE"
 
+[connection signal="item_selected" from="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer13/CSAOptionButton" to="." method="_on_csa_option_button_item_selected"]
 [connection signal="item_selected" from="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/FlowerForm/HBoxContainer12/MetricOptionButton" to="." method="_on_metric_option_button_item_selected"]
 [connection signal="pressed" from="CenterContainer/Panel/HBoxContainer/Container/Flower/FlowerButtons/FlowerCreateButton" to="." method="_on_create_button_pressed"]
