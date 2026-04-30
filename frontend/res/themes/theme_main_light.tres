@@ -2,6 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://bwcailw5m6y3d" path="res://res/fonts/Delta Jaeger Book.ttf" id="1_kr2q4"]
 [ext_resource type="FontFile" uid="uid://565giitnrh3m" path="res://res/fonts/Delta Jaeger Light.ttf" id="2_g26t5"]
+[ext_resource type="Texture2D" uid="uid://rucsceubr3aw" path="res://res/icons/square.png" id="2_kr2q4"]
 [ext_resource type="Texture2D" uid="uid://c2j0fckb7gk3b" path="res://res/icons/circle.png" id="3_kinop"]
 [ext_resource type="Texture2D" uid="uid://c6dbxaj52o1st" path="res://res/icons/check-circle.png" id="3_pnvcd"]
 
@@ -49,6 +50,8 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vmjet"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_227ge"]
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 4
@@ -58,6 +61,14 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drxg4"]
 draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cqu58"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_22ve8"]
 
@@ -285,6 +296,8 @@ Button/styles/normal = SubResource("StyleBoxFlat_nkrwj")
 Button/styles/pressed = SubResource("StyleBoxFlat_nkrwj")
 Card/base_type = &"PanelContainer"
 Card/styles/panel = SubResource("StyleBoxFlat_pr80k")
+CheckBox/icons/unchecked = ExtResource("2_kr2q4")
+CheckBox/styles/normal = SubResource("StyleBoxFlat_vmjet")
 DialogPanel/base_type = &"PanelContainer"
 DialogPanel/styles/panel = SubResource("StyleBoxFlat_227ge")
 ErrorLabel/base_type = &"Label"
@@ -307,9 +320,11 @@ FlatButton/styles/normal = SubResource("StyleBoxFlat_drxg4")
 FlatButton/styles/pressed = SubResource("StyleBoxFlat_drxg4")
 FlatMenuButton/colors/icon_hover_color = Color(0, 0, 0, 1)
 FlatMenuButton/colors/icon_normal_color = Color(0, 0, 0, 0.4)
+HSeparator/styles/separator = SubResource("StyleBoxFlat_cqu58")
 HeaderLarge/colors/font_color = Color(0, 0, 0, 1)
 HeaderMedium/colors/font_color = Color(0, 0, 0, 1)
 HeaderSmall/colors/font_color = Color(0, 0, 0, 1)
+HeaderSmall/font_sizes/font_size = 18
 IconButton/base_type = &"Button"
 IconButton/colors/icon_hover_color = Color(0, 0, 0, 0.6)
 IconButton/colors/icon_hover_pressed_color = Color(0, 0, 0, 0.6)
@@ -369,6 +384,7 @@ PrimaryButton/styles/pressed = SubResource("StyleBoxFlat_pnvcd")
 PrimaryText/base_type = &"Label"
 PrimaryText/colors/font_color = Color(0, 0, 0, 1)
 PrimaryText/colors/font_outline_color = Color(0, 0, 0, 1)
+PrimaryText/font_sizes/font_size = 14
 PrimaryText/fonts/font = ExtResource("1_kr2q4")
 RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
 SearchBar/base_type = &"LineEdit"
@@ -377,6 +393,7 @@ SearchBar/styles/focus = SubResource("StyleBoxFlat_4wmb6")
 SearchBar/styles/normal = SubResource("StyleBoxFlat_ptaif")
 SecondaryText/base_type = &"Label"
 SecondaryText/colors/font_color = Color(0, 0, 0, 0.6)
+SecondaryText/font_sizes/font_size = 12
 SecondaryText/fonts/font = ExtResource("2_g26t5")
 SidePanel/base_type = &"PanelContainer"
 SidePanel/styles/panel = SubResource("StyleBoxFlat_wumxc")

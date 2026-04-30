@@ -10,11 +10,14 @@ extends Resource
 
 @export var status: Dictionary
 
+@export var provisions: Array
 
-func _init(id: int, type: String, config, stat) -> void:
+
+func _init(id: int, type: String, config, prov, stat) -> void:
 	infra_id = id
 	infra_type = type
 	infra_config = config
 	status = stat
+	provisions = prov
 	#infra_config = JSON.parse_string(config)
 	#status = JSON.parse_string(stat)

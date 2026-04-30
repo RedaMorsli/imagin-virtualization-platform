@@ -1,14 +1,13 @@
 [gd_scene format=3 uid="uid://d0vx2n1uumtnt"]
 
-[ext_resource type="Script" uid="uid://bn3fl685jjig7" path="res://autoloads/dialog/dialog_scene.gd" id="1_hhpye"]
+[ext_resource type="Script" uid="uid://wm0k5cnt26m7" path="res://pages/project_detail/infra/new_infra_dialog.gd" id="2_oc3s3"]
 [ext_resource type="Theme" uid="uid://blo6rjqneyoaq" path="res://res/themes/theme_main_light.tres" id="2_s7nol"]
-[ext_resource type="Script" uid="uid://dkubfa6ljlc86" path="res://components/buttons/navigation_button.gd" id="3_hhpye"]
 [ext_resource type="Script" uid="uid://ckmllcjdw4kal" path="res://pages/project_detail/infra/empty_infra_menu.gd" id="4_gyf2r"]
-[ext_resource type="PackedScene" uid="uid://bmpkog4otww8g" path="res://pages/project_detail/infra/infra_config_form.tscn" id="5_s7nol"]
+[ext_resource type="PackedScene" uid="uid://c2sdwangomt0b" path="res://pages/project_detail/infra/provision_card.tscn" id="5_s7nol"]
 [ext_resource type="PackedScene" uid="uid://dularfrh3frse" path="res://components/loading/loading_spinner.tscn" id="6_gyf2r"]
-[ext_resource type="Script" uid="uid://dhwikywonq0kv" path="res://pages/project_detail/infra/flower.gd" id="6_hhpye"]
-
-[sub_resource type="ButtonGroup" id="ButtonGroup_hhpye"]
+[ext_resource type="Texture2D" uid="uid://peymsb3r6yld" path="res://res/icons/headlamp.png" id="6_hhpye"]
+[ext_resource type="Texture2D" uid="uid://bp07cxcclwobq" path="res://res/icons/5g.png" id="7_gyf2r"]
+[ext_resource type="Texture2D" uid="uid://c0bq0pjss5usk" path="res://res/icons/x.png" id="8_gyf2r"]
 
 [node name="NewInfraDialog" type="PanelContainer" unique_id=1971306677]
 anchors_preset = 15
@@ -16,98 +15,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_hhpye")
+theme = ExtResource("2_s7nol")
+script = ExtResource("2_oc3s3")
 metadata/_custom_type_script = "uid://bn3fl685jjig7"
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1616736390]
 layout_mode = 2
 
 [node name="Panel" type="PanelContainer" parent="CenterContainer" unique_id=1745095863]
+custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 theme = ExtResource("2_s7nol")
 theme_type_variation = &"DialogPanel"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel" unique_id=1260561447]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/HBoxContainer" unique_id=926409860]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer" unique_id=1275127470]
-custom_minimum_size = Vector2(0, 350)
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=911812422]
-layout_mode = 2
-theme_type_variation = &"HeaderSmall"
-text = "Templates"
-
-[node name="NavEmptyInfra" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=337894270 node_paths=PackedStringArray("nav_node")]
-layout_mode = 2
-theme_type_variation = &"ToggledMenuButton"
-toggle_mode = true
-button_pressed = true
-button_group = SubResource("ButtonGroup_hhpye")
-text = "EMPTY_INFRA"
-alignment = 0
-script = ExtResource("3_hhpye")
-nav_node = NodePath("../../../Container/EmptyInfraMenu")
-press_on_ready = true
-metadata/_custom_type_script = "uid://dkubfa6ljlc86"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=599550856]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=433364955]
-layout_mode = 2
-theme_type_variation = &"SecondaryText"
-text = "Federated Learning"
-
-[node name="NavFlower" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=995687180 node_paths=PackedStringArray("nav_node")]
-layout_mode = 2
-theme_type_variation = &"ToggledMenuButton"
-disabled = true
-toggle_mode = true
-button_group = SubResource("ButtonGroup_hhpye")
-text = "Flower"
-alignment = 0
-script = ExtResource("3_hhpye")
-nav_node = NodePath("../../../../Container/Flower")
-metadata/_custom_type_script = "uid://dkubfa6ljlc86"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer" unique_id=182464876]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2" unique_id=1322793545]
-layout_mode = 2
-theme_type_variation = &"SecondaryText"
-text = "5G"
-
-[node name="Button3" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2" unique_id=1572591093]
-layout_mode = 2
-theme_type_variation = &"ToggledMenuButton"
-disabled = true
-toggle_mode = true
-text = "free5GC"
-alignment = 0
-
-[node name="Button4" type="Button" parent="CenterContainer/Panel/HBoxContainer/MarginContainer/VBoxContainer/VBoxContainer2" unique_id=2021004630]
-layout_mode = 2
-theme_type_variation = &"ToggledMenuButton"
-disabled = true
-toggle_mode = true
-text = "Magma"
-alignment = 0
-
-[node name="VSeparator" type="VSeparator" parent="CenterContainer/Panel/HBoxContainer" unique_id=1840620759]
-layout_mode = 2
-
-[node name="Container" type="MarginContainer" parent="CenterContainer/Panel/HBoxContainer" unique_id=2091116055]
+[node name="Container" type="MarginContainer" parent="CenterContainer/Panel" unique_id=2091116055]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -115,22 +36,166 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="EmptyInfraMenu" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=438385505 node_paths=PackedStringArray("dialog")]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/Container" unique_id=233391941]
 layout_mode = 2
-script = ExtResource("4_gyf2r")
-dialog = NodePath("../../../../..")
+theme_override_constants/separation = 16
 
-[node name="InfraConfigForm" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=1403315222 instance=ExtResource("5_s7nol")]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=1375149493]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer" unique_id=58059879]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "New infrastructure"
+
+[node name="Label2" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer" unique_id=278286535]
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "Create a Kubernetes cluster and choose provisions to deploy"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=1310808120]
+layout_mode = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=1684707468]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3" unique_id=488467274]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Basic cluster configuration"
+
+[node name="EmptyInfraMenu" type="GridContainer" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3" unique_id=37146002 node_paths=PackedStringArray("dialog")]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+script = ExtResource("4_gyf2r")
+dialog = NodePath("../../../../../..")
+
+[node name="Name" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu" unique_id=1901047190]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Name" unique_id=171077132]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"PrimaryText"
+text = "INFRA_NAME"
+
+[node name="EmptyInfraName" type="LineEdit" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Name" unique_id=1756247890]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "INFRA_NAME"
+caret_blink = true
 
-[node name="LoadingSpinner" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=516609768 instance=ExtResource("6_gyf2r")]
+[node name="Type" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu" unique_id=400532360]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Type" unique_id=1779736264]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"PrimaryText"
+text = "INFRA_TYPE"
+
+[node name="EmptyInfraType" type="OptionButton" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Type" unique_id=1657382448]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = "Cluster"
+popup/item_0/id = 0
+
+[node name="Nodes" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu" unique_id=194359915]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Nodes" unique_id=901139866]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"PrimaryText"
+text = "NUM_NODES"
+
+[node name="EmptyNodeCount" type="SpinBox" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Nodes" unique_id=810518950]
+unique_name_in_owner = true
+layout_mode = 2
+value = 1.0
+alignment = 2
+
+[node name="Registry" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu" unique_id=1794839968]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Registry" unique_id=767332069]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"PrimaryText"
+text = "REGISTRY"
+
+[node name="RegistryOption" type="OptionButton" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer3/EmptyInfraMenu/Registry" unique_id=527459013]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 1
+popup/item_0/text = " "
+popup/item_0/id = 0
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=786074869]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=2073648948]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer2" unique_id=2099067793]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer2/VBoxContainer2" unique_id=1428381527]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Provisions"
+
+[node name="Label3" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer2/VBoxContainer2" unique_id=1846518084]
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "Select the services to install on the cluster"
+
+[node name="ProvisionContainer" type="GridContainer" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer2" unique_id=1613369596]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 2
+
+[node name="HeadlampProvisionCard" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer2/ProvisionContainer" unique_id=816578431 instance=ExtResource("5_s7nol")]
+layout_mode = 2
+icon = ExtResource("6_hhpye")
+title = "Web UI (Headlamp)"
+description = "Web-based Kubernetes UI"
+type = "headlamp"
+
+[node name="5gProvisionCard2" parent="CenterContainer/Panel/Container/VBoxContainer/VBoxContainer2/ProvisionContainer" unique_id=613472530 instance=ExtResource("5_s7nol")]
+layout_mode = 2
+icon = ExtResource("7_gyf2r")
+title = "5G core"
+description = "Deploy a 5G core stack"
+type = "free5gc"
+config = Dictionary[String, Variant]({
+"deploy_ueransim": true
+})
+
+[node name="HSeparator3" type="HSeparator" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=252069461]
+layout_mode = 2
+
+[node name="LoadingSpinner" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=516609768 instance=ExtResource("6_gyf2r")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="ErrorLabel" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=2022402619]
+[node name="ErrorLabel" type="Label" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=2022402619]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -138,146 +203,28 @@ theme_type_variation = &"ErrorLabel"
 text = "Error"
 horizontal_alignment = 2
 
-[node name="Buttons" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" unique_id=2105600259]
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer/Panel/Container/VBoxContainer" unique_id=2105600259]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 2
 
-[node name="CancelButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/Buttons" unique_id=1936581495]
+[node name="CancelButton" type="Button" parent="CenterContainer/Panel/Container/VBoxContainer/Buttons" unique_id=1936581495]
+visible = false
 layout_mode = 2
 text = "CANCEL"
 
-[node name="CreateButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/Buttons" unique_id=1205485437]
+[node name="CreateButton" type="Button" parent="CenterContainer/Panel/Container/VBoxContainer/Buttons" unique_id=1205485437]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_type_variation = &"PrimaryButton"
 text = "CREATE"
 
-[node name="Flower" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container" unique_id=1874492348 node_paths=PackedStringArray("dialog")]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 8
-script = ExtResource("6_hhpye")
-dialog = NodePath("../../../../..")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower" unique_id=1254086469]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer" unique_id=284663804]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 8
-
-[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer" unique_id=1922673050]
-layout_mode = 2
-theme_type_variation = &"SecondaryText"
-text = "General"
-
-[node name="FlowerInfraConfigForm" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer" unique_id=921069305 instance=ExtResource("5_s7nol")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 1
-
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer" unique_id=1131825810]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer" unique_id=557358453]
-layout_mode = 2
-theme_type_variation = &"SecondaryText"
-text = "Flower"
-
-[node name="FlowerForm" type="VBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer" unique_id=57671678]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 16
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm" unique_id=1846383459]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer4" unique_id=215063421]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SecondaryText"
-text = "Servers"
-
-[node name="FlowerServers" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer4" unique_id=1413348301]
-unique_name_in_owner = true
-layout_mode = 2
-value = 1.0
-alignment = 2
-
-[node name="HBoxContainer5" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm" unique_id=371890682]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer5" unique_id=1322611353]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SecondaryText"
-text = "Clients"
-
-[node name="FlowerClients" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer5" unique_id=1574076875]
-unique_name_in_owner = true
-layout_mode = 2
-value = 5.0
-alignment = 2
-
-[node name="HBoxContainer6" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm" unique_id=1917667796]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer6" unique_id=2104974437]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SecondaryText"
-text = "Client CPU limit"
-
-[node name="FlowerCpuLimit" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer6" unique_id=728215494]
-unique_name_in_owner = true
-layout_mode = 2
-value = 100.0
-allow_greater = true
-alignment = 2
-suffix = "m"
-
-[node name="HBoxContainer7" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm" unique_id=1327356369]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer7" unique_id=802105427]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SecondaryText"
-text = "Client memory limit"
-
-[node name="FlowerMemoryLimit" type="SpinBox" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/ScrollContainer/VBoxContainer/FlowerForm/HBoxContainer7" unique_id=645964295]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-max_value = 1024.0
-value = 100.0
-allow_greater = true
-alignment = 2
-suffix = "Mi"
-
-[node name="FlowerLoadingSpinner" parent="CenterContainer/Panel/HBoxContainer/Container/Flower" unique_id=841602722 instance=ExtResource("6_gyf2r")]
-unique_name_in_owner = true
-visible = false
+[node name="Button" type="Button" parent="CenterContainer/Panel/Container" unique_id=1902858561]
 layout_mode = 2
 size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("8_gyf2r")
+flat = true
 
-[node name="FlowerButtons" type="HBoxContainer" parent="CenterContainer/Panel/HBoxContainer/Container/Flower" unique_id=1992028577]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 2
-
-[node name="CancelButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/FlowerButtons" unique_id=1194389537]
-layout_mode = 2
-text = "CANCEL"
-
-[node name="FlowerCreateButton" type="Button" parent="CenterContainer/Panel/HBoxContainer/Container/Flower/FlowerButtons" unique_id=1050516841]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"PrimaryButton"
-text = "CREATE"
-
-[connection signal="pressed" from="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu/Buttons/CreateButton" to="CenterContainer/Panel/HBoxContainer/Container/EmptyInfraMenu" method="_on_create_button_pressed"]
-[connection signal="pressed" from="CenterContainer/Panel/HBoxContainer/Container/Flower/FlowerButtons/FlowerCreateButton" to="CenterContainer/Panel/HBoxContainer/Container/Flower" method="_on_create_button_pressed"]
+[connection signal="pressed" from="CenterContainer/Panel/Container/VBoxContainer/Buttons/CreateButton" to="." method="_on_create_button_pressed"]

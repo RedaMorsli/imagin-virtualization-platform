@@ -5,7 +5,7 @@ extends Script
 const HEADERS_JSON = ["Content-Type: application/json"]
 const ENV_API_URL = "API_URL"
 const WEB_API_PATH = "/api/"
-const DEV_API_BASE = "http://localhost:8000/"
+const DEV_API_BASE = "http://127.0.0.1:8000/"
 
 
 static var api_url: String:

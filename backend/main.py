@@ -33,15 +33,15 @@ def startup_tasks():
     except Exception as exc:
         print(f"warning: FL worker image build failed at startup: {exc}")
     try:
-        reconciliation = infra.reconcile_cluster_web_ui_endpoints()
+        reconciliation = infra.reconcile_provisions()
         print(
-            "Cluster endpoint reconciliation complete: "
+            "Provision reconciliation complete: "
             f"reconciled={reconciliation['reconciled']}, "
             f"updated={reconciliation['updated']}, "
             f"errors={reconciliation['errors']}"
         )
     except Exception as exc:
-        print(f"warning: cluster endpoint reconciliation failed at startup: {exc}")
+        print(f"warning: provision reconciliation failed at startup: {exc}")
 
 
 def start_auth_server(host: str = "0.0.0.0", port: int = 8000):

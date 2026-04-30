@@ -17,11 +17,11 @@ func _ready() -> void:
 	var header := HBoxContainer.new()
 	var title := Label.new()
 	title.text = "EXPERIMENTS"
-	title.add_theme_type_variation("HeaderLarge")
+	title.theme_type_variation = "HeaderLarge"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_new_btn = Button.new()
 	_new_btn.text = "NEW_EXPERIMENT"
-	_new_btn.add_theme_type_variation("PrimaryButton")
+	_new_btn.theme_type_variation = "PrimaryButton"
 	_new_btn.pressed.connect(_on_new_pressed)
 	header.add_child(title)
 	header.add_child(_new_btn)
@@ -35,14 +35,14 @@ func _ready() -> void:
 
 	# ── Error / empty labels ──────────────────────────────────────────────────
 	_error_lbl = Label.new()
-	_error_lbl.add_theme_type_variation("ErrorLabel")
+	_error_lbl.theme_type_variation = "ErrorLabel"
 	_error_lbl.visible = false
 	_error_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
 	add_child(_error_lbl)
 
 	_empty_lbl = Label.new()
 	_empty_lbl.text = "NO_EXPERIMENTS_MSG"
-	_empty_lbl.add_theme_type_variation("SecondaryText")
+	_empty_lbl.theme_type_variation = "SecondaryText"
 	_empty_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_empty_lbl.visible = false
 	add_child(_empty_lbl)

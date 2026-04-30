@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends Control
 
 
 signal infra_created()

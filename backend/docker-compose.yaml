@@ -8,3 +8,6 @@ services:
       - "8000:8000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOMAIN_NAME="localhost"
+      - ENDPOINT_PATH_BASE="/endpoints"

@@ -14,6 +14,9 @@ RUN set -e; \
 # Install k3d CLI
 RUN wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
+# Install helm CLI (used by 5G provisioner for towards5gs charts)
+RUN wget -q -O - https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
 # Set workdir and copy app files
 WORKDIR /app
 COPY . .

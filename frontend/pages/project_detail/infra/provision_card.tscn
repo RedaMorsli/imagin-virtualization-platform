@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://c2sdwangomt0b"]
+
+[ext_resource type="Texture2D" uid="uid://bwkye2sth7nly" path="res://icon.svg" id="1_2ow1c"]
+[ext_resource type="Script" uid="uid://d28o3uxvg5vrp" path="res://pages/project_detail/infra/provision_card.gd" id="1_ugx35"]
+[ext_resource type="Texture2D" uid="uid://mh2kywjjeif2" path="res://res/icons/gear.png" id="2_ugx35"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7c68v"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.2)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ProvisionCard" type="PanelContainer" unique_id=816578431]
+size_flags_horizontal = 3
+theme_type_variation = &"Card"
+script = ExtResource("1_ugx35")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1517622737]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=391007036]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/HBoxContainer" unique_id=422172740]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=1111539253]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_7c68v")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=1460481951]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="IconTexture" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer" unique_id=433044957]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("1_2ow1c")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1804198784]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=30539321]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryText"
+text = "Title"
+
+[node name="Description" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=748517093]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SecondaryText"
+text = "Description"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer" unique_id=334369632]
+layout_mode = 2
+icon = ExtResource("2_ugx35")
+flat = true

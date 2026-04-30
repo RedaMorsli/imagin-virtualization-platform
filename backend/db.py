@@ -8,6 +8,17 @@ def init_db():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     sql_file_path = os.path.join(script_dir, 'db_init.sql')
     execute_sql_file(sql_file_path)
+    _migrate_infra_provisions_column()
+
+
+def _migrate_infra_provisions_column():
+    cols = fetch_all(
+        "SELECT column_name FROM information_schema.columns "
+        "WHERE lower(table_name) = 'infra'"
+    )
+    if any(row[0].lower() == "provisions" for row in cols):
+        return
+    execute("ALTER TABLE Infra ADD COLUMN provisions TEXT NOT NULL DEFAULT '[]'")
 
 
 def execute(sql: str, params=None):

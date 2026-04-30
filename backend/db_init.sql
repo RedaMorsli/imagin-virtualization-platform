@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS Infra (
 	infra_name VARCHAR(150) NOT NULL UNIQUE,
 	infra_type VARCHAR(100) NOT NULL,
 	infra_config TEXT NOT NULL,
+	provisions TEXT NOT NULL DEFAULT '[]',
 	created_at TIMESTAMP DEFAULT (now()),
 );
 
