@@ -13,3 +13,4 @@ traefik/dynamic/endpoint-*.yaml
 .env
 
 backend/graphify-out/cache/
+graphify-out/cache/
