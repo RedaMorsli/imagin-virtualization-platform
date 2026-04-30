@@ -12,4 +12,4 @@ traefik/dynamic/endpoint-*.yaml
 .claude/
 .env
 
-graphify-out/cache/
+backend/graphify-out/cache/
